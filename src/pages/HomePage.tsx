@@ -1,23 +1,27 @@
-import { useState } from 'react'
-import type { FormEvent } from 'react'
+import { useState } from 'react'\nimport type { FormEvent } from 'react'
 import { ArrowRight, BookOpen, Check, Feather, HeartHandshake, LockKeyhole, PenLine, ShieldCheck, Sparkles } from 'lucide-react'
 import { categories } from '../data/categories'
+
+type SendState = 'idle' | 'sending' | 'success' | 'error'
 
 export function HomePage() {
   const [pseudo, setPseudo] = useState('')
   const [categorie, setCategorie] = useState('')
   const [message, setMessage] = useState('')
-  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
+  const [sendState, setSendState] = useState<SendState>('idle')
+  const [sendError, setSendError] = useState('')
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    setStatus('sending')
+    setSendState('sending')
+    setSendError('')
 
     const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-    const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+    const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
-    if (!supabaseUrl || !supabaseKey) {
-      setStatus('error')
+    if (!supabaseUrl || !supabaseAnonKey) {
+      setSendState('error')
+      setSendError('La connexion sécurisée au formulaire n’est pas encore configurée.')
       return
     }
 
@@ -25,8 +29,8 @@ export function HomePage() {
       const response = await fetch(`${supabaseUrl}/rest/v1/courriers`, {
         method: 'POST',
         headers: {
-          apikey: supabaseKey,
-          Authorization: `Bearer ${supabaseKey}`,
+          apikey: supabaseAnonKey,
+          Authorization: `Bearer ${supabaseAnonKey}`,
           'Content-Type': 'application/json',
           Prefer: 'return=minimal',
         },
@@ -38,14 +42,18 @@ export function HomePage() {
         }),
       })
 
-      if (!response.ok) throw new Error('Envoi refusé')
+      if (!response.ok) {
+        throw new Error(`Supabase a répondu avec le statut ${response.status}`)
+      }
 
       setPseudo('')
       setCategorie('')
       setMessage('')
-      setStatus('success')
-    } catch {
-      setStatus('error')
+      setSendState('success')
+    } catch (error) {
+      console.error(error)
+      setSendState('error')
+      setSendError('Votre courrier n’a pas pu être envoyé. Réessayez dans un instant.')
     }
   }
 
@@ -73,12 +81,9 @@ export function HomePage() {
           <div className="sprig sprig-left">⌇<span>❧</span><span>❧</span><span>❧</span></div>
           <div className="letter">
             <span className="paperclip">⌇</span>
-            <span className="postage-stamp">LC<span>♡</span></span>
             <Feather className="letter-icon" />
             <p>Vos mots méritent<br />d’être entendus.</p>
-            <span className="letter-sign">avec douceur, toujours</span>
-            <span className="letter-line line-one" />
-            <span className="letter-line line-two" />
+            <span className="letter-sign">avec douceur, toujours</span>\n            <span className="letter-line line-one" />\n            <span className="letter-line line-two" />
           </div>
           <div className="envelope"><span className="seal">♡</span></div>
           <div className="sprig sprig-right">⌇<span>❧</span><span>❧</span></div>
@@ -170,7 +175,7 @@ export function HomePage() {
               </select>
             </label>
 
-            <label>
+            <label className="message-field">
               <span>Votre courrier</span>
               <textarea
                 value={message}
@@ -184,13 +189,17 @@ export function HomePage() {
 
             <p className="form-privacy"><LockKeyhole size={15} /> Votre courrier reste privé jusqu’à validation humaine.</p>
 
-            <button className="button button-primary form-submit" type="submit" disabled={status === 'sending'}>
+            <button className="button button-primary form-submit" type="submit" disabled={sendState === 'sending'}>
               <PenLine size={18} />
-              {status === 'sending' ? 'Envoi en cours…' : 'Envoyer mon courrier'}
+              {sendState === 'sending' ? 'Envoi en cours…' : 'Envoyer mon courrier'}
             </button>
 
-            {status === 'success' && <p className="form-status form-success">💌 Votre courrier a bien été reçu. Merci pour votre confiance.</p>}
-            {status === 'error' && <p className="form-status form-error">L’envoi n’a pas fonctionné. Réessayez dans un instant.</p>}
+            {sendState === 'success' && (
+              <p className="form-status form-success" role="status">💌 Votre courrier a bien été reçu. Merci pour votre confiance.</p>
+            )}
+            {sendState === 'error' && (
+              <p className="form-status form-error" role="alert">{sendError}</p>
+            )}
           </form>
         </div>
       </section>
