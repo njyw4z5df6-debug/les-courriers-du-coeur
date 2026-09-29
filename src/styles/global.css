@@ -198,4 +198,23 @@ h1 em { font-family: 'Allura', cursive; font-size: 1.08em; font-weight: 400; let
   .welcome, .categories-section, .how-it-works { padding-top: 76px; padding-bottom: 76px; }
   .category-card { border-radius: 10px; }
 }
-\n/* Formulaire d'envoi des courriers */
+
+/* Formulaire d'envoi des courriers */
+.write-section { padding:100px clamp(24px,10vw,160px); background:#f7eee8; }
+.write-card { max-width:920px; margin:0 auto; display:grid; grid-template-columns:.78fr 1.22fr; gap:55px; background:#fffdf9; border:1px solid #ead9d0; box-shadow:0 22px 50px #76574b18; padding:55px; }
+.write-intro { align-self:start; position:sticky; top:30px; }
+.write-intro p:not(.script-label) { color:var(--muted); font-size:13px; line-height:1.75; }
+.letter-form { display:grid; gap:20px; }
+.letter-form label { display:grid; gap:8px; }
+.letter-form label > span { font-size:12px; font-weight:600; color:#5d4b44; }
+.letter-form input,.letter-form select,.letter-form textarea { width:100%; border:1px solid #d9c6bc; background:#fffaf6; color:var(--ink); border-radius:4px; padding:13px 14px; font:inherit; outline:none; }
+.letter-form input:focus,.letter-form select:focus,.letter-form textarea:focus { border-color:#b97770; box-shadow:0 0 0 3px #a9595d12; }
+.letter-form textarea { resize:vertical; min-height:210px; line-height:1.6; }
+.form-privacy { display:flex; align-items:center; gap:7px; color:#7b6b64; font-size:11px; margin:0; }
+.form-submit { border:0; cursor:pointer; }
+.form-submit:disabled { opacity:.65; cursor:wait; transform:none; }
+.form-status { margin:0; padding:12px 14px; border-radius:4px; font-size:12px; line-height:1.5; }
+.form-success { background:#edf2e5; color:#596243; border:1px solid #d7dfca; }
+.form-error { background:#fae8e6; color:#934f50; border:1px solid #efcfcc; }
+@media (max-width: 850px) { .write-card{grid-template-columns:1fr;gap:30px}.write-intro{position:static}.write-section{padding:70px 24px}.write-card{padding:35px} }
+@media (max-width: 520px) { .write-section{padding:60px 18px}.write-card{padding:26px 18px}.letter-form textarea{min-height:180px} }
