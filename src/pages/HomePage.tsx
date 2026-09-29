@@ -1,7 +1,54 @@
+import { useState } from 'react'
+import type { FormEvent } from 'react'
 import { ArrowRight, BookOpen, Check, Feather, HeartHandshake, LockKeyhole, PenLine, ShieldCheck, Sparkles } from 'lucide-react'
 import { categories } from '../data/categories'
 
 export function HomePage() {
+  const [pseudo, setPseudo] = useState('')
+  const [categorie, setCategorie] = useState('')
+  const [message, setMessage] = useState('')
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    setStatus('sending')
+
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+    const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+
+    if (!supabaseUrl || !supabaseKey) {
+      setStatus('error')
+      return
+    }
+
+    try {
+      const response = await fetch(`${supabaseUrl}/rest/v1/courriers`, {
+        method: 'POST',
+        headers: {
+          apikey: supabaseKey,
+          Authorization: `Bearer ${supabaseKey}`,
+          'Content-Type': 'application/json',
+          Prefer: 'return=minimal',
+        },
+        body: JSON.stringify({
+          pseudo: pseudo.trim(),
+          categorie,
+          message: message.trim(),
+          valide: false,
+        }),
+      })
+
+      if (!response.ok) throw new Error('Envoi refusé')
+
+      setPseudo('')
+      setCategorie('')
+      setMessage('')
+      setStatus('success')
+    } catch {
+      setStatus('error')
+    }
+  }
+
   return (
     <main id="accueil">
       <section className="hero">
@@ -13,7 +60,7 @@ export function HomePage() {
           <p className="hero-lead">Ici, vous pouvez les écrire.</p>
           <p className="hero-text">Un espace d’écoute et de partage, où chaque histoire est accueillie avec douceur, respect et sans jugement.</p>
           <div className="hero-actions">
-            <a className="button button-primary" href="#ecrire"><PenLine size={19} /> Écrire mon courrier</a>
+            <a className="button button-primary" href="#formulaire-courrier"><PenLine size={19} /> Écrire mon courrier</a>
             <a className="button button-secondary" href="#courriers"><BookOpen size={19} /> Lire les courriers</a>
           </div>
           <div className="trust-row" aria-label="Nos engagements">
@@ -56,14 +103,14 @@ export function HomePage() {
         </div>
         <div className="category-grid">
           {categories.map((category) => (
-            <a className={`category-card ${category.tone}`} href="#courriers" key={category.name}>
+            <a className={`category-card ${category.tone}`} href="#formulaire-courrier" key={category.name} onClick={() => setCategorie(category.name)}>
               <span className="category-symbol">{category.symbol}</span>
               <strong>{category.name}</strong>
               <ArrowRight size={17} />
             </a>
           ))}
         </div>
-        <a className="text-link" href="#toutes-categories">Découvrir toutes les catégories <ArrowRight size={17} /></a>
+        <a className="text-link" href="#formulaire-courrier">Écrire dans une catégorie <ArrowRight size={17} /></a>
       </section>
 
       <section className="how-it-works" id="ecrire">
@@ -76,7 +123,7 @@ export function HomePage() {
             <li><span>02</span><div><strong>Écrivez en toute tranquillité</strong><p>Votre courrier reste privé tant qu’il n’est pas validé.</p></div></li>
             <li><span>03</span><div><strong>Nous le lisons avec soin</strong><p>Rien n’est publié automatiquement.</p></div></li>
           </ol>
-          <a className="button button-primary" href="#bientot"><PenLine size={19} /> Commencer à écrire</a>
+          <a className="button button-primary" href="#formulaire-courrier"><PenLine size={19} /> Commencer à écrire</a>
         </div>
         <aside className="promise-card" id="bienveillance">
           <div className="promise-icon"><LockKeyhole /></div>
@@ -92,13 +139,69 @@ export function HomePage() {
         </aside>
       </section>
 
+      <section className="write-section" id="formulaire-courrier">
+        <div className="write-card">
+          <div className="write-intro">
+            <p className="script-label">Votre espace d’écriture</p>
+            <h2>Déposer un courrier</h2>
+            <p>Votre message arrive dans un espace privé de modération. Il n’est jamais publié automatiquement.</p>
+          </div>
+
+          <form className="letter-form" onSubmit={handleSubmit}>
+            <label>
+              <span>Votre pseudonyme</span>
+              <input
+                type="text"
+                value={pseudo}
+                onChange={(event) => setPseudo(event.target.value)}
+                placeholder="Ex. Fleur de lune"
+                maxLength={60}
+                required
+              />
+            </label>
+
+            <label>
+              <span>Catégorie</span>
+              <select value={categorie} onChange={(event) => setCategorie(event.target.value)} required>
+                <option value="">Choisir une catégorie</option>
+                {categories.map((category) => (
+                  <option value={category.name} key={category.name}>{category.name}</option>
+                ))}
+              </select>
+            </label>
+
+            <label>
+              <span>Votre courrier</span>
+              <textarea
+                value={message}
+                onChange={(event) => setMessage(event.target.value)}
+                placeholder="Écrivez ici, simplement avec vos mots…"
+                rows={10}
+                maxLength={8000}
+                required
+              />
+            </label>
+
+            <p className="form-privacy"><LockKeyhole size={15} /> Votre courrier reste privé jusqu’à validation humaine.</p>
+
+            <button className="button button-primary form-submit" type="submit" disabled={status === 'sending'}>
+              <PenLine size={18} />
+              {status === 'sending' ? 'Envoi en cours…' : 'Envoyer mon courrier'}
+            </button>
+
+            {status === 'success' && <p className="form-status form-success">💌 Votre courrier a bien été reçu. Merci pour votre confiance.</p>}
+            {status === 'error' && <p className="form-status form-error">L’envoi n’a pas fonctionné. Réessayez dans un instant.</p>}
+          </form>
+        </div>
+      </section>
+
       <section className="closing" id="courriers">
         <span className="closing-mark">♡</span>
         <p className="script-label">Une lettre peut tout changer</p>
         <h2>Prêt·e à poser vos mots ?</h2>
         <p>Vous pouvez commencer doucement. Nous serons là pour vous lire.</p>
         <div className="hero-actions">
-          <a className="button button-light" href="#ecrire"><PenLine size={19} /> Écrire mon courrier</a>
+          <a className="button button-light" href="#formulaire-courrier"><PenLine size={19} /> Écrire mon courrier</a>
           <a className="button button-outline" href="#bientot"><BookOpen size={19} /> Lire les courriers</a>
         </div>
       </section>
