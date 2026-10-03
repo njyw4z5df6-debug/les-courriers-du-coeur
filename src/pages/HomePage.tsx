@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { ArrowRight, BookOpen, Check, Feather, HeartHandshake, LockKeyhole, PenLine, ShieldCheck, Sparkles } from 'lucide-react'
 import { categories } from '../data/categories'
+import { PublicLetters } from '../components/PublicLetters'
 
 export function HomePage() {
   const [pseudo, setPseudo] = useState('')
@@ -195,14 +196,16 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="closing" id="courriers">
+      <PublicLetters />
+
+      <section className="closing">
         <span className="closing-mark">♡</span>
         <p className="script-label">Une lettre peut tout changer</p>
         <h2>Prêt·e à poser vos mots ?</h2>
         <p>Vous pouvez commencer doucement. Nous serons là pour vous lire.</p>
         <div className="hero-actions">
           <a className="button button-light" href="#formulaire-courrier"><PenLine size={19} /> Écrire mon courrier</a>
-          <a className="button button-outline" href="#bientot"><BookOpen size={19} /> Lire les courriers</a>
+          <a className="button button-outline" href="#courriers"><BookOpen size={19} /> Lire les courriers</a>
         </div>
       </section>
     </main>
