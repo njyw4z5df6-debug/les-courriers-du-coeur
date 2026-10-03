@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
 import { BookOpen, Feather, MessageCircle, Send } from 'lucide-react'
+import { getUserSession } from '../lib/userAuth'
 
 type PublicLetter = {
   id: number
@@ -20,17 +21,28 @@ type PublicReply = {
 }
 
 export function PublicLetters() {
+  const [session, setSession] = useState(getUserSession())
   const [letters, setLetters] = useState<PublicLetter[]>([])
   const [replies, setReplies] = useState<PublicReply[]>([])
   const [loading, setLoading] = useState(true)
   const [activeCategory, setActiveCategory] = useState('Tous')
   const [replyingTo, setReplyingTo] = useState<number | null>(null)
-  const [replyPseudo, setReplyPseudo] = useState('')
+  const [replyPseudo, setReplyPseudo] = useState(getUserSession()?.pseudo || '')
   const [replyMessage, setReplyMessage] = useState('')
   const [replyStatus, setReplyStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
 
   const url = import.meta.env.VITE_SUPABASE_URL
   const key = import.meta.env.VITE_SUPABASE_ANON_KEY
+
+  useEffect(() => {
+    const sync = () => {
+      const next = getUserSession()
+      setSession(next)
+      setReplyPseudo(next?.pseudo || '')
+    }
+    window.addEventListener('cdc-auth-changed', sync)
+    return () => window.removeEventListener('cdc-auth-changed', sync)
+  }, [])
 
   useEffect(() => {
     if (!url || !key) {
@@ -69,15 +81,19 @@ export function PublicLetters() {
   )
 
   function openReply(letterId: number) {
+    if (!session) {
+      window.location.href = '/compte'
+      return
+    }
     setReplyingTo(replyingTo === letterId ? null : letterId)
     setReplyStatus('idle')
-    setReplyPseudo('')
+    setReplyPseudo(session.pseudo)
     setReplyMessage('')
   }
 
   async function submitReply(event: FormEvent<HTMLFormElement>, courrierId: number) {
     event.preventDefault()
-    if (!url || !key) return
+    if (!url || !key || !session) return
     setReplyStatus('sending')
 
     try {
@@ -85,7 +101,7 @@ export function PublicLetters() {
         method: 'POST',
         headers: {
           apikey: key,
-          Authorization: 'Bearer ' + key,
+          Authorization: 'Bearer ' + session.accessToken,
           'Content-Type': 'application/json',
           Prefer: 'return=minimal',
         },
@@ -98,7 +114,7 @@ export function PublicLetters() {
         }),
       })
       if (!response.ok) throw new Error()
-      setReplyPseudo('')
+      setReplyPseudo(session.pseudo)
       setReplyMessage('')
       setReplyStatus('success')
     } catch {
@@ -194,7 +210,7 @@ export function PublicLetters() {
                         <>
                           <label>
                             <span>Votre pseudo</span>
-                            <input value={replyPseudo} onChange={(e) => setReplyPseudo(e.target.value)} maxLength={40} required />
+                            <input value={replyPseudo} readOnly maxLength={40} required />
                           </label>
                           <label>
                             <span>Votre message</span>
