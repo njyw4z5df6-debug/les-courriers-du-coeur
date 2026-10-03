@@ -183,3 +183,126 @@
   .public-letter-top{display:grid}
   .public-letter-category{max-width:none;width:max-content}
 }
+
+
+.public-letter-footer{
+  margin-top:22px;
+  padding-top:16px;
+  border-top:1px solid #ead9d0;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  color:var(--muted);
+  font-size:11px;
+}
+.public-letter-footer>span{display:flex;align-items:center;gap:6px}
+.public-reply-button{
+  border:0;
+  background:transparent;
+  color:#a45f50;
+  font:inherit;
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+}
+.public-reply-button:hover{text-decoration:underline}
+.public-replies{
+  display:grid;
+  gap:12px;
+  margin-top:18px;
+}
+.public-reply{
+  margin-left:28px;
+  padding:16px 18px;
+  border-left:2px solid #ddc8bd;
+  border-radius:0 12px 12px 0;
+  background:#faf4ef;
+}
+.public-reply-meta{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:8px;
+  margin-bottom:8px;
+  color:var(--muted);
+  font-size:10px;
+}
+.public-reply-meta strong{color:#6a5147;font-size:12px}
+.public-reply-meta time{margin-left:auto}
+.public-reply p{
+  margin:0;
+  white-space:pre-wrap;
+  color:#544640;
+  line-height:1.7;
+  font-size:13px;
+}
+.public-reply-admin{
+  margin-left:8px;
+  padding:20px 22px;
+  border-left:3px solid #b96d57;
+  background:linear-gradient(135deg,#fff8f3,#f7e7df);
+  box-shadow:0 10px 26px rgba(113,68,54,.08);
+}
+.public-reply-admin .public-reply-meta strong{
+  font-family:'Allura',cursive;
+  font-size:25px;
+  font-weight:400;
+  color:#a9595d;
+}
+.public-reply-admin .public-reply-meta span{
+  padding:4px 8px;
+  border-radius:999px;
+  background:#ead2c8;
+  color:#8a5548;
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+}
+.public-reply-admin p{
+  font-family:'Bodoni Moda',serif;
+  font-size:15px;
+  line-height:1.8;
+  color:#4d3d37;
+}
+.public-reply-form{
+  display:grid;
+  gap:13px;
+  margin-top:18px;
+  padding:20px;
+  border-radius:14px;
+  background:#f8eee8;
+}
+.public-reply-form-title{
+  margin:0;
+  font-family:'Bodoni Moda',serif;
+  font-size:19px;
+  color:#57423a;
+}
+.public-reply-form label{display:grid;gap:6px}
+.public-reply-form label span{font-size:11px;font-weight:600;color:#70584f}
+.public-reply-form input,.public-reply-form textarea{
+  width:100%;
+  border:1px solid #ddc8bd;
+  border-radius:9px;
+  background:#fffdf9;
+  padding:11px 12px;
+  color:#493c37;
+  font:inherit;
+  resize:vertical;
+}
+.public-reply-submit{width:max-content;border:0;cursor:pointer}
+.public-reply-success{
+  padding:13px 15px;
+  border-radius:9px;
+  background:#edf1e8;
+  color:#5f6b4f;
+  font-size:12px;
+}
+.public-reply-error{margin:0;color:#934f50;font-size:12px}
+@media(max-width:520px){
+  .public-letter-footer{align-items:flex-start;flex-direction:column}
+  .public-reply{margin-left:8px}
+  .public-reply-admin{margin-left:0}
+  .public-reply-meta time{width:100%;margin-left:0}
+}
