@@ -245,3 +245,16 @@ h1 em { font-family: 'Allura', cursive; font-size: 1.08em; font-weight: 400; let
 .moderation-reject{background:#f4dfdc;color:#934f50}
 .moderation-empty{min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--muted);text-align:center}
 @media(max-width:700px){.moderation-shell{padding:28px 14px}.moderation-login,.moderation-panel{padding:28px 20px}.moderation-topbar{display:grid}.moderation-actions{display:grid}.moderation-actions .button,.moderation-topbar .button{width:100%}}
+
+
+.moderation-section-heading{display:flex;align-items:center;gap:10px;margin:34px 0 16px;padding-bottom:12px;border-bottom:1px solid #ead9d0}
+.moderation-section-heading h2{margin:0;font-family:'Bodoni Moda',serif;font-size:26px;color:var(--ink)}
+.moderation-section-heading>span{min-width:27px;height:27px;padding:0 8px;display:grid;place-items:center;border-radius:999px;background:#f1ddd5;color:#9b5f50;font-size:11px}
+.moderation-replies-heading{margin-top:48px}
+.moderation-empty-small{min-height:120px}
+.moderation-admin-replies{display:grid;gap:14px;margin-top:18px;padding:22px;border:1px solid #ead9d0;border-radius:14px;background:#fffaf6}
+.moderation-admin-replies label{display:grid;gap:8px}
+.moderation-admin-replies label span{font-size:12px;font-weight:600;color:#70584f}
+.moderation-admin-replies input,.moderation-admin-replies textarea{width:100%;border:1px solid #d9c6bc;background:#fffdf9;border-radius:8px;padding:13px 14px;font:inherit;resize:vertical}
+.moderation-admin-replies form{display:grid;gap:14px}
+.moderation-admin-replies .button{width:max-content;border:0;cursor:pointer}
