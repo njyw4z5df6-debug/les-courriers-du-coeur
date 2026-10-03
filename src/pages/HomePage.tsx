@@ -1,18 +1,34 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
 import { ArrowRight, BookOpen, Check, Feather, HeartHandshake, LockKeyhole, PenLine, ShieldCheck, Sparkles } from 'lucide-react'
 import { categories } from '../data/categories'
 import { PublicLetters } from '../components/PublicLetters'
 import '../styles/publicLetters.css'
+import { getUserSession } from '../lib/userAuth'
 
 export function HomePage() {
-  const [pseudo, setPseudo] = useState('')
+  const [session, setSession] = useState(getUserSession())
+  const [pseudo, setPseudo] = useState(getUserSession()?.pseudo || '')
   const [categorie, setCategorie] = useState('')
   const [message, setMessage] = useState('')
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
 
+  useEffect(() => {
+    const sync = () => {
+      const next = getUserSession()
+      setSession(next)
+      setPseudo(next?.pseudo || '')
+    }
+    window.addEventListener('cdc-auth-changed', sync)
+    return () => window.removeEventListener('cdc-auth-changed', sync)
+  }, [])
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    if (!session) {
+      window.location.href = '/compte'
+      return
+    }
     setStatus('sending')
 
     const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
@@ -28,7 +44,7 @@ export function HomePage() {
         method: 'POST',
         headers: {
           apikey: supabaseKey,
-          Authorization: `Bearer ${supabaseKey}`,
+          Authorization: `Bearer ${session.accessToken}`,
           'Content-Type': 'application/json',
           Prefer: 'return=minimal',
         },
@@ -42,7 +58,7 @@ export function HomePage() {
 
       if (!response.ok) throw new Error('Envoi refusé')
 
-      setPseudo('')
+      setPseudo(session.pseudo)
       setCategorie('')
       setMessage('')
       setStatus('success')
@@ -149,17 +165,24 @@ export function HomePage() {
             <p>Votre message arrive dans un espace privé de modération. Il n’est jamais publié automatiquement.</p>
           </div>
 
+
+          {!session ? (
+            <div className="letter-form">
+              <p className="form-privacy"><LockKeyhole size={15} /> Créez votre compte une seule fois : votre pseudonyme sera ensuite repris automatiquement.</p>
+              <a className="button button-primary form-submit" href="/compte">Créer mon compte ou me connecter</a>
+            </div>
+          ) : (
           <form className="letter-form" onSubmit={handleSubmit}>
             <label>
               <span>Votre pseudonyme</span>
               <input
                 type="text"
                 value={pseudo}
-                onChange={(event) => setPseudo(event.target.value)}
-                placeholder="Ex. Fleur de lune"
+                readOnly
                 maxLength={60}
                 required
               />
+              <small>Ce pseudonyme est lié à votre compte.</small>
             </label>
 
             <label>
@@ -194,6 +217,7 @@ export function HomePage() {
             {status === 'success' && <p className="form-status form-success">💌 Votre courrier a bien été reçu. Merci pour votre confiance.</p>}
             {status === 'error' && <p className="form-status form-error">L’envoi n’a pas fonctionné. Réessayez dans un instant.</p>}
           </form>
+          )}
         </div>
       </section>
 
