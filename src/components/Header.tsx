@@ -1,4 +1,4 @@
-import { Menu, PenLine, X } from 'lucide-react'
+import { Menu, PenLine, UserRound, X } from 'lucide-react'
 import { useState } from 'react'
 
 const links = [
@@ -22,7 +22,8 @@ export function Header() {
       </button>
       <nav className={open ? 'main-nav is-open' : 'main-nav'} aria-label="Navigation principale">
         {links.map(([label, href]) => <a href={href} key={href} onClick={() => setOpen(false)}>{label}</a>)}
-        <a className="nav-write" href="#ecrire" onClick={() => setOpen(false)}><PenLine size={16} /> Écrire mon courrier</a>
+        <a href="/compte" onClick={() => setOpen(false)}><UserRound size={15} /> Mon compte</a>
+        <a className="nav-write" href="/#formulaire-courrier" onClick={() => setOpen(false)}><PenLine size={16} /> Écrire mon courrier</a>
       </nav>
     </header>
   )
