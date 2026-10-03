@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
-import { BookOpen, Feather } from 'lucide-react'
+import { BookOpen, Feather, MessageCircle } from 'lucide-react'
 
-type PublicLetter = {
+type PublicReply = {\n  id: number\n  courrier_id: number\n  created_at: string\n  pseudo: string\n  message: string\n  est_admin: boolean\n}\n\ntype PublicLetter = {
   id: number
   created_at: string
   pseudo: string
@@ -11,7 +11,7 @@ type PublicLetter = {
 
 export function PublicLetters() {
   const [letters, setLetters] = useState<PublicLetter[]>([])
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true)\n  const [replies, setReplies] = useState<PublicReply[]>([])\n  const [replyingTo, setReplyingTo] = useState<number | null>(null)\n  const [replyPseudo, setReplyPseudo] = useState('')\n  const [replyMessage, setReplyMessage] = useState('')\n  const [replyStatus, setReplyStatus] = useState('')
   const [activeCategory, setActiveCategory] = useState('Tous')
 
   useEffect(() => {
