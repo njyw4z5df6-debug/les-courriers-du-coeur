@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
-import { Check, LogOut, ShieldCheck, X } from 'lucide-react'
+import { Check, LogOut, MessageCircle, Send, ShieldCheck, X } from 'lucide-react'
 
 type Courrier = {
   id: number
@@ -12,18 +12,31 @@ type Courrier = {
   statut: 'en_attente' | 'valide' | 'refuse'
 }
 
+type Reponse = {
+  id: number
+  courrier_id: number
+  created_at: string
+  pseudo: string
+  message: string
+  est_admin: boolean
+  statut: 'en_attente' | 'valide' | 'refuse'
+}
+
 export function ModerationPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [token, setToken] = useState(() => localStorage.getItem('cdc_admin_token') || '')
   const [courriers, setCourriers] = useState<Courrier[]>([])
+  const [reponses, setReponses] = useState<Reponse[]>([])
+  const [adminReplyTo, setAdminReplyTo] = useState<number | null>(null)
+  const [adminReply, setAdminReply] = useState('')
   const [status, setStatus] = useState('')
   const [loading, setLoading] = useState(false)
   const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
   const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
   useEffect(() => {
-    if (token) void loadCourriers(token)
+    if (token) void loadModeration(token)
   }, [token])
 
   async function login(event: FormEvent<HTMLFormElement>) {
@@ -48,16 +61,18 @@ export function ModerationPage() {
     }
   }
 
-  async function loadCourriers(accessToken: string) {
+  async function loadModeration(accessToken: string) {
     setLoading(true)
     setStatus('')
     try {
-      const response = await fetch(
-        `${supabaseUrl}/rest/v1/courriers?select=id,created_at,pseudo,categorie,message,valide,statut&statut=eq.en_attente&order=created_at.asc`,
-        { headers: { apikey: supabaseKey, Authorization: `Bearer ${accessToken}` } }
-      )
-      if (!response.ok) throw new Error('Impossible de charger les courriers.')
-      setCourriers(await response.json())
+      const headers = { apikey: supabaseKey, Authorization: `Bearer ${accessToken}` }
+      const [courriersResponse, reponsesResponse] = await Promise.all([
+        fetch(`${supabaseUrl}/rest/v1/courriers?select=id,created_at,pseudo,categorie,message,valide,statut&statut=eq.en_attente&order=created_at.asc`, { headers }),
+        fetch(`${supabaseUrl}/rest/v1/reponses?select=id,courrier_id,created_at,pseudo,message,est_admin,statut&statut=eq.en_attente&order=created_at.asc`, { headers }),
+      ])
+      if (!courriersResponse.ok || !reponsesResponse.ok) throw new Error('Impossible de charger la modération.')
+      setCourriers(await courriersResponse.json())
+      setReponses(await reponsesResponse.json())
     } catch (error) {
       setStatus(error instanceof Error ? error.message : 'Erreur de chargement.')
     } finally {
@@ -65,7 +80,7 @@ export function ModerationPage() {
     }
   }
 
-  async function moderate(id: number, action: 'valide' | 'refuse') {
+  async function moderateCourrier(id: number, action: 'valide' | 'refuse') {
     if (!token) return
     setLoading(true)
     setStatus('')
@@ -90,10 +105,69 @@ export function ModerationPage() {
     }
   }
 
+  async function moderateReponse(id: number, action: 'valide' | 'refuse') {
+    if (!token) return
+    setLoading(true)
+    setStatus('')
+    try {
+      const response = await fetch(`${supabaseUrl}/rest/v1/reponses?id=eq.${id}`, {
+        method: 'PATCH',
+        headers: {
+          apikey: supabaseKey,
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          Prefer: 'return=minimal',
+        },
+        body: JSON.stringify({ statut: action }),
+      })
+      if (!response.ok) throw new Error('La modification a été refusée.')
+      setReponses((items) => items.filter((item) => item.id !== id))
+      setStatus(action === 'valide' ? 'Réponse validée.' : 'Réponse refusée.')
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : 'Erreur pendant la modération.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  async function sendAdminReply(event: FormEvent<HTMLFormElement>, courrierId: number) {
+    event.preventDefault()
+    if (!token || !adminReply.trim()) return
+    setLoading(true)
+    setStatus('')
+    try {
+      const response = await fetch(`${supabaseUrl}/rest/v1/reponses`, {
+        method: 'POST',
+        headers: {
+          apikey: supabaseKey,
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          Prefer: 'return=minimal',
+        },
+        body: JSON.stringify({
+          courrier_id: courrierId,
+          pseudo: 'Les Courriers du Cœur',
+          message: adminReply.trim(),
+          statut: 'valide',
+          est_admin: true,
+        }),
+      })
+      if (!response.ok) throw new Error('Votre réponse n’a pas pu être publiée.')
+      setAdminReply('')
+      setAdminReplyTo(null)
+      setStatus('Votre réponse a été publiée avec la signature Les Courriers du Cœur.')
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : 'Erreur pendant la publication.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   function logout() {
     localStorage.removeItem('cdc_admin_token')
     setToken('')
     setCourriers([])
+    setReponses([])
     setStatus('')
   }
 
@@ -120,13 +194,18 @@ export function ModerationPage() {
     <main className="moderation-shell">
       <section className="moderation-panel">
         <div className="moderation-topbar">
-          <div><p className="script-label">Espace privé</p><h1>Courriers en attente</h1></div>
+          <div><p className="script-label">Espace privé</p><h1>Modération</h1></div>
           <button className="button button-secondary" type="button" onClick={logout}><LogOut size={17} /> Déconnexion</button>
         </div>
+
         {status && <p className="form-status form-success">{status}</p>}
-        {loading && courriers.length === 0 ? (
-          <p className="moderation-empty">Chargement…</p>
-        ) : courriers.length === 0 ? (
+
+        <div className="moderation-section-heading">
+          <h2>Courriers en attente</h2>
+          <span>{courriers.length}</span>
+        </div>
+
+        {courriers.length === 0 ? (
           <div className="moderation-empty"><ShieldCheck size={30} /><strong>Aucun courrier en attente.</strong><span>Tout est à jour.</span></div>
         ) : (
           <div className="moderation-list">
@@ -135,13 +214,56 @@ export function ModerationPage() {
                 <div className="moderation-meta"><span>{courrier.pseudo}</span><span>{courrier.categorie}</span><time>{new Date(courrier.created_at).toLocaleString('fr-FR')}</time></div>
                 <p className="moderation-message">{courrier.message}</p>
                 <div className="moderation-actions">
-                  <button className="button moderation-approve" type="button" onClick={() => moderate(courrier.id, 'valide')} disabled={loading}><Check size={17} /> Valider</button>
-                  <button className="button moderation-reject" type="button" onClick={() => moderate(courrier.id, 'refuse')} disabled={loading}><X size={17} /> Refuser</button>
+                  <button className="button moderation-approve" type="button" onClick={() => moderateCourrier(courrier.id, 'valide')} disabled={loading}><Check size={17} /> Valider</button>
+                  <button className="button moderation-reject" type="button" onClick={() => moderateCourrier(courrier.id, 'refuse')} disabled={loading}><X size={17} /> Refuser</button>
                 </div>
               </article>
             ))}
           </div>
         )}
+
+        <div className="moderation-section-heading moderation-replies-heading">
+          <h2>Réponses en attente</h2>
+          <span>{reponses.length}</span>
+        </div>
+
+        {reponses.length === 0 ? (
+          <div className="moderation-empty moderation-empty-small"><MessageCircle size={28} /><strong>Aucune réponse en attente.</strong></div>
+        ) : (
+          <div className="moderation-list">
+            {reponses.map((reponse) => (
+              <article className="moderation-card" key={reponse.id}>
+                <div className="moderation-meta"><span>{reponse.pseudo}</span><span>Réponse au courrier n°{reponse.courrier_id}</span><time>{new Date(reponse.created_at).toLocaleString('fr-FR')}</time></div>
+                <p className="moderation-message">{reponse.message}</p>
+                <div className="moderation-actions">
+                  <button className="button moderation-approve" type="button" onClick={() => moderateReponse(reponse.id, 'valide')} disabled={loading}><Check size={17} /> Valider</button>
+                  <button className="button moderation-reject" type="button" onClick={() => moderateReponse(reponse.id, 'refuse')} disabled={loading}><X size={17} /> Refuser</button>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
+
+        <div className="moderation-section-heading moderation-replies-heading">
+          <h2>Répondre en tant que Les Courriers du Cœur</h2>
+        </div>
+        <p className="moderation-copy">Vos réponses sont publiées directement et apparaissent avec une présentation différente des réponses des visiteurs.</p>
+
+        <div className="moderation-admin-replies">
+          <label>
+            <span>Numéro du courrier</span>
+            <input type="number" min="1" value={adminReplyTo ?? ''} onChange={(e) => setAdminReplyTo(e.target.value ? Number(e.target.value) : null)} placeholder="Ex. 1" />
+          </label>
+          {adminReplyTo && (
+            <form onSubmit={(event) => sendAdminReply(event, adminReplyTo)}>
+              <label>
+                <span>Votre réponse</span>
+                <textarea rows={5} value={adminReply} onChange={(e) => setAdminReply(e.target.value)} placeholder="Écrivez votre réponse…" required />
+              </label>
+              <button className="button button-primary" type="submit" disabled={loading}><Send size={16} /> Publier ma réponse</button>
+            </form>
+          )}
+        </div>
       </section>
     </main>
   )
