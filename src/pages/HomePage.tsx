@@ -3,6 +3,7 @@ import type { FormEvent } from 'react'
 import { ArrowRight, BookOpen, Check, Feather, HeartHandshake, LockKeyhole, PenLine, ShieldCheck, Sparkles } from 'lucide-react'
 import { categories } from '../data/categories'
 import { PublicLetters } from '../components/PublicLetters'
+import '../styles/publicLetters.css'
 
 export function HomePage() {
   const [pseudo, setPseudo] = useState('')
