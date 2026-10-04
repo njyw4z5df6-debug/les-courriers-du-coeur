@@ -1113,3 +1113,30 @@ h1 em { font-family: 'Allura', cursive; font-size: 1.08em; font-weight: 400; let
   background-size:cover;
   background-position:center center;
 }
+
+
+/* === Fidélité maquette : visuel de référence intégré au site === */
+.mockup-hero{
+  grid-template-columns:60% 40%;
+  min-height:495px;
+}
+.mockup-hero-photo{
+  min-height:495px;
+  background-image:url("/hero-reference.svg");
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+}
+.mockup-hero-photo:before,
+.mockup-hero-photo:after{display:none!important}
+.mockup-envelope,
+.mockup-gold-pen{display:none!important}
+.mockup-hero-copy{
+  background:linear-gradient(135deg,#fffaf2 0%,#f9ecdc 100%);
+}
+.mockup-category-ribbon{
+  min-height:122px;
+}
+.mockup-featured{padding-top:36px}
+.mockup-letter-card{min-height:195px}
+.mockup-how{padding-top:38px}
