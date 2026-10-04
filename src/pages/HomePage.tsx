@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
-import { ArrowRight, BookOpen, Check, Feather, HeartHandshake, LockKeyhole, PenLine, ShieldCheck, Sparkles } from 'lucide-react'
+import { ArrowRight, BookOpen, Check, Feather, Heart, HeartHandshake, LockKeyhole, MessageCircle, PenLine, ShieldCheck, Sparkles, UsersRound } from 'lucide-react'
 import { categories } from '../data/categories'
 import { PublicLetters } from '../components/PublicLetters'
 import '../styles/publicLetters.css'
@@ -69,33 +69,87 @@ export function HomePage() {
 
   return (
     <main id="accueil">
-      <section className="hero hero-editorial">
-        <div className="hero-visual" aria-hidden="true">
-          <div className="hero-arch">
-            <span className="arch-glow" />
+      <section className="hero mockup-hero">
+        <div className="mockup-hero-photo" aria-hidden="true">
+          <div className="mockup-envelope">
+            <span className="mockup-envelope-flap" />
+            <span className="mockup-seal">♡</span>
           </div>
-          <div className="hero-bouquet hero-bouquet-left">✣</div>
-          <div className="hero-bouquet hero-bouquet-right">✣</div>
-          <div className="hero-envelope">
-            <span className="hero-envelope-flap" />
-            <span className="hero-gold-seal">♡</span>
-          </div>
-          <span className="hero-gold-pen">— ✦ —</span>
+          <span className="mockup-gold-pen" />
         </div>
 
-        <div className="hero-copy">
-          <p className="eyebrow">Des mots partagés avec confiance</p>
+        <div className="mockup-hero-copy">
+          <p className="mockup-eyebrow">DES MOTS PARTAGÉS<br />AVEC CONFIANCE</p>
           <h1><span>Les Courriers</span><em>du Cœur</em></h1>
-          <p className="hero-text">Un espace bienveillant pour déposer, lire, partager et se sentir moins seul(e). Parce que certaines histoires méritent d’être entendues.</p>
-          <div className="hero-gold-line" aria-hidden="true"><span>♡</span></div>
+          <div className="mockup-heart-line" aria-hidden="true">♡</div>
+          <p>Un espace bienveillant pour déposer,<br />lire, partager et se sentir moins seul(e).<br />Parce que certaines histoires méritent<br />d’être entendues.</p>
           <div className="hero-actions">
-            <a className="button button-primary" href="#formulaire-courrier"><PenLine size={19} /> Écrire mon courrier</a>
-            <a className="button button-secondary" href="#courriers"><BookOpen size={19} /> Lire les courriers</a>
+            <a className="button button-primary" href="#formulaire-courrier"><PenLine size={18} /> Écrire mon courrier</a>
+            <a className="button button-secondary" href="#courriers">Lire les courriers</a>
           </div>
         </div>
       </section>
 
-      <section className="welcome" id="histoire">
+      <section className="mockup-category-ribbon" id="categories">
+        {categories.map((category) => (
+          <a href="#formulaire-courrier" key={category.name} onClick={() => setCategorie(category.name)}>
+            <span>{category.symbol}</span>
+            <strong>{category.name}</strong>
+          </a>
+        ))}
+        <a className="mockup-all-categories" href="#formulaire-courrier">Voir toutes<br />les catégories <ArrowRight size={15} /></a>
+      </section>
+
+      <section className="mockup-featured">
+        <div className="mockup-section-title">
+          <h2>Quelques courriers <em>du moment</em></h2>
+          <span className="mockup-gold-swoop">♡</span>
+          <a href="#courriers">Lire tous les courriers <ArrowRight size={15} /></a>
+        </div>
+        <div className="mockup-letter-grid">
+          <article className="mockup-letter-card">
+            <span>Parentalité à distance</span>
+            <p>« Chaque soir, je ferme les yeux en espérant les revoir bientôt… mais le silence est toujours là. »</p>
+            <Heart size={22} strokeWidth={1.4} />
+          </article>
+          <article className="mockup-letter-card">
+            <span>Anxiété / Dépression</span>
+            <p>« Je me sens perdue, mais vos mots m’aident à reprendre souffle. »</p>
+            <Heart size={22} strokeWidth={1.4} />
+          </article>
+          <article className="mockup-letter-card">
+            <span>Projets de vie</span>
+            <p>« Réinventer ma vie après la tempête… c’est possible. »</p>
+            <Heart size={22} strokeWidth={1.4} />
+          </article>
+        </div>
+      </section>
+
+      <section className="mockup-how" id="histoire">
+        <div className="mockup-section-title">
+          <h2>Comment ça <em>fonctionne ?</em></h2>
+          <span className="mockup-gold-swoop">♡</span>
+        </div>
+        <div className="mockup-how-grid">
+          <article><div className="mockup-step-icon"><PenLine /></div><b>1</b><h3>J’écris</h3><p>Je partage mon histoire<br />en toute anonymat.</p></article>
+          <article><div className="mockup-step-icon"><BookOpen /></div><b>2</b><h3>Je lis</h3><p>Je découvre des témoignages<br />qui me ressemblent.</p></article>
+          <article><div className="mockup-step-icon"><MessageCircle /></div><b>3</b><h3>Je réagis</h3><p>J’échange avec bienveillance<br />dans les commentaires.</p></article>
+          <article><div className="mockup-step-icon"><Feather /></div><b>4</b><h3>Je me sens moins seul(e)</h3><p>Un espace d’écoute,<br />sans jugement.</p></article>
+        </div>
+      </section>
+
+      <section className="mockup-community">
+        <div>
+          <p>Parce que<br /><em>vos mots comptent</em></p>
+          <span>♡</span>
+        </div>
+        <div className="mockup-community-quote">
+          <blockquote>« Ici, chaque histoire est une lumière<br />pour quelqu’un d’autre. »</blockquote>
+          <a className="mockup-community-button" href="/compte"><UsersRound size={18} /> Rejoindre la communauté</a>
+        </div>
+      </section>
+
+      <section className="welcome legacy-home-section">
         <p className="script-label">Bienvenue ici</p>
         <h2>Un refuge pour ce que vous portez en silence</h2>
         <p className="section-intro">Parce qu’écrire peut être le premier pas pour se sentir plus léger·e. Chaque courrier est lu, protégé et accueilli avec humanité.</p>
@@ -106,7 +160,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="categories-section" id="categories">
+      <section className="categories-section legacy-home-section">
         <div className="section-heading">
           <div><p className="script-label">Chaque histoire a sa place</p><h2>De quoi avez-vous besoin de parler ?</h2></div>
           <p>Choisissez l’espace qui ressemble le plus à ce que vous traversez en ce moment.</p>
@@ -123,7 +177,7 @@ export function HomePage() {
         <a className="text-link" href="#formulaire-courrier">Écrire dans une catégorie <ArrowRight size={17} /></a>
       </section>
 
-      <section className="how-it-works" id="ecrire">
+      <section className="how-it-works legacy-home-section" id="ecrire">
         <div className="how-copy">
           <p className="script-label">À votre rythme</p>
           <h2>Écrire, c’est déjà commencer à déposer</h2>
