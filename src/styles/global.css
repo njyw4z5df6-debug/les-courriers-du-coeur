@@ -694,3 +694,334 @@ h1 em { font-family: 'Allura', cursive; font-size: 1.08em; font-weight: 400; let
   .hero-refined h1 em{font-size:60px}
   .hero-category-ribbon{grid-template-columns:repeat(2,1fr);padding:0 12px}
 }
+
+
+/* === Maquette accueil validée - 04/10/2026 === */
+.legacy-home-section{display:none!important}
+
+.site-header{
+  height:70px;
+  padding:0 clamp(28px,5vw,72px);
+  background:#fbf0e3;
+  border-bottom:1px solid rgba(164,112,61,.16);
+  box-shadow:0 5px 18px rgba(89,54,30,.05);
+}
+.brand{font-size:19px;color:#2e241f}
+.brand i{font:400 23px/1 'Allura',cursive;color:#b76047}
+.brand-mark{color:#c28a3d;border-color:#c99b55}
+.main-nav{font-size:12px;gap:clamp(18px,2.8vw,40px)}
+.main-nav>a:first-child{color:#a6533f;border-bottom:1px solid #b96b4d;padding-bottom:4px}
+.nav-write{background:#b75f45;border-radius:999px;padding:12px 20px}
+
+.mockup-hero{
+  min-height:525px;
+  padding:0;
+  display:grid;
+  grid-template-columns:59% 41%;
+  gap:0;
+  background:#fbf2e6;
+  overflow:hidden;
+}
+.mockup-hero:before{display:none}
+.mockup-hero-photo{
+  min-height:525px;
+  position:relative;
+  overflow:hidden;
+  background-image:
+    linear-gradient(90deg,rgba(210,146,85,.08),rgba(255,240,214,.05)),
+    url("https://images.pexels.com/photos/36283834/pexels-photo-36283834.jpeg?auto=compress&cs=tinysrgb&w=1600");
+  background-size:cover;
+  background-position:center;
+}
+.mockup-hero-photo:before{
+  content:"";
+  position:absolute;
+  left:-5%;
+  bottom:-8%;
+  width:48%;
+  height:76%;
+  opacity:.82;
+  background:
+    radial-gradient(ellipse at 20% 70%,rgba(255,248,224,.95) 0 2%,transparent 3%),
+    radial-gradient(ellipse at 45% 45%,rgba(255,246,219,.9) 0 2%,transparent 3%),
+    radial-gradient(ellipse at 65% 62%,rgba(255,244,214,.85) 0 2%,transparent 3%);
+  filter:blur(.2px);
+}
+.mockup-hero-photo:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,transparent 58%,rgba(240,209,169,.22));
+  pointer-events:none;
+}
+.mockup-envelope{
+  position:absolute;
+  z-index:3;
+  left:30%;
+  bottom:55px;
+  width:270px;
+  height:155px;
+  transform:rotate(-4deg);
+  background:linear-gradient(145deg,#fff9ed,#f1dfc8);
+  border:1px solid rgba(158,109,54,.2);
+  box-shadow:0 22px 35px rgba(79,48,26,.2);
+}
+.mockup-envelope:before,.mockup-envelope:after{
+  content:"";
+  position:absolute;
+  bottom:0;
+  width:55%;
+  height:100%;
+  background:#f5e7d5;
+}
+.mockup-envelope:before{left:0;clip-path:polygon(0 0,100% 52%,0 100%)}
+.mockup-envelope:after{right:0;clip-path:polygon(100% 0,0 52%,100% 100%)}
+.mockup-envelope-flap{
+  position:absolute;z-index:2;inset:0;
+  background:#fff7eb;
+  clip-path:polygon(0 0,100% 0,50% 58%);
+}
+.mockup-seal{
+  position:absolute;z-index:4;left:50%;top:51%;
+  transform:translate(-50%,-50%);
+  width:48px;height:48px;border-radius:50%;
+  display:grid;place-items:center;
+  background:linear-gradient(145deg,#e4bc66,#a66b1d);
+  border:2px solid #f4d58b;
+  color:#fff5d8;font-size:25px;
+  box-shadow:0 5px 12px rgba(105,64,18,.25);
+}
+.mockup-gold-pen{
+  position:absolute;z-index:4;left:20%;bottom:31px;
+  width:225px;height:7px;border-radius:99px;
+  transform:rotate(-4deg);
+  background:linear-gradient(90deg,#9d681f,#f1d48b 35%,#b77d2d 70%,#8d5919);
+  box-shadow:0 4px 8px rgba(100,61,20,.16);
+}
+.mockup-hero-copy{
+  padding:58px clamp(42px,5vw,78px) 45px;
+  display:flex;flex-direction:column;justify-content:center;
+  position:relative;
+  background:
+    radial-gradient(circle at 90% 30%,rgba(218,177,105,.08),transparent 25%),
+    linear-gradient(135deg,#fff9ef,#f8ead8);
+}
+.mockup-eyebrow{
+  margin:0 0 18px;
+  color:#a76c31;
+  font:600 11px/1.65 'Manrope',sans-serif;
+  letter-spacing:.42em;
+}
+.mockup-hero-copy h1{margin:0 0 22px;line-height:.86}
+.mockup-hero-copy h1 span{
+  display:block;
+  color:#2d241f;
+  font:500 clamp(52px,5.4vw,76px)/.92 'Bodoni Moda',serif;
+  letter-spacing:-.045em;
+}
+.mockup-hero-copy h1 em{
+  display:block;
+  margin:2px 0 0 18px;
+  color:#b35f45;
+  font:400 clamp(68px,6.5vw,96px)/.78 'Allura',cursive;
+}
+.mockup-heart-line{
+  position:absolute;
+  right:6%;
+  top:43%;
+  width:105px;
+  color:#b98732;
+  font:400 39px 'Allura',cursive;
+  border-bottom:1px solid #c79b4a;
+  transform:rotate(-6deg);
+  text-align:right;
+}
+.mockup-hero-copy>p:not(.mockup-eyebrow){
+  margin:0;
+  color:#51433b;
+  font:500 16px/1.42 'Bodoni Moda',serif;
+}
+.mockup-hero-copy .hero-actions{margin:25px 0 0}
+.mockup-hero-copy .button{border-radius:999px;min-height:46px;padding:0 24px}
+.mockup-hero-copy .button-primary{background:#b75f45}
+.mockup-hero-copy .button-secondary{border:1px solid #b77b50;color:#6f4c37;background:transparent}
+
+.mockup-category-ribbon{
+  min-height:112px;
+  padding:0 clamp(28px,4vw,60px);
+  display:grid;
+  grid-template-columns:repeat(11,1fr);
+  align-items:stretch;
+  background:#fbefe1;
+  border-top:1px solid rgba(183,132,66,.16);
+  border-bottom:1px solid rgba(183,132,66,.16);
+}
+.mockup-category-ribbon a{
+  padding:17px 7px 14px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:6px;text-align:center;
+  color:#5a493f;
+  border-right:1px solid rgba(180,132,71,.08);
+}
+.mockup-category-ribbon a span{color:#b06b3e;font:28px/1 serif}
+.mockup-category-ribbon a strong{font:500 11px/1.15 'Bodoni Moda',serif}
+.mockup-category-ribbon .mockup-all-categories{
+  color:#a85e42;align-items:flex-start;text-align:left;
+  font:500 11px/1.35 'Manrope',sans-serif;
+}
+.mockup-all-categories svg{margin-top:2px}
+
+.mockup-featured{
+  padding:32px clamp(45px,6vw,80px) 45px;
+  background:
+    radial-gradient(circle at 8% 70%,rgba(210,161,94,.08),transparent 17%),
+    linear-gradient(#fff6e9,#f9ead9);
+}
+.mockup-section-title{
+  display:flex;align-items:center;gap:24px;
+  margin-bottom:22px;
+}
+.mockup-section-title h2{
+  margin:0;
+  color:#2e251f;
+  font:500 clamp(33px,3.6vw,48px)/.85 'Bodoni Moda',serif;
+}
+.mockup-section-title h2 em{
+  display:block;margin-left:12px;margin-top:5px;
+  color:#b65f47;font:400 45px/1 'Allura',cursive;
+}
+.mockup-gold-swoop{
+  flex:1;
+  color:#bc8b34;
+  font:400 26px 'Allura',cursive;
+  border-bottom:1px solid #caa04f;
+  text-align:center;
+  transform:translateY(6px);
+}
+.mockup-section-title>a{
+  display:flex;align-items:center;gap:6px;
+  color:#a45c41;font-size:11px;
+  border-bottom:1px solid rgba(164,92,65,.35);
+}
+.mockup-letter-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.mockup-letter-card{
+  min-height:185px;
+  padding:26px 30px 22px;
+  position:relative;
+  background:
+    linear-gradient(rgba(255,250,240,.94),rgba(255,248,236,.94)),
+    repeating-linear-gradient(0deg,transparent 0 7px,rgba(121,91,62,.025) 7px 8px);
+  border:1px solid rgba(174,131,85,.22);
+  box-shadow:0 12px 25px rgba(93,59,33,.08);
+}
+.mockup-letter-card:after{
+  content:"";position:absolute;inset:8px;
+  border:1px solid rgba(177,133,83,.08);pointer-events:none;
+}
+.mockup-letter-card>span{
+  display:inline-block;padding:5px 13px;border-radius:999px;
+  background:#eac7b6;color:#9b5b48;font-size:10px;
+}
+.mockup-letter-card:nth-child(2)>span{background:#d8dbc3;color:#6e7454}
+.mockup-letter-card p{
+  margin:20px 0 13px;
+  color:#493b34;
+  font:500 17px/1.45 'Bodoni Moda',serif;
+}
+.mockup-letter-card svg{display:block;margin:auto;color:#b96a49}
+
+.mockup-how{
+  padding:35px clamp(45px,6vw,80px) 55px;
+  background:#fff5e8;
+}
+.mockup-how .mockup-section-title{margin-bottom:28px}
+.mockup-how .mockup-section-title h2 em{display:inline;margin-left:8px;font-size:48px}
+.mockup-how-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px}
+.mockup-how-grid article{text-align:center;position:relative}
+.mockup-step-icon{
+  width:74px;height:74px;margin:0 auto 11px;
+  display:grid;place-items:center;
+  color:#b65d43;
+  background:radial-gradient(circle,#f6d9d0 0 58%,transparent 60%);
+}
+.mockup-step-icon svg{width:38px;height:38px;stroke-width:1.25}
+.mockup-how-grid b{
+  position:absolute;top:59px;left:calc(50% - 42px);
+  width:25px;height:25px;border-radius:50%;
+  display:grid;place-items:center;
+  color:white;background:#c79a49;
+  font-size:11px;
+}
+.mockup-how-grid h3{margin:0 0 8px;font:500 18px 'Bodoni Moda',serif;color:#3f332d}
+.mockup-how-grid p{margin:0;color:#66554b;font:400 14px/1.5 'Bodoni Moda',serif}
+
+.mockup-community{
+  min-height:210px;
+  padding:35px clamp(65px,9vw,140px);
+  display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:55px;
+  position:relative;overflow:hidden;
+  background:
+    linear-gradient(rgba(232,180,160,.68),rgba(235,187,167,.68)),
+    linear-gradient(100deg,#e5b09d,#f0c8b8);
+  border-top:8px solid #f8eadb;
+  border-bottom:8px solid #f8eadb;
+}
+.mockup-community:before,.mockup-community:after{
+  content:"✣ ✧ ❀";
+  position:absolute;
+  color:#c08a55;
+  font:70px/1 serif;
+  opacity:.45;
+}
+.mockup-community:before{left:-10px;bottom:-15px;transform:rotate(-10deg)}
+.mockup-community:after{right:-15px;bottom:-5px;transform:rotate(12deg)}
+.mockup-community>div:first-child{
+  border-right:1px solid rgba(139,94,57,.35);
+  padding-right:45px;
+}
+.mockup-community>div:first-child p{
+  margin:0;color:#9f513d;
+  font:400 44px/1.02 'Allura',cursive;
+}
+.mockup-community>div:first-child p em{font-size:52px}
+.mockup-community>div:first-child span{display:block;color:#b27c2b;text-align:right;font:28px 'Allura',cursive}
+.mockup-community-quote{position:relative;z-index:2}
+.mockup-community blockquote{
+  margin:0 0 22px;color:#4d3c34;
+  font:500 19px/1.35 'Bodoni Moda',serif;
+}
+.mockup-community-button{
+  width:max-content;min-height:48px;padding:0 28px;border-radius:999px;
+  display:flex;align-items:center;gap:9px;
+  background:linear-gradient(180deg,#d49a42,#bd7e2f);
+  color:white;font-size:12px;
+  box-shadow:0 9px 20px rgba(120,74,24,.2);
+}
+
+@media(max-width:1000px){
+  .mockup-hero{grid-template-columns:55% 45%}
+  .mockup-category-ribbon{grid-template-columns:repeat(6,1fr)}
+}
+@media(max-width:850px){
+  .mockup-hero{grid-template-columns:1fr}
+  .mockup-hero-photo{min-height:420px}
+  .mockup-hero-copy{padding:52px 28px;text-align:center;align-items:center}
+  .mockup-heart-line{display:none}
+  .mockup-letter-grid,.mockup-how-grid{grid-template-columns:1fr 1fr}
+  .mockup-community{grid-template-columns:1fr;text-align:center}
+  .mockup-community>div:first-child{border-right:0;border-bottom:1px solid rgba(139,94,57,.3);padding:0 0 25px}
+  .mockup-community-button{margin:auto}
+}
+@media(max-width:560px){
+  .mockup-hero-photo{min-height:350px}
+  .mockup-envelope{width:210px;height:122px;left:28%;bottom:35px}
+  .mockup-gold-pen{width:170px}
+  .mockup-hero-copy h1 span{font-size:49px}
+  .mockup-hero-copy h1 em{font-size:67px;margin-left:0}
+  .mockup-category-ribbon{grid-template-columns:repeat(3,1fr);padding:0 12px}
+  .mockup-letter-grid,.mockup-how-grid{grid-template-columns:1fr}
+  .mockup-featured,.mockup-how{padding-left:20px;padding-right:20px}
+  .mockup-section-title{align-items:flex-start;flex-wrap:wrap}
+  .mockup-gold-swoop{min-width:80px}
+  .mockup-community{padding:40px 24px}
+}
