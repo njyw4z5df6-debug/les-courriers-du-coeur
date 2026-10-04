@@ -1140,3 +1140,40 @@ h1 em { font-family: 'Allura', cursive; font-size: 1.08em; font-weight: 400; let
 .mockup-featured{padding-top:36px}
 .mockup-letter-card{min-height:195px}
 .mockup-how{padding-top:38px}
+
+
+/* === Hero net HD : correction du flou 04/10/2026 === */
+.mockup-hero-photo{
+  background-image:
+    linear-gradient(90deg,rgba(91,54,27,.035),rgba(255,244,222,.025)),
+    url("https://images.pexels.com/photos/28321103/pexels-photo-28321103/free-photo-of-mediterranean.jpeg?auto=compress&cs=tinysrgb&w=1600");
+  background-size:cover;
+  background-position:center center;
+  background-repeat:no-repeat;
+}
+.mockup-hero-photo:before{
+  display:block!important;
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,rgba(255,246,231,.02),rgba(205,142,82,.08));
+  pointer-events:none;
+}
+.mockup-hero-photo:after{display:none!important}
+.mockup-envelope{
+  display:block!important;
+  left:28%;
+  bottom:42px;
+  width:255px;
+  height:148px;
+}
+.mockup-gold-pen{
+  display:block!important;
+  left:18%;
+  bottom:25px;
+  width:230px;
+}
+@media(max-width:850px){
+  .mockup-envelope{left:27%;bottom:38px}
+  .mockup-gold-pen{left:17%;bottom:22px}
+}
