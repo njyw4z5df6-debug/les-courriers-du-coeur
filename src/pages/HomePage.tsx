@@ -69,37 +69,29 @@ export function HomePage() {
 
   return (
     <main id="accueil">
-      <section className="hero">
-        <div className="hero-flower flower-one" aria-hidden="true">❋</div>
-        <div className="hero-flower flower-two" aria-hidden="true">❋</div>
+      <section className="hero hero-editorial">
+        <div className="hero-visual" aria-hidden="true">
+          <div className="hero-arch">
+            <span className="arch-glow" />
+          </div>
+          <div className="hero-bouquet hero-bouquet-left">✣</div>
+          <div className="hero-bouquet hero-bouquet-right">✣</div>
+          <div className="hero-envelope">
+            <span className="hero-envelope-flap" />
+            <span className="hero-gold-seal">♡</span>
+          </div>
+          <span className="hero-gold-pen">— ✦ —</span>
+        </div>
+
         <div className="hero-copy">
-          <p className="eyebrow"><span /> Un espace rien que pour vos mots <span /></p>
-          <h1>Il y a parfois des choses<br />qu’on n’arrive à dire <em>à personne.</em></h1>
-          <p className="hero-lead">Ici, vous pouvez les écrire.</p>
-          <p className="hero-text">Un espace d’écoute et de partage, où chaque histoire est accueillie avec douceur, respect et sans jugement.</p>
+          <p className="eyebrow">Des mots partagés avec confiance</p>
+          <h1><span>Les Courriers</span><em>du Cœur</em></h1>
+          <p className="hero-text">Un espace bienveillant pour déposer, lire, partager et se sentir moins seul(e). Parce que certaines histoires méritent d’être entendues.</p>
+          <div className="hero-gold-line" aria-hidden="true"><span>♡</span></div>
           <div className="hero-actions">
             <a className="button button-primary" href="#formulaire-courrier"><PenLine size={19} /> Écrire mon courrier</a>
             <a className="button button-secondary" href="#courriers"><BookOpen size={19} /> Lire les courriers</a>
           </div>
-          <div className="trust-row" aria-label="Nos engagements">
-            <span><ShieldCheck size={17} /> Modéré avec soin</span>
-            <span><LockKeyhole size={17} /> Pseudonyme protégé</span>
-            <span><HeartHandshake size={17} /> Sans jugement</span>
-          </div>
-        </div>
-        <div className="letter-scene" aria-hidden="true">
-          <div className="sprig sprig-left">⌇<span>❧</span><span>❧</span><span>❧</span></div>
-          <div className="letter">
-            <span className="paperclip">⌇</span>
-            <span className="postage-stamp">LC<span>♡</span></span>
-            <Feather className="letter-icon" />
-            <p>Vos mots méritent<br />d’être entendus.</p>
-            <span className="letter-sign">avec douceur, toujours</span>
-            <span className="letter-line line-one" />
-            <span className="letter-line line-two" />
-          </div>
-          <div className="envelope"><span className="seal">♡</span></div>
-          <div className="sprig sprig-right">⌇<span>❧</span><span>❧</span></div>
         </div>
       </section>
 
