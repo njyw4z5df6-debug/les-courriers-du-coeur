@@ -1025,3 +1025,81 @@ h1 em { font-family: 'Allura', cursive; font-size: 1.08em; font-weight: 400; let
   .mockup-gold-swoop{min-width:80px}
   .mockup-community{padding:40px 24px}
 }
+
+
+/* === Ajustement final : maquette approuvée 04/10 === */
+.mockup-hero{
+  grid-template-columns:60% 40%;
+  min-height:495px;
+}
+.mockup-hero-photo{
+  min-height:495px;
+  background-image:
+    linear-gradient(90deg,rgba(112,66,28,.04),rgba(255,242,218,.03)),
+    url("https://images.pexels.com/photos/36283834/pexels-photo-36283834.jpeg?auto=compress&cs=tinysrgb&w=1800");
+  background-size:cover;
+  background-position:center 48%;
+}
+.mockup-hero-photo:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(90deg,rgba(255,237,205,.06),transparent 35%),
+    linear-gradient(180deg,transparent 70%,rgba(246,222,190,.14));
+  opacity:1;
+}
+.mockup-envelope{
+  left:28%;
+  bottom:42px;
+  width:255px;
+  height:148px;
+}
+.mockup-gold-pen{left:18%;bottom:25px;width:230px}
+.mockup-hero-copy{padding:50px clamp(38px,4.5vw,68px)}
+.mockup-eyebrow{font-size:10px;letter-spacing:.45em;color:#a46b28}
+.mockup-hero-copy h1 span{font-size:clamp(50px,5vw,72px)}
+.mockup-hero-copy h1 em{font-size:clamp(66px,6vw,92px);color:#bb5b3d}
+.mockup-heart-line{color:#c39231;border-color:#d0a54c}
+.mockup-category-ribbon{
+  background:#fcf2e5;
+  border-color:rgba(201,151,71,.22);
+}
+.mockup-category-ribbon a{
+  position:relative;
+  border-right:1px solid rgba(203,155,78,.18);
+}
+.mockup-category-ribbon a:before{
+  content:"";
+  position:absolute;
+  top:9px;
+  left:8px;
+  right:8px;
+  height:68px;
+  border:1px solid rgba(205,156,76,.32);
+  border-bottom:0;
+  border-radius:42px 42px 0 0;
+  pointer-events:none;
+}
+.mockup-category-ribbon a span,.mockup-category-ribbon a strong{position:relative;z-index:1}
+.mockup-featured{
+  background:
+    radial-gradient(circle at 4% 52%,rgba(193,123,62,.10),transparent 18%),
+    radial-gradient(circle at 96% 65%,rgba(191,119,63,.09),transparent 18%),
+    #fbefdf;
+}
+.mockup-letter-card{
+  border-color:rgba(171,116,64,.26);
+  box-shadow:0 10px 24px rgba(91,55,28,.09);
+}
+.mockup-how{background:#fcf1e3}
+.mockup-community{
+  background:
+    linear-gradient(rgba(236,188,171,.76),rgba(236,188,171,.76)),
+    repeating-linear-gradient(0deg,transparent 0 8px,rgba(124,78,57,.025) 8px 9px);
+}
+.mockup-community:before,.mockup-community:after{opacity:.7}
+@media(max-width:850px){
+  .mockup-hero{grid-template-columns:1fr}
+  .mockup-hero-photo{min-height:420px}
+}
