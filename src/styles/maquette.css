@@ -42,7 +42,7 @@
 }
 .cdc-hero-photo{
   min-height:525px;
-  background:url('/hero-reference.svg') center/cover no-repeat;
+  background:url('/hero-site.jpg') center/cover no-repeat;
   filter:none;
   position:relative;
 }
