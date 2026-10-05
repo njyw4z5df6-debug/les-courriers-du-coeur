@@ -42,11 +42,11 @@
 }
 .cdc-hero-photo{
   min-height:525px;
-  background:url('/hero-site.jpg') center/cover no-repeat;
+  background:#f7efe4;
   filter:none;
   position:relative;
 }
-.cdc-hero-photo:after{content:none}
+.cdc-hero-photo>img{width:100%;height:100%;min-height:525px;display:block;object-fit:cover;object-position:center}.cdc-hero-photo:after{content:none}
 .cdc-hero-copy{
   position:relative;
   min-height:525px;
