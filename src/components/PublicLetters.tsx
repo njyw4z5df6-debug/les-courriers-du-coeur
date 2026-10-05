@@ -25,7 +25,7 @@ export function PublicLetters() {
   const [letters, setLetters] = useState<PublicLetter[]>([])
   const [replies, setReplies] = useState<PublicReply[]>([])
   const [loading, setLoading] = useState(true)
-  const [activeCategory, setActiveCategory] = useState('Tous')
+  const [activeCategory, setActiveCategory] = useState(() => new URLSearchParams(window.location.search).get('categorie') || 'Tous')
   const [replyingTo, setReplyingTo] = useState<number | null>(null)
   const [replyPseudo, setReplyPseudo] = useState(getUserSession()?.pseudo || '')
   const [replyMessage, setReplyMessage] = useState('')
@@ -123,7 +123,7 @@ export function PublicLetters() {
   }
 
   return (
-    <section className="public-letters" id="courriers">
+    <section className="public-letters" id="tous-les-courriers">
       <div className="public-letters-inner">
         <div className="section-heading public-letters-heading">
           <div>
