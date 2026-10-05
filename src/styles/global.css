@@ -1177,3 +1177,38 @@ h1 em { font-family: 'Allura', cursive; font-size: 1.08em; font-weight: 400; let
   .mockup-envelope{left:27%;bottom:38px}
   .mockup-gold-pen{left:17%;bottom:22px}
 }
+
+
+/* === Hero plus proche de la maquette validée : arches crème, lumière chaude === */
+.mockup-hero-photo{
+  background-image:
+    linear-gradient(90deg,rgba(255,248,236,.05),rgba(255,238,210,.02)),
+    url("https://images.pexels.com/photos/35657830/pexels-photo-35657830.jpeg?auto=compress&cs=tinysrgb&w=1800");
+  background-size:cover;
+  background-position:center 48%;
+  background-repeat:no-repeat;
+}
+.mockup-hero-photo:before{
+  display:block!important;
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 12% 30%,rgba(255,250,239,.18),transparent 28%),
+    linear-gradient(180deg,rgba(255,255,255,.02),rgba(196,130,74,.06));
+  pointer-events:none;
+}
+.mockup-envelope{
+  display:block!important;
+  left:30%;
+  bottom:42px;
+  width:260px;
+  height:150px;
+  transform:rotate(-2deg);
+}
+.mockup-gold-pen{
+  display:block!important;
+  left:20%;
+  bottom:24px;
+  width:220px;
+}
