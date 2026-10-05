@@ -2,10 +2,10 @@ import { Menu, PenLine, UserRound, X } from 'lucide-react'
 import { useState } from 'react'
 
 const links = [
-  ['Accueil', '#accueil'],
-  ['Lire les courriers', '#courriers'],
-  ['Les catégories', '#categories'],
-  ['Notre histoire', '#histoire'],
+  ['Accueil', '/#accueil'],
+  ['Lire les courriers', '/#courriers'],
+  ['Les catégories', '/#categories'],
+  ['Notre histoire', '/#histoire'],
 ]
 
 export function Header() {
@@ -13,7 +13,7 @@ export function Header() {
 
   return (
     <header className="site-header">
-      <a className="brand" href="#accueil" aria-label="Les Courriers du Cœur, accueil">
+      <a className="brand" href="/#accueil" aria-label="Les Courriers du Cœur, accueil">
         <span className="brand-mark" aria-hidden="true"><span>♡</span></span>
         <span>Les Courriers<br /><i>du Cœur</i></span>
       </a>
