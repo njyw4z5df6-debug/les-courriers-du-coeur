@@ -424,3 +424,75 @@
 .brand-words strong{font:500 17px/1 'Bodoni Moda',serif;letter-spacing:.08em;color:#2d241f}
 .brand-words i{font:400 25px/.9 'Allura',cursive;color:var(--cdc-terracotta);margin-left:13px;margin-top:2px}
 @media(max-width:520px){.brand-luxe{gap:7px!important}.brand-seal{width:45px;height:35px;flex-basis:45px}.brand-seal:before{width:38px;height:23px}.brand-seal:after{width:32px;height:17px}.brand-wax{width:19px;height:19px;font-size:11px}.brand-words strong{font-size:13px}.brand-words i{font-size:20px}}
+
+/* Lecture des courriers - bohème moderne */
+.public-letters{
+  background:
+    radial-gradient(circle at 8% 18%,rgba(203,151,93,.10),transparent 24%),
+    radial-gradient(circle at 92% 82%,rgba(181,107,79,.08),transparent 22%),
+    #fbf5eb!important;
+  padding-top:72px!important;padding-bottom:82px!important
+}
+.public-letters-inner{
+  max-width:1120px!important;padding:0!important;background:transparent!important;
+  border:0!important;box-shadow:none!important
+}
+.public-letters-inner:before,.public-letters-inner:after{display:none!important}
+.public-letters-heading{
+  position:relative;display:grid!important;grid-template-columns:1fr minmax(260px,390px);
+  align-items:end!important;gap:50px!important;margin-bottom:34px!important;padding:0 8px 26px!important;
+  border-bottom:1px solid rgba(177,126,63,.28)
+}
+.public-letters-heading:after{
+  content:"✦";position:absolute;left:0;bottom:-10px;width:20px;height:20px;display:grid;place-items:center;
+  background:#fbf5eb;color:#bd8a3c;font-size:12px
+}
+.public-letters-heading .script-label{
+  color:#b5654b!important;font-size:18px!important;letter-spacing:.02em;margin:0 0 7px!important
+}
+.public-letters-heading h2{
+  font-size:clamp(32px,3vw,42px)!important;letter-spacing:-.035em!important;color:#332923!important;margin:0!important
+}
+.public-letters-intro{
+  max-width:390px!important;padding:14px 16px!important;border-left:2px solid #c99a45!important;
+  background:rgba(255,252,246,.58)!important;color:#746056!important
+}
+.public-letters-toolbar{
+  padding:0 8px 22px!important;border:0!important;margin-bottom:8px!important
+}
+.public-filter{
+  background:transparent!important;border:1px solid rgba(169,112,71,.28)!important;
+  color:#725747!important;padding:8px 14px!important;transition:.2s ease
+}
+.public-filter:hover{transform:translateY(-1px);border-color:#b8813c!important;background:#fffaf2!important}
+.public-filter.is-active{
+  background:#aa684f!important;border-color:#aa684f!important;color:#fff!important;
+  box-shadow:0 6px 14px rgba(127,76,55,.12)
+}
+.public-letter-card{
+  border:0!important;border-radius:2px 22px 2px 22px!important;
+  padding:30px 34px 28px!important;
+  background:rgba(255,252,246,.94)!important;
+  box-shadow:0 13px 35px rgba(89,64,45,.07)!important;
+  outline:1px solid rgba(193,146,73,.20)!important;outline-offset:-7px!important
+}
+.public-letter-card:after{display:none!important}
+.public-letter-avatar{
+  width:42px!important;height:42px!important;background:#efe1d3!important;color:#a65e47!important;
+  border:0!important;box-shadow:inset 0 0 0 1px rgba(186,132,70,.18)
+}
+.public-letter-category{
+  background:#f2e6d6!important;color:#87623d!important;border:1px solid rgba(192,143,71,.15)
+}
+.public-letter-separator{background:linear-gradient(90deg,rgba(190,141,61,.42),rgba(190,141,61,.06),transparent)!important}
+.public-letter-message{
+  font-family:'Manrope',sans-serif!important;font-size:13px!important;font-weight:400!important;
+  line-height:1.8!important;color:#51433b!important
+}
+.public-reply-button{color:#a65e47!important}
+@media(max-width:700px){
+ .public-letters{padding-top:54px!important}
+ .public-letters-heading{display:block!important;padding-bottom:22px!important}
+ .public-letters-intro{margin-top:18px!important}
+ .public-letter-card{border-radius:2px 17px 2px 17px!important;padding:24px 22px!important}
+}
