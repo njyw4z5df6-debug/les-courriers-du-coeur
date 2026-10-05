@@ -86,15 +86,17 @@
 /* CATEGORIES */
 .cdc-categories{
   min-height:118px;padding:0 clamp(30px,4.5vw,52px);
-  display:grid;grid-template-columns:repeat(11,1fr);
+  display:grid;grid-template-columns:repeat(9,1fr);
   background:#fff7ec;border-top:1px solid rgba(194,146,66,.15);border-bottom:1px solid rgba(194,146,66,.19)
 }
 .cdc-categories a{
-  padding:16px 6px 13px;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:6px;text-align:center;border-right:1px solid rgba(187,136,64,.12)
+  padding:16px 8px 13px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:8px;text-align:center;border-right:1px solid rgba(187,136,64,.20);text-decoration:none;
+  transition:background .2s ease,transform .2s ease
 }
-.cdc-categories a span{color:#b87826;font:28px/1 serif}
-.cdc-categories a strong{color:#4f4138;font:500 10.5px/1.17 'Bodoni Moda',serif}
+.cdc-categories a:hover{background:linear-gradient(180deg,rgba(229,195,126,.16),rgba(199,147,52,.08));transform:translateY(-1px)}
+.cdc-categories a span{color:#b77c20;font:31px/1 serif;text-shadow:0 1px 0 #fff,0 0 12px rgba(199,147,52,.14)}
+.cdc-categories a strong{color:#8b641f;font:600 11.5px/1.22 'Bodoni Moda',serif;letter-spacing:.01em}
 .cdc-categories-more{align-items:flex-start!important;text-align:left!important;padding-left:18px!important;color:#a75a40!important;font:500 10.5px/1.35 'Manrope',sans-serif!important}
 
 /* TITRES */
