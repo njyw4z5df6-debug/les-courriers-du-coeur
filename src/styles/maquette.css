@@ -1,765 +1,251 @@
-/* Reproduction fidèle de la maquette validée - 05/10/2026 */
+@import url('https://fonts.googleapis.com/css2?family=Allura&family=Bodoni+Moda:opsz,wght@6..96,500;6..96,600&family=Manrope:wght@400;500;600&display=swap');
 
 :root{
-  --cdc-cream:#fbefe0;
-  --cdc-paper:#fff8ec;
+  --cdc-cream:#fff7ec;
+  --cdc-cream-2:#f9ecdd;
+  --cdc-paper:#fffaf2;
   --cdc-ink:#2f251f;
+  --cdc-muted:#6f5a4e;
   --cdc-terracotta:#b85f45;
-  --cdc-gold:#c99a43;
-  --cdc-soft-gold:#dfbf7a;
+  --cdc-terracotta-dark:#9f503b;
+  --cdc-gold:#c79334;
+  --cdc-gold-light:#e3be70;
+  --cdc-blush:#efc5b5;
 }
+
+.cdc-home{background:var(--cdc-cream);color:var(--cdc-ink)}
+.cdc-home *{box-sizing:border-box}
 
 .site-header{
-  height:70px;
-  padding:0 clamp(28px,4.8vw,52px);
-  background:rgba(255,247,236,.98);
-  border-bottom:1px solid rgba(160,109,65,.16);
-  box-shadow:0 4px 18px rgba(88,52,28,.045);
+  height:70px!important;
+  padding:0 clamp(26px,4.5vw,52px)!important;
+  background:rgba(255,248,239,.98)!important;
+  border-bottom:1px solid rgba(183,133,48,.22)!important;
+  box-shadow:0 4px 14px rgba(84,54,31,.045)!important;
 }
-.brand{
-  min-width:205px;
-  gap:11px;
-  color:#2b221e;
-  font-size:18px;
-  letter-spacing:0;
-}
-.brand-mark{
-  width:44px;
-  height:36px;
-  border-color:#c7934a;
-  color:#b96748;
-}
-.brand i{
-  display:inline-block;
-  margin-top:3px;
-  color:var(--cdc-terracotta);
-  font:400 24px/1 'Allura',cursive;
-}
-.main-nav{
-  gap:clamp(18px,2.8vw,34px);
-  font-size:11px;
-}
-.main-nav > a:first-child{
-  color:#a4573f;
-  border-bottom:1px solid #b8664c;
-  padding-bottom:4px;
-}
+.brand{font-family:'Bodoni Moda',serif!important;font-size:18px!important;color:#2b221e!important}
+.brand i{font:400 24px/1 'Allura',cursive!important;color:var(--cdc-terracotta)!important}
+.brand-mark{border-color:#c9973f!important;color:#b86a4c!important}
+.main-nav{gap:clamp(18px,2.5vw,34px)!important;font-size:11px!important}
+.main-nav>a:first-child{color:#a5533e!important;border-bottom:1px solid #b9674c!important}
 .nav-write{
-  min-height:42px;
-  padding:0 20px;
-  border-radius:999px;
-  background:#b85f45;
-  box-shadow:0 8px 18px rgba(148,75,51,.16);
+  min-height:42px!important;padding:0 20px!important;border-radius:999px!important;
+  background:linear-gradient(180deg,#bf684d,#a94f39)!important;color:#fff!important
 }
 
-/* Hero */
-.mockup-hero{
-  min-height:526px;
+/* HERO */
+.cdc-hero{
+  min-height:525px;
+  display:grid;
   grid-template-columns:60.5% 39.5%;
-  background:#fbefdf;
-  border-bottom:0;
+  background:var(--cdc-cream);
 }
-.mockup-hero-photo{
-  min-height:526px;
-  background-image:url("/hero-reference.svg") !important;
-  background-size:cover !important;
-  background-position:center center !important;
-  background-repeat:no-repeat !important;
-}
-.mockup-hero-photo:before,
-.mockup-hero-photo:after,
-.mockup-envelope,
-.mockup-gold-pen{
-  display:none !important;
-}
-
-.mockup-hero-copy{
-  min-height:526px;
-  padding:48px clamp(38px,4.3vw,58px) 42px;
-  background:
-    radial-gradient(circle at 92% 19%,rgba(211,171,95,.07),transparent 25%),
-    linear-gradient(135deg,#fff9ef 0%,#f8ead8 100%);
-}
-.mockup-eyebrow{
-  margin:0 0 16px;
-  color:#a56c2f;
-  font:600 10px/1.65 'Manrope',sans-serif;
-  letter-spacing:.45em;
-}
-.mockup-hero-copy h1{
-  margin:0 0 23px;
-  line-height:.84;
-}
-.mockup-hero-copy h1 span{
-  color:#2d231f;
-  font:500 clamp(50px,5.2vw,73px)/.92 'Bodoni Moda',serif;
-  letter-spacing:-.05em;
-}
-.mockup-hero-copy h1 em{
-  margin:2px 0 0 18px;
-  color:#b85d43;
-  font:400 clamp(66px,6.2vw,91px)/.8 'Allura',cursive;
-}
-.mockup-heart-line{
-  right:5.5%;
-  top:45%;
-  width:92px;
-  color:#c18d2f;
-  border-bottom-color:#cda24d;
-}
-.mockup-hero-copy>p:not(.mockup-eyebrow){
-  max-width:420px;
-  color:#4e4038;
-  font:500 15px/1.42 'Bodoni Moda',serif;
-}
-.mockup-hero-copy .hero-actions{
-  margin-top:25px;
-  gap:14px;
-}
-.mockup-hero-copy .button{
-  min-height:46px;
-  border-radius:999px;
-  padding:0 24px;
-  font-size:12px;
-}
-.mockup-hero-copy .button-primary{
-  background:#b65d43;
-  box-shadow:0 9px 20px rgba(148,74,47,.18);
-}
-.mockup-hero-copy .button-secondary{
-  border-color:#b8794e;
-  color:#6f4c37;
-  background:rgba(255,250,242,.5);
-}
-
-/* Ruban catégories */
-.mockup-category-ribbon{
-  min-height:118px;
-  padding:0 clamp(30px,4.5vw,52px);
-  grid-template-columns:repeat(11,1fr);
-  background:#fbefe1;
-  border-top:1px solid rgba(189,139,68,.13);
-  border-bottom:1px solid rgba(189,139,68,.15);
-}
-.mockup-category-ribbon a{
-  min-width:0;
-  padding:16px 6px 13px;
-  border-right:1px solid rgba(180,132,71,.11);
-}
-.mockup-category-ribbon a:before{
-  display:none;
-}
-.mockup-category-ribbon a span{
-  color:#b1683c;
-  font:28px/1 serif;
-}
-.mockup-category-ribbon a strong{
-  color:#4f4138;
-  font:500 10.5px/1.17 'Bodoni Moda',serif;
-}
-.mockup-category-ribbon .mockup-all-categories{
-  align-items:flex-start;
-  justify-content:center;
-  padding-left:18px;
-  color:#a75a40;
-  font-size:10.5px;
-  border-left:1px solid rgba(174,122,62,.17);
-}
-
-/* Quelques courriers */
-.mockup-featured{
-  padding:29px clamp(45px,5.1vw,54px) 34px;
-  background:
-    radial-gradient(circle at 3% 62%,rgba(194,128,67,.11),transparent 17%),
-    radial-gradient(circle at 97% 63%,rgba(194,128,67,.09),transparent 16%),
-    #fbefdf;
-}
-.mockup-section-title{
-  gap:20px;
-  margin-bottom:17px;
-}
-.mockup-section-title h2{
-  font-size:clamp(33px,3.4vw,46px);
-  letter-spacing:-.03em;
-}
-.mockup-section-title h2 em{
-  margin-top:3px;
-  color:#b95e45;
-  font-size:43px;
-}
-.mockup-gold-swoop{
-  color:#bd8b32;
-  border-bottom-color:#cba151;
-}
-.mockup-section-title>a{
-  color:#9f573f;
-  font-size:10.5px;
-}
-.mockup-letter-grid{
-  gap:18px;
-}
-.mockup-letter-card{
-  min-height:188px;
-  padding:25px 28px 21px;
-  background:
-    linear-gradient(rgba(255,250,240,.95),rgba(255,248,236,.95)),
-    repeating-linear-gradient(0deg,transparent 0 7px,rgba(121,91,62,.025) 7px 8px);
-  border-color:rgba(171,116,64,.22);
-  box-shadow:0 11px 25px rgba(91,55,28,.08);
-}
-.mockup-letter-card p{
-  margin-top:17px;
-  font-size:16px;
-  line-height:1.42;
-}
-
-/* Comment ça fonctionne */
-.mockup-how{
-  padding:31px clamp(45px,5.1vw,54px) 49px;
-  background:#fcf1e3;
-}
-.mockup-how .mockup-section-title{
-  margin-bottom:23px;
-}
-.mockup-how-grid{
-  gap:27px;
-}
-.mockup-step-icon{
-  width:70px;
-  height:70px;
-  margin-bottom:9px;
-}
-.mockup-step-icon svg{
-  width:36px;
-  height:36px;
-}
-.mockup-how-grid h3{
-  font-size:17px;
-}
-.mockup-how-grid p{
-  font-size:13px;
-}
-
-/* Bandeau final */
-.mockup-community{
-  min-height:208px;
-  padding:32px clamp(63px,8vw,105px);
-  gap:52px;
-  background:
-    linear-gradient(rgba(236,188,171,.73),rgba(236,188,171,.73)),
-    repeating-linear-gradient(0deg,transparent 0 8px,rgba(124,78,57,.024) 8px 9px);
-  border-top:8px solid #f8eadb;
-  border-bottom:8px solid #f8eadb;
-}
-.mockup-community>div:first-child p{
-  font-size:42px;
-}
-.mockup-community>div:first-child p em{
-  font-size:51px;
-}
-.mockup-community blockquote{
-  font-size:18px;
-}
-.mockup-community-button{
-  min-height:48px;
-  border-radius:999px;
-  background:linear-gradient(180deg,#d49a42,#bd7e2f);
-}
-
-/* Le reste du site reste fonctionnel, mais ne concurrence pas la maquette au premier écran */
-.write-section,
-.public-letters,
-.closing,
-.site-footer{
+.cdc-hero-photo{
+  min-height:525px;
+  background:url('/hero-reference.svg') center/cover no-repeat;
+  filter:none;
   position:relative;
 }
+.cdc-hero-photo:after{content:none}
+.cdc-hero-copy{
+  position:relative;
+  min-height:525px;
+  padding:52px clamp(38px,4.3vw,58px) 44px;
+  display:flex;flex-direction:column;justify-content:center;
+  background:linear-gradient(135deg,#fffaf2 0%,#f8ead9 100%);
+  border-left:1px solid rgba(195,145,62,.18);
+}
+.cdc-eyebrow{
+  margin:0 0 16px;color:#a96e31;
+  font:600 10px/1.65 'Manrope',sans-serif;letter-spacing:.45em
+}
+.cdc-hero-copy h1{margin:0 0 22px;line-height:.84}
+.cdc-hero-copy h1 span{
+  display:block;color:#2d241f;
+  font:500 clamp(50px,5vw,72px)/.92 'Bodoni Moda',serif;
+  letter-spacing:-.05em
+}
+.cdc-hero-copy h1 em{
+  display:block;margin:2px 0 0 18px;color:var(--cdc-terracotta);
+  font:400 clamp(66px,6vw,90px)/.8 'Allura',cursive
+}
+.cdc-heart-line{
+  position:absolute;right:6%;top:44%;width:96px;
+  color:var(--cdc-gold);font:400 39px 'Allura',cursive;
+  border-bottom:1px solid var(--cdc-gold-light);transform:rotate(-6deg);text-align:right
+}
+.cdc-hero-text{margin:0;color:#51433b;font:500 15px/1.45 'Bodoni Moda',serif}
+.cdc-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:26px}
+.cdc-button{
+  min-height:46px;padding:0 24px;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  border-radius:999px;font:600 12px/1 'Manrope',sans-serif;text-decoration:none;border:1px solid transparent
+}
+.cdc-button-primary{background:linear-gradient(180deg,#bf684d,#a94f39);color:#fff;box-shadow:0 9px 20px rgba(145,72,47,.16)}
+.cdc-button-secondary{background:transparent;border-color:#b9794d;color:#6b4937}
 
-@media (max-width:1000px){
-  .site-header{padding:0 24px}
-  .main-nav{gap:16px}
-  .mockup-category-ribbon{grid-template-columns:repeat(6,1fr)}
+/* CATEGORIES */
+.cdc-categories{
+  min-height:118px;padding:0 clamp(30px,4.5vw,52px);
+  display:grid;grid-template-columns:repeat(11,1fr);
+  background:#fff7ec;border-top:1px solid rgba(194,146,66,.15);border-bottom:1px solid rgba(194,146,66,.19)
 }
+.cdc-categories a{
+  padding:16px 6px 13px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:6px;text-align:center;border-right:1px solid rgba(187,136,64,.12)
+}
+.cdc-categories a span{color:#b87826;font:28px/1 serif}
+.cdc-categories a strong{color:#4f4138;font:500 10.5px/1.17 'Bodoni Moda',serif}
+.cdc-categories-more{align-items:flex-start!important;text-align:left!important;padding-left:18px!important;color:#a75a40!important;font:500 10.5px/1.35 'Manrope',sans-serif!important}
 
-@media (max-width:850px){
-  .site-header{height:66px}
-  .brand{min-width:0}
-  .menu-button{display:block}
-  .main-nav{
-    position:absolute;
-    left:0;
-    right:0;
-    top:66px;
-    padding:22px 24px 28px;
-    flex-direction:column;
-    align-items:stretch;
-    gap:0;
-    background:#fff8ee;
-    border-bottom:1px solid rgba(160,109,65,.16);
-    transform:translateY(-130%);
-    opacity:0;
-    pointer-events:none;
-    transition:.22s ease;
-  }
-  .main-nav.is-open{
-    transform:translateY(0);
-    opacity:1;
-    pointer-events:auto;
-  }
-  .main-nav a{
-    padding:13px 0;
-  }
-  .nav-write{
-    justify-content:center;
-    margin-top:8px;
-  }
+/* TITRES */
+.cdc-title-row{display:flex;align-items:center;gap:20px;margin-bottom:18px}
+.cdc-title-row h2{margin:0;color:#2d241f;font:500 clamp(33px,3.4vw,46px)/.88 'Bodoni Moda',serif;letter-spacing:-.03em}
+.cdc-title-row h2 em{display:block;margin:4px 0 0 10px;color:var(--cdc-terracotta);font:400 43px/1 'Allura',cursive}
+.cdc-gold-line{flex:1;color:var(--cdc-gold);font:400 26px 'Allura',cursive;border-bottom:1px solid var(--cdc-gold-light);text-align:center}
+.cdc-title-row>a{display:flex;align-items:center;gap:6px;color:#9f573f;font-size:10.5px;border-bottom:1px solid rgba(159,87,63,.35)}
 
-  .mockup-hero{
-    grid-template-columns:1fr;
-  }
-  .mockup-hero-photo{
-    min-height:420px;
-  }
-  .mockup-hero-copy{
-    min-height:auto;
-    padding:50px 30px 47px;
-    align-items:center;
-    text-align:center;
-  }
-  .mockup-hero-copy h1 em{
-    margin-left:0;
-  }
-  .mockup-heart-line{
-    display:none;
-  }
-  .mockup-category-ribbon{
-    grid-template-columns:repeat(3,1fr);
-    padding:0 12px;
-  }
-  .mockup-category-ribbon .mockup-all-categories{
-    align-items:center;
-    text-align:center;
-    padding-left:6px;
-  }
-  .mockup-letter-grid,
-  .mockup-how-grid{
-    grid-template-columns:1fr 1fr;
-  }
-  .mockup-community{
-    grid-template-columns:1fr;
-    text-align:center;
-  }
-}
-
-@media (max-width:560px){
-  .brand{font-size:15px}
-  .brand-mark{width:38px;height:31px}
-  .mockup-hero-photo{
-    min-height:355px;
-    background-position:center center !important;
-  }
-  .mockup-hero-copy{
-    padding:44px 20px 41px;
-  }
-  .mockup-eyebrow{
-    font-size:9px;
-  }
-  .mockup-hero-copy h1 span{
-    font-size:48px;
-  }
-  .mockup-hero-copy h1 em{
-    font-size:65px;
-  }
-  .mockup-hero-copy>p:not(.mockup-eyebrow){
-    font-size:14px;
-  }
-  .mockup-hero-copy .hero-actions{
-    width:100%;
-    flex-direction:column;
-  }
-  .mockup-hero-copy .button{
-    width:100%;
-  }
-  .mockup-category-ribbon{
-    grid-template-columns:repeat(3,1fr);
-  }
-  .mockup-featured,
-  .mockup-how{
-    padding-left:18px;
-    padding-right:18px;
-  }
-  .mockup-letter-grid,
-  .mockup-how-grid{
-    grid-template-columns:1fr;
-  }
-  .mockup-section-title{
-    flex-wrap:wrap;
-    align-items:flex-start;
-  }
-  .mockup-gold-swoop{
-    min-width:70px;
-  }
-  .mockup-community{
-    padding:39px 22px;
-  }
-}
-
-
-/* === Refonte clean + doree, sans flou - 05/10/2026 === */
-
-/* HERO : vraie image HD, aucun voile floute, aucune barre de transition */
-.mockup-hero-photo{
-  background-image:url("https://images.pexels.com/photos/35657830/pexels-photo-35657830.jpeg?auto=compress&cs=tinysrgb&w=2400") !important;
-  background-size:cover !important;
-  background-position:center 46% !important;
-  background-repeat:no-repeat !important;
-  filter:none !important;
-}
-.mockup-hero-photo:before{
-  content:"" !important;
-  display:block !important;
-  position:absolute;
-  inset:0;
-  background:linear-gradient(180deg,rgba(255,248,236,.01),rgba(169,102,51,.025)) !important;
-  filter:none !important;
-}
-.mockup-hero-photo:after{display:none !important}
-.mockup-envelope{
-  display:block !important;
-  left:29%;
-  bottom:44px;
-  width:258px;
-  height:149px;
-  transform:rotate(-2deg);
-  background:linear-gradient(145deg,#fffaf0,#f0dfc8);
-  border:1px solid rgba(161,111,51,.22);
-  box-shadow:0 18px 34px rgba(68,42,24,.16);
-}
-.mockup-envelope:before,
-.mockup-envelope:after{filter:none !important}
-.mockup-envelope-flap{filter:none !important}
-.mockup-seal{
-  background:linear-gradient(145deg,#efcc78,#a86c1f);
-  border-color:#f5d892;
-  box-shadow:0 4px 10px rgba(91,57,19,.18);
-}
-.mockup-gold-pen{
-  display:block !important;
-  left:19%;
-  bottom:26px;
-  width:228px;
-  height:6px;
-  background:linear-gradient(90deg,#8b5a18,#efcc78 37%,#b67524 72%,#8a5817);
-  box-shadow:0 3px 6px rgba(86,54,19,.12);
-  filter:none !important;
-}
-
-/* Dorure plus nette et plus elegante */
-.site-header,
-.mockup-category-ribbon,
-.mockup-featured,
-.mockup-how,
-.mockup-community,
-.write-section,
-.public-letters,
-.closing,
-.site-footer{
-  background-image:none;
-}
-.site-header{border-bottom-color:rgba(190,143,63,.26)}
-.brand-mark{
-  border-color:#c9973e;
-  box-shadow:inset 0 0 0 1px rgba(236,207,145,.35);
-}
-.nav-write{
-  background:linear-gradient(180deg,#bf684d,#a9513b);
-}
-.mockup-hero-copy{
-  background:#fff8ee;
-  border-left:1px solid rgba(199,151,66,.20);
-}
-.mockup-heart-line,
-.mockup-gold-swoop{
-  color:#bc8625;
-  border-color:#c99945;
-}
-.mockup-section-title>a,
-.mockup-all-categories{
-  color:#9f5a3f !important;
-}
-.mockup-category-ribbon{
-  background:#fff7ec;
-  border-color:rgba(194,146,66,.22);
-}
-.mockup-category-ribbon a{
-  border-right-color:rgba(194,146,66,.16);
-}
-.mockup-category-ribbon a span{
-  color:#bd7f22;
-}
-.mockup-featured{
-  background:#fbf0e2;
-  border-bottom:1px solid rgba(194,146,66,.14);
-}
-.mockup-letter-card{
-  background:#fffaf1;
-  border:1px solid rgba(189,137,54,.24);
-  box-shadow:0 10px 28px rgba(97,63,31,.07);
-}
-.mockup-letter-card:after{
-  border-color:rgba(190,139,62,.10);
-}
-.mockup-letter-card svg{color:#bc7b23}
-.mockup-how{
-  background:#fff8ee;
-  border-bottom:1px solid rgba(194,146,66,.14);
-}
-.mockup-step-icon{
-  background:#f5dfd4;
-  color:#b65d43;
-  border:1px solid rgba(198,148,66,.18);
-  border-radius:50%;
-}
-.mockup-how-grid b{
-  background:linear-gradient(180deg,#d3a64f,#ba7f24);
-}
-.mockup-community{
-  background:#f1c7b7;
-  border-top:8px solid #fff5e7;
-  border-bottom:8px solid #fff5e7;
-}
-.mockup-community:before,
-.mockup-community:after{
-  color:#b77e27;
-  opacity:.26;
-  filter:none;
-}
-.mockup-community-button{
-  background:linear-gradient(180deg,#d5a44a,#b87920);
-  box-shadow:0 10px 22px rgba(111,74,24,.18);
-}
-
-/* SECTION ECRIRE : vraie continuation de la maquette */
-.write-section{
-  padding:88px clamp(24px,8vw,120px);
-  background:#fff8ee !important;
-  border-top:1px solid rgba(194,146,66,.16);
-}
-.write-card{
-  max-width:1120px;
-  margin:0 auto;
-  display:grid;
-  grid-template-columns:.82fr 1.18fr;
-  overflow:hidden;
-  border:1px solid rgba(192,142,61,.28);
-  border-radius:28px;
-  background:#fffaf2;
-  box-shadow:0 22px 55px rgba(87,54,28,.08);
-}
-.write-intro{
-  padding:54px 48px;
-  background:#f1c6b6;
-  border-right:1px solid rgba(177,120,63,.15);
-}
-.write-intro .script-label{
-  color:#a34f3c;
-  font-size:34px;
-}
-.write-intro h2{
-  margin:8px 0 18px;
-  color:#2d241f;
-  font-size:44px;
-}
-.write-intro p{
-  color:#5d493f;
-  line-height:1.7;
-}
-.letter-form{
-  padding:44px 46px;
-  background:#fffaf2;
-}
-.letter-form label{
-  display:grid;
-  gap:8px;
-  margin-bottom:18px;
-}
-.letter-form label>span{
-  color:#5a463b;
-  font-size:12px;
-  font-weight:600;
-}
-.letter-form input,
-.letter-form select,
-.letter-form textarea{
-  width:100%;
-  border:1px solid rgba(188,137,55,.30);
-  border-radius:14px;
-  background:#fffdf8;
-  padding:13px 14px;
-  color:#3f332c;
-  font:inherit;
-  outline:none;
-  box-shadow:none;
-}
-.letter-form input:focus,
-.letter-form select:focus,
-.letter-form textarea:focus{
-  border-color:#bd852b;
-  box-shadow:0 0 0 3px rgba(201,154,67,.12);
-}
-.form-privacy{
-  color:#7b675d;
-  background:#fbf0df;
-  border:1px solid rgba(190,141,61,.18);
-  border-radius:12px;
-}
-.form-submit{
-  border:0;
-  border-radius:999px;
-  background:linear-gradient(180deg,#bf684d,#a9513b);
-}
-
-/* COURRIERS PUBLICS : papier, dorure, pas de gros blocs modernes sans rapport */
-.public-letters{
-  padding:86px clamp(24px,8vw,120px) !important;
-  background:#fbf0e2 !important;
-  border-top:1px solid rgba(194,146,66,.14);
-}
-.public-letters-inner{max-width:1180px}
-.public-letters-heading .script-label{
-  color:#a85640;
-  font-size:31px;
-}
-.public-letters-heading h2{
-  color:#2d241f;
-  font-size:46px;
-}
-.public-letters-intro svg{color:#b97f26}
-.public-letters-toolbar{
-  border-top-color:rgba(190,141,61,.23);
-}
-.public-filter{
-  border-color:rgba(190,141,61,.26);
-  background:#fff9ef;
-  color:#6b5346;
-}
-.public-filter.is-active{
-  background:linear-gradient(180deg,#d4a148,#ba7d21);
-  border-color:#ba7d21;
-  box-shadow:0 8px 18px rgba(117,75,25,.14);
-}
-.public-letter-card{
-  border:1px solid rgba(190,141,61,.26);
-  border-radius:8px;
+/* FEATURED */
+.cdc-featured{padding:30px clamp(45px,5.1vw,54px) 38px;background:#fbf0e1}
+.cdc-letter-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.cdc-letter-card{
+  min-height:190px;padding:25px 28px 21px;position:relative;
   background:
-    linear-gradient(rgba(255,250,240,.98),rgba(255,248,235,.98)),
-    repeating-linear-gradient(0deg,transparent 0 7px,rgba(126,94,59,.025) 7px 8px);
-  box-shadow:0 12px 28px rgba(89,58,32,.07);
+    linear-gradient(rgba(255,250,240,.98),rgba(255,248,236,.98)),
+    repeating-linear-gradient(0deg,transparent 0 7px,rgba(121,91,62,.025) 7px 8px);
+  border:1px solid rgba(176,124,55,.24);box-shadow:0 12px 26px rgba(91,56,30,.075)
 }
-.public-letter-card:before{
-  display:none;
+.cdc-letter-card:after{content:"";position:absolute;inset:8px;border:1px solid rgba(182,133,62,.09);pointer-events:none}
+.cdc-letter-card>span{display:inline-block;padding:5px 13px;border-radius:999px;background:#e9c8b8;color:#975947;font-size:10px}
+.cdc-letter-card:nth-child(2)>span{background:#d7dbc5;color:#6d7353}
+.cdc-letter-card p{margin:18px 0 13px;color:#493b34;font:500 16px/1.45 'Bodoni Moda',serif}
+.cdc-letter-card svg{display:block;margin:auto;color:#b87826}
+
+/* HOW */
+.cdc-how{padding:32px clamp(45px,5.1vw,54px) 50px;background:#fff8ee}
+.cdc-how .cdc-title-row h2 em{display:inline;margin-left:8px}
+.cdc-how-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+.cdc-how-grid article{text-align:center;position:relative}
+.cdc-how-grid article>div{
+  width:72px;height:72px;margin:0 auto 10px;display:grid;place-items:center;
+  color:#b65d43;background:#f5dfd4;border:1px solid rgba(196,147,67,.17);border-radius:50%
 }
-.public-letter-card:hover{
-  box-shadow:0 16px 34px rgba(89,58,32,.10);
+.cdc-how-grid article>div svg{width:36px;height:36px;stroke-width:1.25}
+.cdc-how-grid b{
+  position:absolute;top:58px;left:calc(50% - 42px);
+  width:25px;height:25px;border-radius:50%;display:grid;place-items:center;
+  color:white;background:linear-gradient(180deg,#d2a34a,#b97d24);font-size:11px
 }
-.public-letter-avatar{
-  background:#f0d8cc;
-  color:#a35643;
-  border:1px solid rgba(190,141,61,.20);
+.cdc-how-grid h3{margin:0 0 8px;color:#3f332d;font:500 17px 'Bodoni Moda',serif}
+.cdc-how-grid p{margin:0;color:#66554b;font:400 13px/1.5 'Bodoni Moda',serif}
+
+/* COMMUNITY */
+.cdc-community{
+  min-height:208px;padding:34px clamp(65px,8vw,105px);
+  display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:52px;
+  background:#efc6b7;border-top:8px solid #fff4e5;border-bottom:8px solid #fff4e5
 }
-.public-letter-category{
-  background:#f4e7d6;
-  color:#86613f;
-}
-.public-letter-separator,
-.public-letter-footer{
-  border-color:rgba(190,141,61,.20);
-}
-.public-reply-button{color:#a65b42}
-.public-reply{
-  border-left-color:#c9983e;
-  background:#fff6e9;
-}
-.public-reply-admin{
-  border-left-color:#b65d43;
-  background:#fff3e9;
-}
-.public-reply-form{
-  background:#f8eadc;
-}
-.public-reply-form input,
-.public-reply-form textarea{
-  border-color:rgba(190,141,61,.30);
-  background:#fffaf1;
+.cdc-community>div:first-child{padding-right:45px;border-right:1px solid rgba(139,94,57,.3)}
+.cdc-community p{margin:0;color:#9f513d;font:400 42px/1.02 'Allura',cursive}
+.cdc-community p em{font-size:51px}
+.cdc-community>div:first-child span{display:block;color:var(--cdc-gold);text-align:right;font:28px 'Allura',cursive}
+.cdc-community blockquote{margin:0 0 22px;color:#4d3c34;font:500 18px/1.35 'Bodoni Moda',serif}
+.cdc-community-button{
+  width:max-content;min-height:48px;padding:0 28px;border-radius:999px;
+  display:flex;align-items:center;gap:9px;background:linear-gradient(180deg,#d5a348,#b97c23);
+  color:white;font-size:12px;box-shadow:0 9px 20px rgba(116,76,25,.17)
 }
 
-/* CTA FINAL */
-.closing{
-  padding:74px 24px 82px !important;
-  background:#2f251f !important;
-  color:#fff8ee;
-  text-align:center;
-  border-top:1px solid rgba(221,183,108,.25);
+/* WRITE */
+.cdc-write{padding:82px clamp(24px,8vw,120px);background:#fff8ee;border-top:1px solid rgba(194,146,66,.15)}
+.cdc-write-card{
+  max-width:1120px;margin:0 auto;display:grid;grid-template-columns:.82fr 1.18fr;overflow:hidden;
+  border:1px solid rgba(190,140,61,.26);border-radius:28px;background:#fffaf2;
+  box-shadow:0 22px 55px rgba(87,54,28,.075)
 }
-.closing .closing-mark{color:#d5a44a}
-.closing .script-label{color:#e4bd74}
-.closing h2{color:#fff8ee}
-.closing p{color:#dfd0c6}
-.closing .button-light{
-  background:linear-gradient(180deg,#d5a44a,#b87920);
-  color:white;
-  border:0;
+.cdc-write-intro{padding:54px 48px;background:#efc7b8;border-right:1px solid rgba(177,120,63,.15)}
+.cdc-write-intro .script-label{color:#a34f3c;font-size:34px}
+.cdc-write-intro h2{margin:8px 0 18px;color:#2d241f;font-size:44px}
+.cdc-write-intro p{color:#5d493f;line-height:1.7}
+.cdc-write .letter-form{padding:44px 46px;background:#fffaf2}
+.cdc-write .letter-form label{display:grid;gap:8px;margin-bottom:18px}
+.cdc-write .letter-form label>span{color:#5a463b;font-size:12px;font-weight:600}
+.cdc-write input,.cdc-write select,.cdc-write textarea{
+  width:100%;border:1px solid rgba(188,137,55,.30);border-radius:14px;background:#fffdf8;
+  padding:13px 14px;color:#3f332c;font:inherit;outline:none
 }
-.closing .button-outline{
-  border:1px solid rgba(226,191,120,.55);
-  color:#f7e7ca;
-  background:transparent;
+.cdc-write input:focus,.cdc-write select:focus,.cdc-write textarea:focus{border-color:#bd852b;box-shadow:0 0 0 3px rgba(201,154,67,.12)}
+.cdc-write .form-privacy{padding:12px 14px;color:#7b675d;background:#fbf0df;border:1px solid rgba(190,141,61,.18);border-radius:12px}
+
+/* PUBLIC LETTERS : harmonisation avec la maquette */
+.public-letters{padding:84px clamp(24px,8vw,120px)!important;background:#fbf0e1!important;border-top:1px solid rgba(194,146,66,.14)}
+.public-letters-heading .script-label{color:#a85640;font-size:31px}
+.public-letters-heading h2{color:#2d241f;font-size:46px}
+.public-letters-toolbar{border-top-color:rgba(190,141,61,.22)}
+.public-filter{border-color:rgba(190,141,61,.26);background:#fff9ef;color:#6b5346}
+.public-filter.is-active{background:linear-gradient(180deg,#d4a148,#ba7d21);border-color:#ba7d21;box-shadow:0 8px 18px rgba(117,75,25,.14)}
+.public-letter-card{
+  border:1px solid rgba(190,141,61,.25)!important;border-radius:8px!important;
+  background:#fffaf1!important;box-shadow:0 12px 28px rgba(89,58,32,.07)!important
 }
+.public-letter-card:before{display:none!important}
+.public-letter-avatar{background:#f0d8cc!important;color:#a35643!important;border:1px solid rgba(190,141,61,.2)}
+.public-letter-category{background:#f4e7d6!important;color:#86613f!important}
+.public-reply{border-left-color:#c9983e!important;background:#fff6e9!important}
+.public-reply-admin{border-left-color:#b65d43!important;background:#fff3e9!important}
+
+/* CLOSING */
+.cdc-closing{
+  padding:74px 24px 82px;background:#2f251f;color:#fff8ee;text-align:center;
+  border-top:1px solid rgba(221,183,108,.25)
+}
+.cdc-closing>span{color:#d5a44a;font-size:28px}
+.cdc-closing .script-label{color:#e4bd74}
+.cdc-closing h2{color:#fff8ee}
+.cdc-closing p{color:#dfd0c6}
+.cdc-closing .cdc-actions{justify-content:center}
+.cdc-button-gold{background:linear-gradient(180deg,#d5a44a,#b87920);color:white}
+.cdc-button-dark{border:1px solid rgba(226,191,120,.55);color:#f7e7ca;background:transparent}
 
 /* FOOTER */
-.site-footer{
-  background:#241d19 !important;
-  color:#cfbfb4;
-  border-top:1px solid rgba(215,171,87,.22);
+.site-footer{background:#241d19!important;color:#cfbfb4!important;border-top:1px solid rgba(215,171,87,.22)!important}
+.footer-brand strong{color:#f7ead9!important}
+.footer-brand span,.footer-brand i{color:#d2a14b!important}
+
+@media(max-width:1000px){
+  .site-header{padding:0 24px!important}
+  .main-nav{gap:16px!important}
+  .cdc-categories{grid-template-columns:repeat(6,1fr)}
 }
-.footer-brand strong{color:#f7ead9}
-.footer-brand span,
-.footer-brand i{color:#d2a14b}
-.footer-links a:hover{color:#e2b86b}
 
 @media(max-width:850px){
-  .write-card{grid-template-columns:1fr}
-  .write-intro{
-    border-right:0;
-    border-bottom:1px solid rgba(177,120,63,.15);
-  }
+  .site-header{height:66px!important}
+  .cdc-hero{grid-template-columns:1fr}
+  .cdc-hero-photo{min-height:420px}
+  .cdc-hero-copy{min-height:auto;padding:50px 28px;text-align:center;align-items:center}
+  .cdc-hero-copy h1 em{margin-left:0}
+  .cdc-heart-line{display:none}
+  .cdc-categories{grid-template-columns:repeat(3,1fr);padding:0 12px}
+  .cdc-letter-grid,.cdc-how-grid{grid-template-columns:1fr 1fr}
+  .cdc-community{grid-template-columns:1fr;text-align:center}
+  .cdc-community>div:first-child{border-right:0;border-bottom:1px solid rgba(139,94,57,.3);padding:0 0 24px}
+  .cdc-community-button{margin:auto}
+  .cdc-write-card{grid-template-columns:1fr}
+  .cdc-write-intro{border-right:0;border-bottom:1px solid rgba(177,120,63,.15)}
 }
 
 @media(max-width:560px){
-  .mockup-hero-photo{
-    background-position:center 46% !important;
-  }
-  .mockup-envelope{
-    left:24%;
-    bottom:28px;
-    width:205px;
-    height:118px;
-  }
-  .mockup-gold-pen{
-    left:15%;
-    bottom:16px;
-    width:170px;
-  }
-  .write-section,
-  .public-letters{
-    padding-left:18px !important;
-    padding-right:18px !important;
-  }
-  .write-intro,
-  .letter-form{
-    padding:30px 22px;
-  }
-  .write-intro h2,
-  .public-letters-heading h2{
-    font-size:36px;
-  }
+  .cdc-hero-photo{min-height:355px}
+  .cdc-hero-copy{padding:44px 20px 41px}
+  .cdc-hero-copy h1 span{font-size:48px}
+  .cdc-hero-copy h1 em{font-size:65px}
+  .cdc-actions{width:100%;flex-direction:column}
+  .cdc-button{width:100%}
+  .cdc-letter-grid,.cdc-how-grid{grid-template-columns:1fr}
+  .cdc-featured,.cdc-how{padding-left:18px;padding-right:18px}
+  .cdc-title-row{flex-wrap:wrap;align-items:flex-start}
+  .cdc-gold-line{min-width:70px}
+  .cdc-community{padding:39px 22px}
+  .cdc-write,.public-letters{padding-left:18px!important;padding-right:18px!important}
+  .cdc-write-intro,.cdc-write .letter-form{padding:30px 22px}
+  .cdc-write-intro h2,.public-letters-heading h2{font-size:36px}
 }
