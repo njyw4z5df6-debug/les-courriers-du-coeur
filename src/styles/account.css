@@ -20,3 +20,5 @@
 .user-pseudo-lock{display:flex;align-items:center;gap:8px;padding:12px 14px;border:1px solid #dbc8be;border-radius:8px;background:#f8eee8;color:#6e544a;font-size:12px}
 .nav-account{display:inline-flex;align-items:center;gap:6px}
 @media(max-width:640px){.account-shell{padding:28px 14px}.account-card{padding:30px 20px}.account-actions{display:grid}.account-actions .button{width:100%}}
+
+.account-form select,.account-form textarea{width:100%;border:1px solid #d9c6bc;background:#fffaf6;border-radius:8px;padding:13px 14px;font:inherit;color:#4f403a}.account-form textarea{resize:vertical;line-height:1.65}.write-card{max-width:680px}
