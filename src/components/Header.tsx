@@ -13,9 +13,12 @@ export function Header() {
 
   return (
     <header className="site-header">
-      <a className="brand" href="/#accueil" aria-label="Les Courriers du Cœur, accueil">
-        <span className="brand-mark" aria-hidden="true"><span>♡</span></span>
-        <span>Les Courriers<br /><i>du Cœur</i></span>
+      <a className="brand brand-luxe" href="/#accueil" aria-label="Les Courriers du Cœur, accueil">
+        <span className="brand-seal" aria-hidden="true">
+          <span className="brand-envelope">⌁</span>
+          <span className="brand-wax">♡</span>
+        </span>
+        <span className="brand-words"><strong>LES COURRIERS</strong><i>du Cœur</i></span>
       </a>
       <button className="menu-button" type="button" aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'} aria-expanded={open} onClick={() => setOpen(!open)}>
         {open ? <X /> : <Menu />}
