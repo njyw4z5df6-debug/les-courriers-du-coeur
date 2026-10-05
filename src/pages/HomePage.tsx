@@ -13,7 +13,7 @@ export function HomePage() {
           <div className="cdc-heart-line" aria-hidden="true">♡</div>
           <p className="cdc-hero-text">Un espace bienveillant pour déposer,<br />lire, partager et se sentir moins seul(e).<br />Parce que certaines histoires méritent<br />d’être entendues.</p>
           <div className="cdc-actions">
-            <a className="cdc-button cdc-button-primary" href="/#formulaire-courrier"><PenLine size={17} /> Écrire mon courrier</a>
+            <a className="cdc-button cdc-button-primary" href="/ecrire"><PenLine size={17} /> Écrire mon courrier</a>
             <a className="cdc-button cdc-button-secondary" href="/#courriers">Lire les courriers</a>
           </div>
         </div>
@@ -21,18 +21,18 @@ export function HomePage() {
 
       <section className="cdc-categories" id="categories">
         {categories.map((category) => (
-          <a href={`/#courriers?categorie=${encodeURIComponent(category.name)}`} key={category.name}>
+          <a href={`/?categorie=${encodeURIComponent(category.name)}#tous-les-courriers`} key={category.name}>
             <span>{category.symbol}</span><strong>{category.name}</strong>
           </a>
         ))}
         <a className="cdc-categories-more" href="/#categories">Voir toutes<br />les catégories <ArrowRight size={15} /></a>
       </section>
 
-      <section className="cdc-featured" id="courriers">
+      <section className="cdc-featured" id="courriers-du-moment">
         <div className="cdc-title-row">
           <h2>Quelques courriers <em>du moment</em></h2>
           <span className="cdc-gold-line">♡</span>
-          <a href="/#courriers">Lire tous les courriers <ArrowRight size={15} /></a>
+          <a href="/#tous-les-courriers">Lire tous les courriers <ArrowRight size={15} /></a>
         </div>
         <div className="cdc-letter-grid">
           <article className="cdc-letter-card"><span>Parentalité à distance</span><p>« Chaque soir, je ferme les yeux en espérant les revoir bientôt… mais le silence est toujours là. »</p><Heart size={22} strokeWidth={1.4} /></article>
