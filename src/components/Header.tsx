@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 const links = [
   ['Accueil', '/#accueil'],
-  ['Lire les courriers', '/#courriers'],
+  ['Lire les courriers', '/#tous-les-courriers'],
   ['Les catégories', '/#categories'],
   ['Notre histoire', '/#histoire'],
 ]
@@ -23,7 +23,7 @@ export function Header() {
       <nav className={open ? 'main-nav is-open' : 'main-nav'} aria-label="Navigation principale">
         {links.map(([label, href]) => <a href={href} key={href} onClick={() => setOpen(false)}>{label}</a>)}
         <a href="/compte" onClick={() => setOpen(false)}><UserRound size={15} /> Mon compte</a>
-        <a className="nav-write" href="/#formulaire-courrier" onClick={() => setOpen(false)}><PenLine size={16} /> Écrire mon courrier</a>
+        <a className="nav-write" href="/ecrire" onClick={() => setOpen(false)}><PenLine size={16} /> Écrire mon courrier</a>
       </nav>
     </header>
   )
