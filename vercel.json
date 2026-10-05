@@ -1,6 +1,7 @@
 {
   "rewrites": [
     { "source": "/moderation", "destination": "/index.html" },
-    { "source": "/compte", "destination": "/index.html" }
+    { "source": "/compte", "destination": "/index.html" },
+    { "source": "/ecrire", "destination": "/index.html" }
   ]
 }
