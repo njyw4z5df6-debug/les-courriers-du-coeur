@@ -317,3 +317,39 @@
 .footer-brand strong{color:#382c26!important}
 .footer-brand span,.footer-brand i{color:#b77828!important}
 .footer-links a{color:#745e52!important}
+
+/* Navigation/lecture : correction du positionnement et finition des courriers */
+#categories,#histoire,#tous-les-courriers{scroll-margin-top:96px}
+.public-letters-inner{max-width:1180px;margin:0 auto}
+.public-letters-heading{align-items:center;margin-bottom:28px}
+.public-letters-intro{display:flex;align-items:flex-start;gap:10px;max-width:430px;color:#725e52;font-size:12px;line-height:1.6}
+.public-letters-intro p{margin:0}
+.public-letters-toolbar{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:18px 0;border-top:1px solid rgba(190,141,61,.22);border-bottom:1px solid rgba(190,141,61,.15);margin-bottom:24px}
+.public-letters-filters{display:flex;flex-wrap:wrap;gap:8px}
+.public-filter{appearance:none;border:1px solid rgba(190,141,61,.26);border-radius:999px;padding:8px 13px;background:#fff9ef;color:#6b5346;font:600 11px 'Manrope',sans-serif;cursor:pointer}
+.public-filter.is-active{color:#fff!important}
+.public-letters-count{font:600 11px 'Manrope',sans-serif;color:#9a7250;white-space:nowrap}
+.public-letters-grid{display:grid;gap:20px}
+.public-letter-card{padding:26px 28px!important;overflow:hidden}
+.public-letter-top{display:flex;align-items:center;justify-content:space-between;gap:18px}
+.public-letter-author{display:flex;align-items:center;gap:12px}
+.public-letter-avatar{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font:600 17px 'Bodoni Moda',serif;flex:0 0 auto}
+.public-letter-author>div{display:grid;gap:2px}
+.public-letter-author strong{font:600 15px 'Bodoni Moda',serif;color:#44362f}
+.public-letter-author time,.public-reply-meta time{font-size:10px;color:#907c70}
+.public-letter-category{display:inline-flex;align-items:center;border-radius:999px;padding:7px 12px;font-size:10px;font-weight:600}
+.public-letter-separator{height:1px;background:rgba(190,141,61,.18);margin:19px 0}
+.public-letter-message{margin:0;color:#4e4038;font:500 16px/1.65 'Bodoni Moda',serif;white-space:pre-wrap}
+.public-letter-footer{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:22px;padding-top:15px;border-top:1px solid rgba(190,141,61,.12);font-size:11px;color:#806b60}
+.public-letter-footer>span{display:flex;align-items:center;gap:6px}
+.public-reply-button{border:0;background:transparent;color:#a35643;font:600 11px 'Manrope',sans-serif;cursor:pointer;padding:6px 0;border-bottom:1px solid rgba(163,86,67,.28)}
+.public-replies{display:grid;gap:10px;margin-top:16px}
+.public-reply{padding:14px 16px;border-left:3px solid;border-radius:0 8px 8px 0}
+.public-reply-meta{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:6px;font-size:11px}
+.public-reply p{margin:0;line-height:1.55;font-size:12px}
+.public-reply-form{margin-top:18px;padding:18px;background:#fff7eb;border:1px solid rgba(190,141,61,.18);border-radius:10px}
+.public-reply-form label{display:grid;gap:6px;margin:10px 0;font-size:11px;font-weight:600}
+.public-reply-form input,.public-reply-form textarea{width:100%;border:1px solid #ddcbbb;border-radius:8px;padding:11px;background:#fffdf9;font:inherit}
+.public-reply-form-title{font:600 16px 'Bodoni Moda',serif;margin:0 0 10px}
+.public-letters-empty{max-width:720px;margin:20px auto;padding:28px;text-align:center;display:grid;justify-items:center;gap:8px;color:#78645a}
+@media(max-width:700px){.public-letter-top,.public-letter-footer,.public-letters-toolbar{align-items:flex-start;flex-direction:column}.public-letter-card{padding:20px!important}.public-letters-heading{text-align:left}.public-letters-intro{margin-top:16px}}
