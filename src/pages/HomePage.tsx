@@ -1,59 +1,7 @@
-import { useEffect, useState } from 'react'
-import type { FormEvent } from 'react'
 import { ArrowRight, BookOpen, Feather, Heart, MessageCircle, PenLine, UsersRound } from 'lucide-react'
 import { categories } from '../data/categories'
-import { PublicLetters } from '../components/PublicLetters'
-import '../styles/publicLetters.css'
-import { getUserSession } from '../lib/userAuth'
 
 export function HomePage() {
-  return () => window.removeEventListener('cdc-auth-changed', sync)
-  }, [])
-
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    if (!session) {
-      window.location.href = '/compte'
-      return
-    }
-
-    setStatus('sending')
-    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-    const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
-
-    if (!supabaseUrl || !supabaseKey) {
-      setStatus('error')
-      return
-    }
-
-    try {
-      const response = await fetch(`${supabaseUrl}/rest/v1/courriers`, {
-        method: 'POST',
-        headers: {
-          apikey: supabaseKey,
-          Authorization: `Bearer ${session.accessToken}`,
-          'Content-Type': 'application/json',
-          Prefer: 'return=minimal',
-        },
-        body: JSON.stringify({
-          pseudo: pseudo.trim(),
-          categorie,
-          message: message.trim(),
-          valide: false,
-        }),
-      })
-
-      if (!response.ok) throw new Error('Envoi refusé')
-
-      setPseudo(session.pseudo)
-      setCategorie('')
-      setMessage('')
-      setStatus('success')
-    } catch {
-      setStatus('error')
-    }
-  }
-
   return (
     <main id="accueil" className="cdc-home">
       <section className="cdc-hero">
@@ -72,46 +20,28 @@ export function HomePage() {
 
       <section className="cdc-categories" id="categories">
         {categories.map((category) => (
-          <a href="/compte" key={category.name} onClick={() => setCategorie(category.name)}>
-            <span>{category.symbol}</span>
-            <strong>{category.name}</strong>
+          <a href="/compte" key={category.name}>
+            <span>{category.symbol}</span><strong>{category.name}</strong>
           </a>
         ))}
         <a className="cdc-categories-more" href="/compte">Voir toutes<br />les catégories <ArrowRight size={15} /></a>
       </section>
 
-      <section className="cdc-featured">
+      <section className="cdc-featured" id="courriers">
         <div className="cdc-title-row">
           <h2>Quelques courriers <em>du moment</em></h2>
           <span className="cdc-gold-line">♡</span>
           <a href="/#courriers">Lire tous les courriers <ArrowRight size={15} /></a>
         </div>
-
         <div className="cdc-letter-grid">
-          <article className="cdc-letter-card">
-            <span>Parentalité à distance</span>
-            <p>« Chaque soir, je ferme les yeux en espérant les revoir bientôt… mais le silence est toujours là. »</p>
-            <Heart size={22} strokeWidth={1.4} />
-          </article>
-          <article className="cdc-letter-card">
-            <span>Anxiété / Dépression</span>
-            <p>« Je me sens perdue, mais vos mots m’aident à reprendre souffle. »</p>
-            <Heart size={22} strokeWidth={1.4} />
-          </article>
-          <article className="cdc-letter-card">
-            <span>Projets de vie</span>
-            <p>« Réinventer ma vie après la tempête… c’est possible. »</p>
-            <Heart size={22} strokeWidth={1.4} />
-          </article>
+          <article className="cdc-letter-card"><span>Parentalité à distance</span><p>« Chaque soir, je ferme les yeux en espérant les revoir bientôt… mais le silence est toujours là. »</p><Heart size={22} strokeWidth={1.4} /></article>
+          <article className="cdc-letter-card"><span>Anxiété / Dépression</span><p>« Je me sens perdue, mais vos mots m’aident à reprendre souffle. »</p><Heart size={22} strokeWidth={1.4} /></article>
+          <article className="cdc-letter-card"><span>Projets de vie</span><p>« Réinventer ma vie après la tempête… c’est possible. »</p><Heart size={22} strokeWidth={1.4} /></article>
         </div>
       </section>
 
       <section className="cdc-how" id="histoire">
-        <div className="cdc-title-row">
-          <h2>Comment ça <em>fonctionne ?</em></h2>
-          <span className="cdc-gold-line">♡</span>
-        </div>
-
+        <div className="cdc-title-row"><h2>Comment ça <em>fonctionne ?</em></h2><span className="cdc-gold-line">♡</span></div>
         <div className="cdc-how-grid">
           <article><div><PenLine /></div><b>1</b><h3>J’écris</h3><p>Je partage mon histoire<br />en tout anonymat.</p></article>
           <article><div><BookOpen /></div><b>2</b><h3>Je lis</h3><p>Je découvre des témoignages<br />qui me ressemblent.</p></article>
@@ -121,16 +51,9 @@ export function HomePage() {
       </section>
 
       <section className="cdc-community">
-        <div>
-          <p>Parce que<br /><em>vos mots comptent</em></p>
-          <span>♡</span>
-        </div>
-        <div>
-          <blockquote>« Ici, chaque histoire est une lumière<br />pour quelqu’un d’autre. »</blockquote>
-          <a className="cdc-community-button" href="/compte"><UsersRound size={18} /> Rejoindre la communauté</a>
-        </div>
+        <div><p>Parce que<br /><em>vos mots comptent</em></p><span>♡</span></div>
+        <div><blockquote>« Ici, chaque histoire est une lumière<br />pour quelqu’un d’autre. »</blockquote><a className="cdc-community-button" href="/compte"><UsersRound size={18} /> Rejoindre la communauté</a></div>
       </section>
-
     </main>
   )
 }
