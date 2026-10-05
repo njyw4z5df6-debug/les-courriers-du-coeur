@@ -1,26 +1,13 @@
 import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
-import { ArrowRight, BookOpen, Feather, Heart, LockKeyhole, MessageCircle, PenLine, UsersRound } from 'lucide-react'
+import { ArrowRight, BookOpen, Feather, Heart, MessageCircle, PenLine, UsersRound } from 'lucide-react'
 import { categories } from '../data/categories'
 import { PublicLetters } from '../components/PublicLetters'
 import '../styles/publicLetters.css'
 import { getUserSession } from '../lib/userAuth'
 
 export function HomePage() {
-  const [session, setSession] = useState(getUserSession())
-  const [pseudo, setPseudo] = useState(getUserSession()?.pseudo || '')
-  const [categorie, setCategorie] = useState('')
-  const [message, setMessage] = useState('')
-  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
-
-  useEffect(() => {
-    const sync = () => {
-      const next = getUserSession()
-      setSession(next)
-      setPseudo(next?.pseudo || '')
-    }
-    window.addEventListener('cdc-auth-changed', sync)
-    return () => window.removeEventListener('cdc-auth-changed', sync)
+  return () => window.removeEventListener('cdc-auth-changed', sync)
   }, [])
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -77,27 +64,27 @@ export function HomePage() {
           <div className="cdc-heart-line" aria-hidden="true">♡</div>
           <p className="cdc-hero-text">Un espace bienveillant pour déposer,<br />lire, partager et se sentir moins seul(e).<br />Parce que certaines histoires méritent<br />d’être entendues.</p>
           <div className="cdc-actions">
-            <a className="cdc-button cdc-button-primary" href="#formulaire-courrier"><PenLine size={17} /> Écrire mon courrier</a>
-            <a className="cdc-button cdc-button-secondary" href="#courriers">Lire les courriers</a>
+            <a className="cdc-button cdc-button-primary" href="/compte"><PenLine size={17} /> Écrire mon courrier</a>
+            <a className="cdc-button cdc-button-secondary" href="/#courriers">Lire les courriers</a>
           </div>
         </div>
       </section>
 
       <section className="cdc-categories" id="categories">
         {categories.map((category) => (
-          <a href="#formulaire-courrier" key={category.name} onClick={() => setCategorie(category.name)}>
+          <a href="/compte" key={category.name} onClick={() => setCategorie(category.name)}>
             <span>{category.symbol}</span>
             <strong>{category.name}</strong>
           </a>
         ))}
-        <a className="cdc-categories-more" href="#formulaire-courrier">Voir toutes<br />les catégories <ArrowRight size={15} /></a>
+        <a className="cdc-categories-more" href="/compte">Voir toutes<br />les catégories <ArrowRight size={15} /></a>
       </section>
 
       <section className="cdc-featured">
         <div className="cdc-title-row">
           <h2>Quelques courriers <em>du moment</em></h2>
           <span className="cdc-gold-line">♡</span>
-          <a href="#courriers">Lire tous les courriers <ArrowRight size={15} /></a>
+          <a href="/#courriers">Lire tous les courriers <ArrowRight size={15} /></a>
         </div>
 
         <div className="cdc-letter-grid">
@@ -144,75 +131,6 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="cdc-write" id="formulaire-courrier">
-        <div className="cdc-write-card">
-          <div className="cdc-write-intro">
-            <p className="script-label">Votre espace d’écriture</p>
-            <h2>Déposer un courrier</h2>
-            <p>Votre message arrive dans un espace privé de modération. Il n’est jamais publié automatiquement.</p>
-          </div>
-
-          {!session ? (
-            <div className="letter-form">
-              <p className="form-privacy"><LockKeyhole size={15} /> Créez votre compte une seule fois : votre pseudonyme sera ensuite repris automatiquement.</p>
-              <a className="cdc-button cdc-button-primary form-submit" href="/compte">Créer mon compte ou me connecter</a>
-            </div>
-          ) : (
-            <form className="letter-form" onSubmit={handleSubmit}>
-              <label>
-                <span>Votre pseudonyme</span>
-                <input type="text" value={pseudo} readOnly maxLength={60} required />
-                <small>Ce pseudonyme est lié à votre compte.</small>
-              </label>
-
-              <label>
-                <span>Catégorie</span>
-                <select value={categorie} onChange={(event) => setCategorie(event.target.value)} required>
-                  <option value="">Choisir une catégorie</option>
-                  {categories.map((category) => (
-                    <option value={category.name} key={category.name}>{category.name}</option>
-                  ))}
-                </select>
-              </label>
-
-              <label>
-                <span>Votre courrier</span>
-                <textarea
-                  value={message}
-                  onChange={(event) => setMessage(event.target.value)}
-                  placeholder="Écrivez ici, simplement avec vos mots…"
-                  rows={10}
-                  maxLength={8000}
-                  required
-                />
-              </label>
-
-              <p className="form-privacy"><LockKeyhole size={15} /> Votre courrier reste privé jusqu’à validation humaine.</p>
-
-              <button className="cdc-button cdc-button-primary form-submit" type="submit" disabled={status === 'sending'}>
-                <PenLine size={18} />
-                {status === 'sending' ? 'Envoi en cours…' : 'Envoyer mon courrier'}
-              </button>
-
-              {status === 'success' && <p className="form-status form-success">💌 Votre courrier a bien été reçu. Merci pour votre confiance.</p>}
-              {status === 'error' && <p className="form-status form-error">L’envoi n’a pas fonctionné. Réessayez dans un instant.</p>}
-            </form>
-          )}
-        </div>
-      </section>
-
-      <PublicLetters />
-
-      <section className="cdc-closing">
-        <span>♡</span>
-        <p className="script-label">Une lettre peut tout changer</p>
-        <h2>Prêt·e à poser vos mots ?</h2>
-        <p>Vous pouvez commencer doucement. Nous serons là pour vous lire.</p>
-        <div className="cdc-actions">
-          <a className="cdc-button cdc-button-gold" href="#formulaire-courrier"><PenLine size={19} /> Écrire mon courrier</a>
-          <a className="cdc-button cdc-button-dark" href="#courriers"><BookOpen size={19} /> Lire les courriers</a>
-        </div>
-      </section>
     </main>
   )
 }
