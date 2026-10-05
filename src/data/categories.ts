@@ -7,12 +7,10 @@ export type Category = {
 export const categories: Category[] = [
   { name: 'Addictions', symbol: '♡', tone: 'rose' },
   { name: 'Parentalité à distance', symbol: '❀', tone: 'rose' },
-  { name: 'Deuil ambigu', symbol: '☼', tone: 'sand' },
+  { name: 'Deuil', symbol: '☼', tone: 'sand' },
   { name: 'Violences', symbol: '☾', tone: 'clay' },
   { name: 'Anxiété / Dépression', symbol: '♧', tone: 'sage' },
-  { name: 'Burn-out', symbol: '⌒', tone: 'sand' },
-  { name: 'Séparation conjugale', symbol: '♢', tone: 'sage' },
-  { name: 'Travail', symbol: '✦', tone: 'clay' },
-  { name: 'Projets de vie', symbol: '◎', tone: 'sand' },
-  { name: 'Expatriation', symbol: '△', tone: 'clay' },
+  { name: 'Travail / Burn-out', symbol: '✦', tone: 'clay' },
+  { name: 'Projets de vie (expatriation)', symbol: '◎', tone: 'sand' },
+  { name: 'Conflits familiaux / Séparation conjugale', symbol: '♢', tone: 'sage' },
 ]
