@@ -5,7 +5,7 @@ export function HomePage() {
   return (
     <main id="accueil" className="cdc-home">
       <section className="cdc-hero">
-        <div className="cdc-hero-photo" aria-hidden="true" />
+        <div className="cdc-hero-photo" aria-hidden="true"><img src="/hero-site.jpg?v=4" alt="" /></div>
         <div className="cdc-hero-copy">
           <p className="cdc-eyebrow">DES MOTS PARTAGÉS<br />AVEC CONFIANCE</p>
           <h1><span>Les Courriers</span><em>du Cœur</em></h1>
