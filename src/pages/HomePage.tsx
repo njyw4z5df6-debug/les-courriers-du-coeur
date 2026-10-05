@@ -1,5 +1,6 @@
 import { ArrowRight, BookOpen, Feather, Heart, MessageCircle, PenLine, UsersRound } from 'lucide-react'
 import { categories } from '../data/categories'
+import { PublicLetters } from '../components/PublicLetters'
 
 export function HomePage() {
   return (
@@ -12,7 +13,7 @@ export function HomePage() {
           <div className="cdc-heart-line" aria-hidden="true">♡</div>
           <p className="cdc-hero-text">Un espace bienveillant pour déposer,<br />lire, partager et se sentir moins seul(e).<br />Parce que certaines histoires méritent<br />d’être entendues.</p>
           <div className="cdc-actions">
-            <a className="cdc-button cdc-button-primary" href="/compte"><PenLine size={17} /> Écrire mon courrier</a>
+            <a className="cdc-button cdc-button-primary" href="/#formulaire-courrier"><PenLine size={17} /> Écrire mon courrier</a>
             <a className="cdc-button cdc-button-secondary" href="/#courriers">Lire les courriers</a>
           </div>
         </div>
@@ -20,11 +21,11 @@ export function HomePage() {
 
       <section className="cdc-categories" id="categories">
         {categories.map((category) => (
-          <a href="/compte" key={category.name}>
+          <a href={`/#courriers?categorie=${encodeURIComponent(category.name)}`} key={category.name}>
             <span>{category.symbol}</span><strong>{category.name}</strong>
           </a>
         ))}
-        <a className="cdc-categories-more" href="/compte">Voir toutes<br />les catégories <ArrowRight size={15} /></a>
+        <a className="cdc-categories-more" href="/#categories">Voir toutes<br />les catégories <ArrowRight size={15} /></a>
       </section>
 
       <section className="cdc-featured" id="courriers">
@@ -49,6 +50,8 @@ export function HomePage() {
           <article><div><Feather /></div><b>4</b><h3>Je me sens moins seul(e)</h3><p>Un espace d’écoute,<br />sans jugement.</p></article>
         </div>
       </section>
+
+      <PublicLetters />
 
       <section className="cdc-community">
         <div><p>Parce que<br /><em>vos mots comptent</em></p><span>♡</span></div>
