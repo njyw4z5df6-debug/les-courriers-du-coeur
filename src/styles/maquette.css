@@ -402,3 +402,364 @@
     padding:39px 22px;
   }
 }
+
+
+/* === Refonte clean + doree, sans flou - 05/10/2026 === */
+
+/* HERO : vraie image HD, aucun voile floute, aucune barre de transition */
+.mockup-hero-photo{
+  background-image:url("https://images.pexels.com/photos/35657830/pexels-photo-35657830.jpeg?auto=compress&cs=tinysrgb&w=2400") !important;
+  background-size:cover !important;
+  background-position:center 46% !important;
+  background-repeat:no-repeat !important;
+  filter:none !important;
+}
+.mockup-hero-photo:before{
+  content:"" !important;
+  display:block !important;
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,rgba(255,248,236,.01),rgba(169,102,51,.025)) !important;
+  filter:none !important;
+}
+.mockup-hero-photo:after{display:none !important}
+.mockup-envelope{
+  display:block !important;
+  left:29%;
+  bottom:44px;
+  width:258px;
+  height:149px;
+  transform:rotate(-2deg);
+  background:linear-gradient(145deg,#fffaf0,#f0dfc8);
+  border:1px solid rgba(161,111,51,.22);
+  box-shadow:0 18px 34px rgba(68,42,24,.16);
+}
+.mockup-envelope:before,
+.mockup-envelope:after{filter:none !important}
+.mockup-envelope-flap{filter:none !important}
+.mockup-seal{
+  background:linear-gradient(145deg,#efcc78,#a86c1f);
+  border-color:#f5d892;
+  box-shadow:0 4px 10px rgba(91,57,19,.18);
+}
+.mockup-gold-pen{
+  display:block !important;
+  left:19%;
+  bottom:26px;
+  width:228px;
+  height:6px;
+  background:linear-gradient(90deg,#8b5a18,#efcc78 37%,#b67524 72%,#8a5817);
+  box-shadow:0 3px 6px rgba(86,54,19,.12);
+  filter:none !important;
+}
+
+/* Dorure plus nette et plus elegante */
+.site-header,
+.mockup-category-ribbon,
+.mockup-featured,
+.mockup-how,
+.mockup-community,
+.write-section,
+.public-letters,
+.closing,
+.site-footer{
+  background-image:none;
+}
+.site-header{border-bottom-color:rgba(190,143,63,.26)}
+.brand-mark{
+  border-color:#c9973e;
+  box-shadow:inset 0 0 0 1px rgba(236,207,145,.35);
+}
+.nav-write{
+  background:linear-gradient(180deg,#bf684d,#a9513b);
+}
+.mockup-hero-copy{
+  background:#fff8ee;
+  border-left:1px solid rgba(199,151,66,.20);
+}
+.mockup-heart-line,
+.mockup-gold-swoop{
+  color:#bc8625;
+  border-color:#c99945;
+}
+.mockup-section-title>a,
+.mockup-all-categories{
+  color:#9f5a3f !important;
+}
+.mockup-category-ribbon{
+  background:#fff7ec;
+  border-color:rgba(194,146,66,.22);
+}
+.mockup-category-ribbon a{
+  border-right-color:rgba(194,146,66,.16);
+}
+.mockup-category-ribbon a span{
+  color:#bd7f22;
+}
+.mockup-featured{
+  background:#fbf0e2;
+  border-bottom:1px solid rgba(194,146,66,.14);
+}
+.mockup-letter-card{
+  background:#fffaf1;
+  border:1px solid rgba(189,137,54,.24);
+  box-shadow:0 10px 28px rgba(97,63,31,.07);
+}
+.mockup-letter-card:after{
+  border-color:rgba(190,139,62,.10);
+}
+.mockup-letter-card svg{color:#bc7b23}
+.mockup-how{
+  background:#fff8ee;
+  border-bottom:1px solid rgba(194,146,66,.14);
+}
+.mockup-step-icon{
+  background:#f5dfd4;
+  color:#b65d43;
+  border:1px solid rgba(198,148,66,.18);
+  border-radius:50%;
+}
+.mockup-how-grid b{
+  background:linear-gradient(180deg,#d3a64f,#ba7f24);
+}
+.mockup-community{
+  background:#f1c7b7;
+  border-top:8px solid #fff5e7;
+  border-bottom:8px solid #fff5e7;
+}
+.mockup-community:before,
+.mockup-community:after{
+  color:#b77e27;
+  opacity:.26;
+  filter:none;
+}
+.mockup-community-button{
+  background:linear-gradient(180deg,#d5a44a,#b87920);
+  box-shadow:0 10px 22px rgba(111,74,24,.18);
+}
+
+/* SECTION ECRIRE : vraie continuation de la maquette */
+.write-section{
+  padding:88px clamp(24px,8vw,120px);
+  background:#fff8ee !important;
+  border-top:1px solid rgba(194,146,66,.16);
+}
+.write-card{
+  max-width:1120px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:.82fr 1.18fr;
+  overflow:hidden;
+  border:1px solid rgba(192,142,61,.28);
+  border-radius:28px;
+  background:#fffaf2;
+  box-shadow:0 22px 55px rgba(87,54,28,.08);
+}
+.write-intro{
+  padding:54px 48px;
+  background:#f1c6b6;
+  border-right:1px solid rgba(177,120,63,.15);
+}
+.write-intro .script-label{
+  color:#a34f3c;
+  font-size:34px;
+}
+.write-intro h2{
+  margin:8px 0 18px;
+  color:#2d241f;
+  font-size:44px;
+}
+.write-intro p{
+  color:#5d493f;
+  line-height:1.7;
+}
+.letter-form{
+  padding:44px 46px;
+  background:#fffaf2;
+}
+.letter-form label{
+  display:grid;
+  gap:8px;
+  margin-bottom:18px;
+}
+.letter-form label>span{
+  color:#5a463b;
+  font-size:12px;
+  font-weight:600;
+}
+.letter-form input,
+.letter-form select,
+.letter-form textarea{
+  width:100%;
+  border:1px solid rgba(188,137,55,.30);
+  border-radius:14px;
+  background:#fffdf8;
+  padding:13px 14px;
+  color:#3f332c;
+  font:inherit;
+  outline:none;
+  box-shadow:none;
+}
+.letter-form input:focus,
+.letter-form select:focus,
+.letter-form textarea:focus{
+  border-color:#bd852b;
+  box-shadow:0 0 0 3px rgba(201,154,67,.12);
+}
+.form-privacy{
+  color:#7b675d;
+  background:#fbf0df;
+  border:1px solid rgba(190,141,61,.18);
+  border-radius:12px;
+}
+.form-submit{
+  border:0;
+  border-radius:999px;
+  background:linear-gradient(180deg,#bf684d,#a9513b);
+}
+
+/* COURRIERS PUBLICS : papier, dorure, pas de gros blocs modernes sans rapport */
+.public-letters{
+  padding:86px clamp(24px,8vw,120px) !important;
+  background:#fbf0e2 !important;
+  border-top:1px solid rgba(194,146,66,.14);
+}
+.public-letters-inner{max-width:1180px}
+.public-letters-heading .script-label{
+  color:#a85640;
+  font-size:31px;
+}
+.public-letters-heading h2{
+  color:#2d241f;
+  font-size:46px;
+}
+.public-letters-intro svg{color:#b97f26}
+.public-letters-toolbar{
+  border-top-color:rgba(190,141,61,.23);
+}
+.public-filter{
+  border-color:rgba(190,141,61,.26);
+  background:#fff9ef;
+  color:#6b5346;
+}
+.public-filter.is-active{
+  background:linear-gradient(180deg,#d4a148,#ba7d21);
+  border-color:#ba7d21;
+  box-shadow:0 8px 18px rgba(117,75,25,.14);
+}
+.public-letter-card{
+  border:1px solid rgba(190,141,61,.26);
+  border-radius:8px;
+  background:
+    linear-gradient(rgba(255,250,240,.98),rgba(255,248,235,.98)),
+    repeating-linear-gradient(0deg,transparent 0 7px,rgba(126,94,59,.025) 7px 8px);
+  box-shadow:0 12px 28px rgba(89,58,32,.07);
+}
+.public-letter-card:before{
+  display:none;
+}
+.public-letter-card:hover{
+  box-shadow:0 16px 34px rgba(89,58,32,.10);
+}
+.public-letter-avatar{
+  background:#f0d8cc;
+  color:#a35643;
+  border:1px solid rgba(190,141,61,.20);
+}
+.public-letter-category{
+  background:#f4e7d6;
+  color:#86613f;
+}
+.public-letter-separator,
+.public-letter-footer{
+  border-color:rgba(190,141,61,.20);
+}
+.public-reply-button{color:#a65b42}
+.public-reply{
+  border-left-color:#c9983e;
+  background:#fff6e9;
+}
+.public-reply-admin{
+  border-left-color:#b65d43;
+  background:#fff3e9;
+}
+.public-reply-form{
+  background:#f8eadc;
+}
+.public-reply-form input,
+.public-reply-form textarea{
+  border-color:rgba(190,141,61,.30);
+  background:#fffaf1;
+}
+
+/* CTA FINAL */
+.closing{
+  padding:74px 24px 82px !important;
+  background:#2f251f !important;
+  color:#fff8ee;
+  text-align:center;
+  border-top:1px solid rgba(221,183,108,.25);
+}
+.closing .closing-mark{color:#d5a44a}
+.closing .script-label{color:#e4bd74}
+.closing h2{color:#fff8ee}
+.closing p{color:#dfd0c6}
+.closing .button-light{
+  background:linear-gradient(180deg,#d5a44a,#b87920);
+  color:white;
+  border:0;
+}
+.closing .button-outline{
+  border:1px solid rgba(226,191,120,.55);
+  color:#f7e7ca;
+  background:transparent;
+}
+
+/* FOOTER */
+.site-footer{
+  background:#241d19 !important;
+  color:#cfbfb4;
+  border-top:1px solid rgba(215,171,87,.22);
+}
+.footer-brand strong{color:#f7ead9}
+.footer-brand span,
+.footer-brand i{color:#d2a14b}
+.footer-links a:hover{color:#e2b86b}
+
+@media(max-width:850px){
+  .write-card{grid-template-columns:1fr}
+  .write-intro{
+    border-right:0;
+    border-bottom:1px solid rgba(177,120,63,.15);
+  }
+}
+
+@media(max-width:560px){
+  .mockup-hero-photo{
+    background-position:center 46% !important;
+  }
+  .mockup-envelope{
+    left:24%;
+    bottom:28px;
+    width:205px;
+    height:118px;
+  }
+  .mockup-gold-pen{
+    left:15%;
+    bottom:16px;
+    width:170px;
+  }
+  .write-section,
+  .public-letters{
+    padding-left:18px !important;
+    padding-right:18px !important;
+  }
+  .write-intro,
+  .letter-form{
+    padding:30px 22px;
+  }
+  .write-intro h2,
+  .public-letters-heading h2{
+    font-size:36px;
+  }
+}
