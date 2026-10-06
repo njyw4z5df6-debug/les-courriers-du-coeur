@@ -722,3 +722,29 @@
 .letter-paywall span{font:400 11px/1.55 'Manrope',sans-serif;color:#7d6659}
 .letter-paywall a,.letter-paywall button{justify-self:start;border:0;background:transparent;padding:4px 0;color:#aa5f47;font:600 11px/1.2 'Manrope',sans-serif;text-decoration:none;border-bottom:1px solid rgba(170,95,71,.28);cursor:pointer}
 .letter-paywall-paid{background:linear-gradient(180deg,#f8ecdd,#f3e3d3)}
+
+/* Abonnements */
+.cdc-pricing{padding:70px clamp(20px,5vw,70px) 76px;background:linear-gradient(180deg,#fff8ef,#f8eee3);border-top:1px solid rgba(196,147,63,.14);border-bottom:1px solid rgba(196,147,63,.14)}
+.cdc-pricing-heading{max-width:760px;margin:0 auto 34px;text-align:center}
+.cdc-pricing-heading .script-label{font-size:18px!important;color:#b56c51!important;margin-bottom:6px!important}
+.cdc-pricing-heading h2{margin:0;color:#332821;font:500 clamp(34px,4vw,48px)/1.05 'Bodoni Moda',serif;letter-spacing:-.04em}
+.cdc-pricing-heading h2 em{font:400 clamp(42px,4.6vw,58px)/.95 'Allura',cursive;color:#b66249}
+.cdc-pricing-heading>p:last-child{max-width:620px;margin:16px auto 0;color:#756158;font:400 13px/1.7 'Manrope',sans-serif}
+.cdc-pricing-grid{max-width:900px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:stretch}
+.cdc-price-card{position:relative;padding:30px 28px 28px;border-radius:20px 4px 20px 4px;background:#fffdf8;border:1px solid rgba(190,141,61,.22);box-shadow:0 14px 34px rgba(83,57,38,.07)}
+.cdc-price-card-featured{background:linear-gradient(180deg,#fffaf0,#f6e7d8);border-color:rgba(190,141,61,.45);box-shadow:0 18px 40px rgba(83,57,38,.10)}
+.cdc-price-badge{position:absolute;top:-12px;right:20px;padding:7px 11px;border-radius:999px;background:#b76a4f;color:white;font:600 9px/1 'Manrope',sans-serif;letter-spacing:.05em;text-transform:uppercase}
+.cdc-price-kicker{display:block;color:#b1823e;font:600 10px/1.2 'Manrope',sans-serif;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
+.cdc-price-card h3{margin:0 0 12px;color:#3d3029;font:500 26px/1 'Bodoni Moda',serif}
+.cdc-price{display:flex;align-items:baseline;gap:8px;margin-bottom:12px}
+.cdc-price strong{font:500 40px/1 'Bodoni Moda',serif;color:#2f251f}
+.cdc-price span{font:500 11px 'Manrope',sans-serif;color:#8b7468}
+.cdc-price-card>p{color:#766157;font:400 12px/1.6 'Manrope',sans-serif;min-height:38px}
+.cdc-price-card ul{list-style:none;padding:0;margin:20px 0;display:grid;gap:10px}
+.cdc-price-card li{display:flex;align-items:center;gap:8px;color:#5f4d44;font:500 11px/1.35 'Manrope',sans-serif}
+.cdc-price-card li svg{color:#b38339;flex:0 0 auto}
+.cdc-price-card>a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border-radius:999px;background:#aa5f47;color:white;text-decoration:none;font:600 11px 'Manrope',sans-serif}
+.cdc-price-card-featured>a{background:linear-gradient(180deg,#c4933f,#a87327)}
+.cdc-pricing-note{text-align:center;margin:20px 0 0;color:#8a6f61;font:500 10.5px/1.5 'Manrope',sans-serif}
+#აბonnement,#abonnement{scroll-margin-top:96px}
+@media(max-width:700px){.cdc-pricing{padding:52px 16px 58px}.cdc-pricing-grid{grid-template-columns:1fr}.cdc-pricing-heading{margin-bottom:26px}.cdc-price-card{padding:26px 22px 24px}.cdc-price-card>p{min-height:0}}
