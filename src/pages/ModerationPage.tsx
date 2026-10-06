@@ -66,16 +66,36 @@ export function ModerationPage() {
     setStatus('')
     try {
       const headers = { apikey: supabaseKey, Authorization: `Bearer ${accessToken}` }
-      const [courriersResponse, reponsesResponse] = await Promise.all([
-        fetch(`${supabaseUrl}/rest/v1/courriers?select=id,created_at,pseudo,categorie,message,valide,statut&order=created_at.asc`, { headers }),
-        fetch(`${supabaseUrl}/rest/v1/reponses?select=id,courrier_id,created_at,pseudo,message,est_admin,statut&statut=eq.en_attente&order=created_at.asc`, { headers }),
-      ])
-      if (!courriersResponse.ok || !reponsesResponse.ok) throw new Error('Impossible de charger la modération.')
+
+      const courriersResponse = await fetch(
+        `${supabaseUrl}/rest/v1/courriers?select=id,created_at,pseudo,categorie,message,valide,statut&order=created_at.asc`,
+        { headers },
+      )
+      if (!courriersResponse.ok) {
+        const detail = await courriersResponse.text()
+        throw new Error(`Courriers : ${courriersResponse.status} ${detail}`)
+      }
       const allCourriers = await courriersResponse.json()
       setCourriers(allCourriers.filter((item: Courrier) => item.valide !== true && item.statut !== 'refuse'))
-      setReponses(await reponsesResponse.json())
+
+      const reponsesResponse = await fetch(
+        `${supabaseUrl}/rest/v1/reponses?select=id,courrier_id,created_at,pseudo,message,est_admin,statut&statut=eq.en_attente&order=created_at.asc`,
+        { headers },
+      )
+      if (reponsesResponse.ok) {
+        setReponses(await reponsesResponse.json())
+      } else {
+        setReponses([])
+      }
     } catch (error) {
-      setStatus(error instanceof Error ? error.message : 'Erreur de chargement.')
+      const message = error instanceof Error ? error.message : 'Erreur de chargement.'
+      if (/401|JWT|token|unauthorized/i.test(message)) {
+        localStorage.removeItem('cdc_admin_token')
+        setToken('')
+        setStatus('Votre session administrateur a expiré. Reconnectez-vous.')
+      } else {
+        setStatus('Impossible de charger les courriers à modérer.')
+      }
     } finally {
       setLoading(false)
     }
