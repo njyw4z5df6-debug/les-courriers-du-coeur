@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
 import { BookOpen, Feather, MessageCircle, Send } from 'lucide-react'
 import { getUserSession } from '../lib/userAuth'
+import { avatarSymbol } from '../lib/avatar'
 
 type PublicLetter = {
   id: number
@@ -9,6 +10,7 @@ type PublicLetter = {
   pseudo: string
   categorie: string
   message: string
+  avatar?: string
 }
 
 type PublicReply = {
@@ -18,6 +20,7 @@ type PublicReply = {
   pseudo: string
   message: string
   est_admin: boolean
+  avatar?: string
 }
 
 export function PublicLetters() {
@@ -51,10 +54,10 @@ export function PublicLetters() {
     }
 
     Promise.all([
-      fetch(url + '/rest/v1/courriers?select=id,created_at,pseudo,categorie,message&valide=eq.true&statut=eq.valide&order=created_at.desc', {
+      fetch(url + '/rest/v1/courriers?select=id,created_at,pseudo,categorie,message,avatar&valide=eq.true&statut=eq.valide&order=created_at.desc', {
         headers: { apikey: key, Authorization: 'Bearer ' + key },
       }),
-      fetch(url + '/rest/v1/reponses?select=id,courrier_id,created_at,pseudo,message,est_admin&statut=eq.valide&order=created_at.asc', {
+      fetch(url + '/rest/v1/reponses?select=id,courrier_id,created_at,pseudo,message,est_admin,avatar&statut=eq.valide&order=created_at.asc', {
         headers: { apikey: key, Authorization: 'Bearer ' + key },
       }),
     ])
@@ -111,6 +114,7 @@ export function PublicLetters() {
           message: replyMessage.trim(),
           statut: 'en_attente',
           est_admin: false,
+          avatar: session.avatar || 'fleur',
         }),
       })
       if (!response.ok) throw new Error()
@@ -166,7 +170,7 @@ export function PublicLetters() {
                 <article className="public-letter-card" key={letter.id}>
                   <div className="public-letter-top">
                     <div className="public-letter-author">
-                      <span className="public-letter-avatar">{letter.pseudo.slice(0, 1).toUpperCase()}</span>
+                      <span className="public-letter-avatar">{avatarSymbol(letter.avatar, letter.pseudo.slice(0, 1).toUpperCase())}</span>
                       <div>
                         <strong>{letter.pseudo}</strong>
                         <time>{new Date(letter.created_at).toLocaleDateString('fr-FR')}</time>
