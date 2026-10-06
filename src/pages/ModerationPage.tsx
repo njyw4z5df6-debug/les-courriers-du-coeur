@@ -67,7 +67,7 @@ export function ModerationPage() {
     try {
       const headers = { apikey: supabaseKey, Authorization: `Bearer ${accessToken}` }
       const [courriersResponse, reponsesResponse] = await Promise.all([
-        fetch(`${supabaseUrl}/rest/v1/courriers?select=id,created_at,pseudo,categorie,message,valide,statut&statut=eq.en_attente&order=created_at.asc`, { headers }),
+        fetch(`${supabaseUrl}/rest/v1/courriers?select=id,created_at,pseudo,categorie,message,valide,statut&valide=eq.false&order=created_at.asc`, { headers }),
         fetch(`${supabaseUrl}/rest/v1/reponses?select=id,courrier_id,created_at,pseudo,message,est_admin,statut&statut=eq.en_attente&order=created_at.asc`, { headers }),
       ])
       if (!courriersResponse.ok || !reponsesResponse.ok) throw new Error('Impossible de charger la modération.')
