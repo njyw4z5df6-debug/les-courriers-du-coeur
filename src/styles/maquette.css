@@ -711,3 +711,7 @@
     font-size:10px!important;
   }
 }
+
+/* Fiabilisation boutons hero mobile */
+.cdc-actions{position:relative!important;z-index:5!important;pointer-events:auto!important}
+.cdc-actions .cdc-button{position:relative!important;z-index:6!important;pointer-events:auto!important;cursor:pointer!important}
