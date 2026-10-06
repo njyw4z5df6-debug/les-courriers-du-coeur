@@ -180,9 +180,10 @@ export function PublicLetters() {
           <div className="public-letters-grid">
             {visibleLetters.map((letter) => {
               const letterReplies = replies.filter((reply) => reply.courrier_id === letter.id)
+              const isLaunchOffer = true
               const isFreeLetter = session && freeLetterId === letter.id
               const hasUsedFreeLetter = freeLetterId !== null
-              const canReadFull = Boolean(isFreeLetter)
+              const canReadFull = Boolean(session && isLaunchOffer) || Boolean(isFreeLetter)
               const previewLength = Math.max(120, Math.floor(letter.message.length / 3))
               const shownMessage = canReadFull ? letter.message : letter.message.slice(0, previewLength).trimEnd() + '…'
 
@@ -204,16 +205,16 @@ export function PublicLetters() {
                   {!session ? (
                     <div className="letter-paywall">
                       <strong>Connectez-vous pour lire les courriers</strong>
-                      <span>Votre compte vous permet de découvrir un premier courrier complet.</span>
+                      <span>Pendant l’offre de lancement, la création d’un compte vous donne accès à tous les courriers.</span>
                       <a href="/compte">Se connecter gratuitement</a>
                     </div>
-                  ) : !canReadFull && !hasUsedFreeLetter ? (
+                  ) : !isLaunchOffer && !canReadFull && !hasUsedFreeLetter ? (
                     <div className="letter-paywall">
                       <strong>Votre premier courrier est offert ♡</strong>
                       <span>Choisissez celui-ci pour le lire entièrement.</span>
                       <button type="button" onClick={() => unlockFreeLetter(letter.id)}>Lire ce courrier gratuitement</button>
                     </div>
-                  ) : !canReadFull ? (
+                  ) : !isLaunchOffer && !canReadFull ? (
                     <div className="letter-paywall letter-paywall-paid">
                       <strong>La suite est réservée aux abonnés</strong>
                       <span>Accès illimité à tous les courriers : 4,99 € / mois ou 45 € / an.</span>
