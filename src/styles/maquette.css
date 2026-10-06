@@ -510,3 +510,204 @@
 .avatar-option:hover{transform:translateY(-2px);box-shadow:0 7px 16px rgba(99,67,42,.10)}
 .avatar-option.is-selected{border:2px solid #c4933f;box-shadow:0 0 0 4px rgba(196,147,63,.12),0 7px 16px rgba(99,67,42,.09)}
 @media(max-width:600px){.avatar-options{grid-template-columns:repeat(4,1fr)}.avatar-picker-title{display:block}.avatar-picker-title small{display:block;margin-top:7px}}
+
+/* Lire les courriers - finition boheme premium 06/10/2026 */
+.public-letters{
+  padding-top:64px!important;
+  padding-bottom:86px!important;
+  background:
+    radial-gradient(circle at 12% 12%,rgba(196,147,63,.08),transparent 20%),
+    radial-gradient(circle at 88% 88%,rgba(181,101,75,.07),transparent 22%),
+    linear-gradient(180deg,#fbf6ee 0%,#f8f0e6 100%)!important;
+}
+.public-letters-inner{max-width:1080px!important}
+.public-letters-heading{
+  grid-template-columns:1fr minmax(260px,360px)!important;
+  gap:36px!important;
+  margin-bottom:30px!important;
+}
+.public-letters-heading .script-label{
+  font-size:17px!important;
+  color:#ad6c53!important;
+}
+.public-letters-heading h2{
+  font-size:clamp(34px,3.5vw,48px)!important;
+  letter-spacing:-.045em!important;
+}
+.public-letters-intro{
+  border-left:1px solid rgba(190,141,61,.55)!important;
+  background:transparent!important;
+  padding:8px 0 8px 16px!important;
+  font-size:11px!important;
+  color:#7b6a60!important;
+}
+.public-letters-toolbar{
+  padding:0 2px 18px!important;
+  margin-bottom:12px!important;
+}
+.public-filter{
+  border-radius:999px!important;
+  padding:7px 12px!important;
+  font-size:10px!important;
+  background:rgba(255,250,243,.55)!important;
+}
+.public-letters-grid{gap:24px!important}
+.public-letter-card{
+  position:relative;
+  padding:28px 30px 24px!important;
+  border-radius:18px 4px 18px 4px!important;
+  background:
+    linear-gradient(180deg,rgba(255,253,248,.98),rgba(255,250,243,.98))!important;
+  box-shadow:
+    0 16px 34px rgba(76,55,42,.075),
+    inset 0 0 0 1px rgba(199,151,73,.16)!important;
+  outline:0!important;
+  overflow:visible!important;
+}
+.public-letter-card:before{
+  content:"";
+  position:absolute;
+  left:18px;right:18px;top:10px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(199,151,73,.45),transparent);
+}
+.public-letter-top{
+  align-items:flex-start!important;
+  gap:14px!important;
+}
+.public-letter-author{gap:11px!important}
+.public-letter-avatar{
+  width:46px!important;height:46px!important;
+  background:linear-gradient(145deg,#f8eadc,#efe0cf)!important;
+  color:#a96049!important;
+  border:1px solid rgba(190,141,61,.26)!important;
+  box-shadow:0 4px 12px rgba(95,67,43,.07)!important;
+  font-size:19px!important;
+}
+.public-letter-author strong{
+  font-size:17px!important;
+  font-weight:500!important;
+  letter-spacing:-.01em;
+}
+.public-letter-author time{
+  margin-top:2px;
+  font-size:10px!important;
+  letter-spacing:.03em;
+}
+.public-letter-category{
+  padding:7px 11px!important;
+  font-size:10px!important;
+  border-radius:999px!important;
+  background:#f3e8d7!important;
+  color:#8c633d!important;
+}
+.public-letter-separator{
+  margin:18px 0 16px!important;
+  height:1px!important;
+  background:linear-gradient(90deg,rgba(196,147,63,.45),rgba(196,147,63,.08),transparent)!important;
+}
+.public-letter-message{
+  font-family:'Manrope',sans-serif!important;
+  font-size:14px!important;
+  line-height:1.72!important;
+  color:#4d413a!important;
+  letter-spacing:-.01em;
+}
+.public-letter-footer{
+  margin-top:19px!important;
+  padding-top:14px!important;
+  border-top:1px solid rgba(190,141,61,.14)!important;
+}
+.public-letter-footer>span{
+  color:#8a7468!important;
+  font-size:10px!important;
+}
+.public-reply-button{
+  position:relative;
+  padding:4px 22px 5px 0!important;
+  border-bottom:0!important;
+  color:#a45f49!important;
+  font-size:10.5px!important;
+  letter-spacing:.01em;
+}
+.public-reply-button:after{
+  content:"✦";
+  position:absolute;
+  right:0;top:3px;
+  color:#c3913e;
+  font-size:10px;
+}
+@media(max-width:700px){
+  .public-letters{
+    padding:42px 14px 58px!important;
+  }
+  .public-letters-inner{
+    padding:0!important;
+  }
+  .public-letters-heading{
+    padding:0 4px 20px!important;
+    margin-bottom:22px!important;
+  }
+  .public-letters-heading .script-label{
+    font-size:15px!important;
+    margin-bottom:5px!important;
+  }
+  .public-letters-heading h2{
+    font-size:34px!important;
+  }
+  .public-letters-intro{
+    margin-top:13px!important;
+    font-size:10.5px!important;
+  }
+  .public-letters-toolbar{
+    gap:10px!important;
+    padding-bottom:14px!important;
+  }
+  .public-letters-filters{
+    gap:6px!important;
+  }
+  .public-filter{
+    padding:6px 10px!important;
+    font-size:9.5px!important;
+  }
+  .public-letters-count{
+    font-size:9.5px!important;
+  }
+  .public-letters-grid{
+    gap:16px!important;
+  }
+  .public-letter-card{
+    padding:20px 18px 18px!important;
+    border-radius:15px 3px 15px 3px!important;
+  }
+  .public-letter-card:before{
+    left:14px;right:14px;top:8px;
+  }
+  .public-letter-top{
+    flex-direction:row!important;
+    justify-content:space-between!important;
+    align-items:flex-start!important;
+  }
+  .public-letter-avatar{
+    width:40px!important;height:40px!important;
+    font-size:17px!important;
+  }
+  .public-letter-author strong{
+    font-size:15px!important;
+  }
+  .public-letter-category{
+    padding:6px 9px!important;
+    font-size:9px!important;
+  }
+  .public-letter-message{
+    font-size:13px!important;
+    line-height:1.62!important;
+  }
+  .public-letter-footer{
+    flex-direction:row!important;
+    align-items:center!important;
+    justify-content:space-between!important;
+  }
+  .public-reply-button{
+    font-size:10px!important;
+  }
+}
