@@ -715,3 +715,10 @@
 /* Fiabilisation boutons hero mobile */
 .cdc-actions{position:relative!important;z-index:5!important;pointer-events:auto!important}
 .cdc-actions .cdc-button{position:relative!important;z-index:6!important;pointer-events:auto!important;cursor:pointer!important}
+
+/* Paywall lecture */
+.letter-paywall{margin-top:18px;padding:18px 18px 16px;border:1px solid rgba(190,141,61,.22);border-radius:14px;background:linear-gradient(180deg,#fff9ef,#f7eadc);display:grid;gap:7px}
+.letter-paywall strong{font:500 17px/1.2 'Bodoni Moda',serif;color:#4a372e}
+.letter-paywall span{font:400 11px/1.55 'Manrope',sans-serif;color:#7d6659}
+.letter-paywall a,.letter-paywall button{justify-self:start;border:0;background:transparent;padding:4px 0;color:#aa5f47;font:600 11px/1.2 'Manrope',sans-serif;text-decoration:none;border-bottom:1px solid rgba(170,95,71,.28);cursor:pointer}
+.letter-paywall-paid{background:linear-gradient(180deg,#f8ecdd,#f3e3d3)}
