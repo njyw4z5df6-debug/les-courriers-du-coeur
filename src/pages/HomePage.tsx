@@ -1,4 +1,4 @@
-import { ArrowRight, BookOpen, Feather, Heart, MessageCircle, PenLine, UsersRound } from 'lucide-react'
+import { ArrowRight, BookOpen, Check, Feather, Heart, MessageCircle, PenLine, UsersRound } from 'lucide-react'
 import { categories } from '../data/categories'
 import { PublicLetters } from '../components/PublicLetters'
 
@@ -49,6 +49,35 @@ export function HomePage() {
           <article><div><MessageCircle /></div><b>3</b><h3>Je réagis</h3><p>J’échange avec bienveillance<br />dans les commentaires.</p></article>
           <article><div><Feather /></div><b>4</b><h3>Je me sens moins seul(e)</h3><p>Un espace d’écoute,<br />sans jugement.</p></article>
         </div>
+      </section>
+
+
+      <section className="cdc-pricing" id="abonnement">
+        <div className="cdc-pricing-heading">
+          <p className="script-label">Lire sans limite</p>
+          <h2>Choisissez votre <em>abonnement</em></h2>
+          <p>Un premier courrier complet est offert avec votre compte. Ensuite, l’abonnement ouvre l’accès à tous les courriers, sans limite.</p>
+        </div>
+        <div className="cdc-pricing-grid">
+          <article className="cdc-price-card">
+            <span className="cdc-price-kicker">Liberté</span>
+            <h3>Mensuel</h3>
+            <div className="cdc-price"><strong>4,99 €</strong><span>/ mois</span></div>
+            <p>Pour découvrir la communauté à votre rythme.</p>
+            <ul><li><Check size={15}/> Tous les courriers en entier</li><li><Check size={15}/> Accès aux réponses</li><li><Check size={15}/> Sans engagement</li></ul>
+            <a href="/compte#abonnement">Choisir le mensuel</a>
+          </article>
+          <article className="cdc-price-card cdc-price-card-featured">
+            <span className="cdc-price-badge">Le plus avantageux</span>
+            <span className="cdc-price-kicker">Coup de cœur</span>
+            <h3>Annuel</h3>
+            <div className="cdc-price"><strong>45 €</strong><span>/ an</span></div>
+            <p>Soit 3,75 € par mois pour profiter de tous les mots partagés.</p>
+            <ul><li><Check size={15}/> Tous les courriers en entier</li><li><Check size={15}/> Accès aux réponses</li><li><Check size={15}/> Économisez 14,88 € sur l’année</li></ul>
+            <a href="/compte#abonnement">Choisir l’annuel</a>
+          </article>
+        </div>
+        <p className="cdc-pricing-note">♡ Compte gratuit : 1 courrier complet offert, puis aperçu des autres courriers.</p>
       </section>
 
       <PublicLetters />
