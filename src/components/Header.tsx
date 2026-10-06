@@ -6,6 +6,7 @@ const links = [
   ['Lire les courriers', '/#tous-les-courriers'],
   ['Les catégories', '/#categories'],
   ['Notre histoire', '/#histoire'],
+  ['Abonnement', '/#abonnement'],
 ]
 
 export function Header() {
