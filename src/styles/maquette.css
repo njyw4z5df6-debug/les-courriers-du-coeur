@@ -496,3 +496,17 @@
  .public-letters-intro{margin-top:18px!important}
  .public-letter-card{border-radius:2px 17px 2px 17px!important;padding:24px 22px!important}
 }
+
+/* Avatars membres - collection boheme */
+.avatar-picker{width:100%;max-width:620px;margin:28px auto 8px;padding:24px 24px 20px;background:rgba(255,250,242,.72);border:1px solid rgba(190,142,72,.24);border-radius:22px}
+.avatar-picker-title{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:18px}
+.avatar-picker-title span{font:500 20px/1 'Bodoni Moda',serif;color:#392d27}
+.avatar-picker-title small{font:500 10px/1.4 'Manrope',sans-serif;color:#8a7467;letter-spacing:.04em}
+.avatar-options{display:grid;grid-template-columns:repeat(6,1fr);gap:11px}
+.avatar-option{aspect-ratio:1;border:1px solid rgba(185,132,67,.20);border-radius:50%;background:linear-gradient(145deg,#fffaf2,#f1e2d2);color:#a9654e;display:grid;place-items:center;cursor:pointer;transition:.2s ease}
+.avatar-option:nth-child(3n+2){background:linear-gradient(145deg,#f8eee3,#e9d8c6);color:#b3863d}
+.avatar-option:nth-child(3n){background:linear-gradient(145deg,#f5eee4,#e2e4d5);color:#7d8062}
+.avatar-option span{font:400 23px/1 serif}
+.avatar-option:hover{transform:translateY(-2px);box-shadow:0 7px 16px rgba(99,67,42,.10)}
+.avatar-option.is-selected{border:2px solid #c4933f;box-shadow:0 0 0 4px rgba(196,147,63,.12),0 7px 16px rgba(99,67,42,.09)}
+@media(max-width:600px){.avatar-options{grid-template-columns:repeat(4,1fr)}.avatar-picker-title{display:block}.avatar-picker-title small{display:block;margin-top:7px}}
