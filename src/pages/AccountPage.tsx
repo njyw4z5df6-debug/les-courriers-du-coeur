@@ -13,6 +13,7 @@ export function AccountPage() {
   const [status, setStatus] = useState('')
   const [loading, setLoading] = useState(false)
   const [session, setSession] = useState(getUserSession())
+  const [avatar, setAvatar] = useState(getUserSession()?.avatar || 'fleur')
 
   const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
   const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
@@ -48,6 +49,7 @@ export function AccountPage() {
             refreshToken: data.refresh_token,
             pseudo: data.user.user_metadata?.pseudo || pseudo.trim(),
             email: data.user.email || email.trim(),
+            avatar: data.user.user_metadata?.avatar || 'fleur',
           })
           setSession(getUserSession())
           setStatus('Votre compte est créé et vous êtes connecté·e.')
@@ -72,6 +74,7 @@ export function AccountPage() {
           refreshToken: data.refresh_token,
           pseudo: savedPseudo,
           email: data.user?.email || email.trim(),
+          avatar: data.user?.user_metadata?.avatar || 'fleur',
         })
         setSession(getUserSession())
         setStatus('Connexion réussie.')
@@ -82,6 +85,30 @@ export function AccountPage() {
       setStatus(error instanceof Error ? error.message : 'Une erreur est survenue.')
     } finally {
       setLoading(false)
+    }
+  }
+
+  const avatars = [
+    ['fleur','❀'],['soleil','☼'],['lune','☾'],['plume','✦'],
+    ['coeur','♡'],['olivier','❧'],['papillon','𓆩♡𓆪'],['lettre','✉'],
+    ['etoile','✧'],['marguerite','✿'],['branche','⌇'],['constellation','⋆']
+  ]
+
+  async function chooseAvatar(nextAvatar: string) {
+    if (!session) return
+    setAvatar(nextAvatar)
+    const nextSession = { ...session, avatar: nextAvatar }
+    saveUserSession(nextSession)
+    setSession(nextSession)
+    try {
+      await fetch(`${supabaseUrl}/auth/v1/user`, {
+        method: 'PUT',
+        headers: { apikey: supabaseKey, Authorization: 'Bearer ' + session.accessToken, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ data: { avatar: nextAvatar, pseudo: session.pseudo } }),
+      })
+      setStatus('Votre avatar a bien été enregistré.')
+    } catch {
+      setStatus('Avatar enregistré sur cet appareil.')
     }
   }
 
@@ -99,6 +126,17 @@ export function AccountPage() {
           <p className="script-label">Votre espace</p>
           <h1>Bonjour {session.pseudo}</h1>
           <p>Votre pseudonyme reste lié à ce compte et sera utilisé automatiquement pour vos courriers et vos réponses.</p>
+          <div className="avatar-picker">
+            <div className="avatar-picker-title"><span>Votre avatar</span><small>Choisissez votre petite signature visuelle</small></div>
+            <div className="avatar-options">
+              {avatars.map(([name, symbol]) => (
+                <button key={name} type="button" className={avatar === name ? 'avatar-option is-selected' : 'avatar-option'} onClick={() => chooseAvatar(name)} aria-label={'Choisir l’avatar ' + name}>
+                  <span>{symbol}</span>
+                </button>
+              ))}
+            </div>
+            {status && <p className="account-status">{status}</p>}
+          </div>
           <div className="account-actions">
             <a className="button button-primary" href="/#formulaire-courrier">Écrire un courrier</a>
             <button className="button button-secondary" type="button" onClick={logout}><LogOut size={16} /> Se déconnecter</button>
