@@ -13,8 +13,8 @@ export function HomePage() {
           <div className="cdc-heart-line" aria-hidden="true">♡</div>
           <p className="cdc-hero-text">Un espace bienveillant pour déposer,<br />lire, partager et se sentir moins seul(e).<br />Parce que certaines histoires méritent<br />d’être entendues.</p>
           <div className="cdc-actions">
-            <a className="cdc-button cdc-button-primary" href="/ecrire"><PenLine size={17} /> Écrire mon courrier</a>
-            <a className="cdc-button cdc-button-secondary" href="/#tous-les-courriers">Lire les courriers</a>
+            <a className="cdc-button cdc-button-primary" href="/ecrire" onClick={(e) => { e.preventDefault(); window.location.assign('/ecrire') }}><PenLine size={17} /> Écrire mon courrier</a>
+            <a className="cdc-button cdc-button-secondary" href="/#tous-les-courriers" onClick={(e) => { e.preventDefault(); document.getElementById('tous-les-courriers')?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}>Lire les courriers</a>
           </div>
         </div>
       </section>
