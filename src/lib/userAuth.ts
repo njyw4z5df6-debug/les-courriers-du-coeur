@@ -3,6 +3,7 @@ export type UserSession = {
   refreshToken?: string
   pseudo: string
   email: string
+  avatar?: string
 }
 
 const SESSION_KEY = 'cdc_user_session'
