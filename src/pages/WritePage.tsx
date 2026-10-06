@@ -22,7 +22,7 @@ export function WritePage() {
     try {
       const response = await fetch(url + '/rest/v1/courriers', {
         method: 'POST',
-        headers: { apikey: key, Authorization: 'Bearer ' + key, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
+        headers: { apikey: key, Authorization: 'Bearer ' + session.accessToken, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
         body: JSON.stringify({ pseudo: session.pseudo, categorie, message: message.trim(), statut: 'en_attente', valide: false }),
       })
       if (!response.ok) throw new Error()
