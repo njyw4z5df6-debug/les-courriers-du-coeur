@@ -24,6 +24,27 @@ export function AccountPage() {
     return () => window.removeEventListener('cdc-auth-changed', sync)
   }, [])
 
+  useEffect(() => {
+    if (!session) return
+    const plan = new URLSearchParams(window.location.search).get('checkout')
+    if (plan !== 'monthly' && plan !== 'yearly') return
+
+    fetch('/api/create-checkout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + session.accessToken,
+      },
+      body: JSON.stringify({ plan }),
+    })
+      .then(async (response) => {
+        const data = await response.json()
+        if (!response.ok || !data?.url) throw new Error(data?.error || 'Paiement indisponible')
+        window.location.href = data.url
+      })
+      .catch(() => setStatus('Le paiement est momentanément indisponible. Réessayez dans quelques instants.'))
+  }, [session])
+
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setStatus('')
