@@ -7,7 +7,7 @@ export function HomePage() {
   async function startCheckout(plan: 'monthly' | 'yearly') {
     const session = getUserSession()
     if (!session) {
-      window.location.href = '/compte'
+      window.location.href = '/compte?checkout=' + plan
       return
     }
     try {
