@@ -36,8 +36,25 @@ export function ModerationPage() {
   const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
   useEffect(() => {
-    if (token) void loadModeration(token)
+    if (!token) return
+
+    void loadModeration(token)
+    const refresh = window.setInterval(() => void loadModeration(token, true), 30000)
+
+    return () => window.clearInterval(refresh)
   }, [token])
+
+  const pendingCount = courriers.length + reponses.length
+
+  useEffect(() => {
+    document.title = pendingCount > 0
+      ? `(${pendingCount}) Modération — Les Courriers du Cœur`
+      : 'Modération — Les Courriers du Cœur'
+
+    return () => {
+      document.title = 'Les Courriers du Cœur'
+    }
+  }, [pendingCount])
 
   async function login(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -61,9 +78,11 @@ export function ModerationPage() {
     }
   }
 
-  async function loadModeration(accessToken: string) {
-    setLoading(true)
-    setStatus('')
+  async function loadModeration(accessToken: string, silent = false) {
+    if (!silent) {
+      setLoading(true)
+      setStatus('')
+    }
     try {
       const headers = { apikey: supabaseKey, Authorization: `Bearer ${accessToken}` }
 
@@ -97,7 +116,7 @@ export function ModerationPage() {
         setStatus('Impossible de charger les courriers à modérer.')
       }
     } finally {
-      setLoading(false)
+      if (!silent) setLoading(false)
     }
   }
 
@@ -220,6 +239,19 @@ export function ModerationPage() {
         </div>
 
         {status && <p className="form-status form-success">{status}</p>}
+
+        <div className={pendingCount > 0 ? 'moderation-notification has-pending' : 'moderation-notification'}>
+          <div className="moderation-notification-bell" aria-hidden="true">🔔</div>
+          <div>
+            <strong>{pendingCount > 0 ? `${pendingCount} élément${pendingCount > 1 ? 's' : ''} à valider` : 'Tout est à jour'}</strong>
+            <span>
+              {pendingCount > 0
+                ? `${courriers.length} courrier${courriers.length > 1 ? 's' : ''} · ${reponses.length} réponse${reponses.length > 1 ? 's' : ''} en attente`
+                : 'Aucun courrier ni aucune réponse en attente de validation.'}
+            </span>
+          </div>
+          {pendingCount > 0 && <span className="moderation-notification-badge" aria-label={`${pendingCount} éléments en attente`}>{pendingCount}</span>}
+        </div>
 
         <div className="moderation-section-heading">
           <h2>Courriers en attente</h2>
