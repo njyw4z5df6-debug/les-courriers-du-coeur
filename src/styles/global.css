@@ -1272,3 +1272,113 @@ h1 em { font-family: 'Allura', cursive; font-size: 1.08em; font-weight: 400; let
   font-weight: 700;
   opacity: 1 !important;
 }
+
+
+/* Moderation mobile */
+@media (max-width: 700px) {
+  .moderation-shell {
+    width: 100%;
+    padding: 14px 10px 32px;
+    overflow-x: hidden;
+  }
+
+  .moderation-login,
+  .moderation-panel {
+    width: 100%;
+    max-width: 100%;
+    padding: 24px 14px;
+    box-sizing: border-box;
+  }
+
+  .moderation-panel h1,
+  .moderation-login h1 {
+    font-size: 38px;
+  }
+
+  .moderation-topbar {
+    gap: 14px;
+  }
+
+  .moderation-section-heading {
+    align-items: flex-start;
+  }
+
+  .moderation-section-heading h2 {
+    font-size: 22px;
+    line-height: 1.15;
+  }
+
+  .moderation-card {
+    width: 100%;
+    min-width: 0;
+    padding: 18px 14px;
+    box-sizing: border-box;
+    overflow-wrap: anywhere;
+  }
+
+  .moderation-meta {
+    align-items: flex-start;
+  }
+
+  .moderation-meta span,
+  .moderation-meta time {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .moderation-message {
+    width: 100%;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .moderation-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .moderation-actions .button {
+    min-height: 48px;
+    justify-content: center;
+    touch-action: manipulation;
+  }
+
+  .moderation-admin-replies {
+    width: 100%;
+    min-width: 0;
+    padding: 16px 12px;
+    box-sizing: border-box;
+  }
+
+  .moderation-admin-replies input,
+  .moderation-admin-replies textarea,
+  .moderation-form input {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+    font-size: 16px;
+  }
+
+  .moderation-admin-replies .button {
+    width: 100%;
+  }
+
+  .moderation-notification {
+    position: sticky;
+    top: 8px;
+    z-index: 5;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .moderation-notification-bell {
+    width: 36px;
+    height: 36px;
+    flex-basis: 36px;
+  }
+
+  .moderation-notification-badge {
+    min-width: 28px;
+    height: 28px;
+  }
+}
