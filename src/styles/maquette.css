@@ -743,8 +743,8 @@
 .cdc-price-card ul{list-style:none;padding:0;margin:20px 0;display:grid;gap:10px}
 .cdc-price-card li{display:flex;align-items:center;gap:8px;color:#5f4d44;font:500 11px/1.35 'Manrope',sans-serif}
 .cdc-price-card li svg{color:#b38339;flex:0 0 auto}
-.cdc-price-card>a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border-radius:999px;background:#aa5f47;color:white;text-decoration:none;font:600 11px 'Manrope',sans-serif}
-.cdc-price-card-featured>a{background:linear-gradient(180deg,#c4933f,#a87327)}
+.cdc-price-card>a,.cdc-price-card>button{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border:0;border-radius:999px;background:#aa5f47;color:white;text-decoration:none;font:600 11px 'Manrope',sans-serif;cursor:pointer}
+.cdc-price-card-featured>a,.cdc-price-card-featured>button{background:linear-gradient(180deg,#c4933f,#a87327)}
 .cdc-pricing-note{text-align:center;margin:20px 0 0;color:#8a6f61;font:500 10.5px/1.5 'Manrope',sans-serif}
 #აბonnement,#abonnement{scroll-margin-top:96px}
 @media(max-width:700px){.cdc-pricing{padding:52px 16px 58px}.cdc-pricing-grid{grid-template-columns:1fr}.cdc-pricing-heading{margin-bottom:26px}.cdc-price-card{padding:26px 22px 24px}.cdc-price-card>p{min-height:0}}
