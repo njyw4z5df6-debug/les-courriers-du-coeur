@@ -199,7 +199,8 @@ export function PublicLetters() {
               const trialActive = isTrialActive(session)
               const isFreeLetter = session && freeLetterId === letter.id
               const hasUsedFreeLetter = freeLetterId !== null
-              const canReadFull = Boolean(session && trialActive) || Boolean(isFreeLetter)
+            const isAdmin = Boolean(localStorage.getItem('cdc_admin_token'))
+              const canReadFull = isAdmin || Boolean(session && trialActive) || Boolean(isFreeLetter)
               const previewLength = Math.max(120, Math.floor(letter.message.length / 3))
               const shownMessage = canReadFull ? letter.message : letter.message.slice(0, previewLength).trimEnd() + '…'
 
