@@ -22,8 +22,9 @@ export function HomePage() {
       const data = await response.json()
       if (!response.ok || !data?.url) throw new Error(data?.error || 'Paiement indisponible')
       window.location.href = data.url
-    } catch {
-      window.alert('Le paiement est momentanément indisponible. Réessayez dans quelques instants.')
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Paiement indisponible'
+      window.alert('Stripe : ' + message)
     }
   }
 
