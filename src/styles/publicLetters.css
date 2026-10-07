@@ -146,9 +146,9 @@
 .public-letter-message{
   margin:0;
   white-space:pre-wrap;
-  line-height:1.9;
+  line-height:1.65;
   color:#4e403a;
-  font-size:14px;
+  font-size:12.5px;
 }
 .public-letter-signature{
   margin-top:20px;
