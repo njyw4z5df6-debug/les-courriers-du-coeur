@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
 import { BookOpen, Feather, MessageCircle, Send } from 'lucide-react'
-import { getUserSession } from '../lib/userAuth'
+import { getUserSession, isTrialActive, saveUserSession } from '../lib/userAuth'
 import { avatarSymbol } from '../lib/avatar'
 
 type PublicLetter = {
@@ -50,6 +50,22 @@ export function PublicLetters() {
     window.addEventListener('cdc-auth-changed', sync)
     return () => window.removeEventListener('cdc-auth-changed', sync)
   }, [])
+
+  useEffect(() => {
+    if (!session || session.createdAt || !url || !key) return
+    fetch(`${url}/auth/v1/user`, {
+      headers: { apikey: key, Authorization: 'Bearer ' + session.accessToken },
+    })
+      .then(async (response) => {
+        if (!response.ok) return
+        const user = await response.json()
+        if (!user?.created_at) return
+        const nextSession = { ...session, createdAt: user.created_at }
+        saveUserSession(nextSession)
+        setSession(nextSession)
+      })
+      .catch(() => {})
+  }, [session, url, key])
 
   useEffect(() => {
     if (!url || !key) {
@@ -180,10 +196,10 @@ export function PublicLetters() {
           <div className="public-letters-grid">
             {visibleLetters.map((letter) => {
               const letterReplies = replies.filter((reply) => reply.courrier_id === letter.id)
-              const isLaunchOffer = true
+              const trialActive = isTrialActive(session)
               const isFreeLetter = session && freeLetterId === letter.id
               const hasUsedFreeLetter = freeLetterId !== null
-              const canReadFull = Boolean(session && isLaunchOffer) || Boolean(isFreeLetter)
+              const canReadFull = Boolean(session && trialActive) || Boolean(isFreeLetter)
               const previewLength = Math.max(120, Math.floor(letter.message.length / 3))
               const shownMessage = canReadFull ? letter.message : letter.message.slice(0, previewLength).trimEnd() + '…'
 
@@ -205,16 +221,16 @@ export function PublicLetters() {
                   {!session ? (
                     <div className="letter-paywall">
                       <strong>Connectez-vous pour lire les courriers</strong>
-                      <span>Pendant l’offre de lancement, la création d’un compte vous donne accès à tous les courriers.</span>
+                      <span>Créez votre compte : votre premier mois d’accès complet est offert.</span>
                       <a href="/compte">Se connecter gratuitement</a>
                     </div>
-                  ) : !isLaunchOffer && !canReadFull && !hasUsedFreeLetter ? (
+                  ) : !trialActive && !canReadFull && !hasUsedFreeLetter ? (
                     <div className="letter-paywall">
                       <strong>Votre premier courrier est offert ♡</strong>
                       <span>Choisissez celui-ci pour le lire entièrement.</span>
                       <button type="button" onClick={() => unlockFreeLetter(letter.id)}>Lire ce courrier gratuitement</button>
                     </div>
-                  ) : !isLaunchOffer && !canReadFull ? (
+                  ) : !trialActive && !canReadFull ? (
                     <div className="letter-paywall letter-paywall-paid">
                       <strong>La suite est réservée aux abonnés</strong>
                       <span>Accès illimité à tous les courriers : 4,99 € / mois ou 45 € / an.</span>
