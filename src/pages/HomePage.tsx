@@ -1,8 +1,32 @@
 import { ArrowRight, BookOpen, Check, Feather, Heart, MessageCircle, PenLine, UsersRound } from 'lucide-react'
 import { categories } from '../data/categories'
 import { PublicLetters } from '../components/PublicLetters'
+import { getUserSession } from '../lib/userAuth'
 
 export function HomePage() {
+  async function startCheckout(plan: 'monthly' | 'yearly') {
+    const session = getUserSession()
+    if (!session) {
+      window.location.href = '/compte'
+      return
+    }
+    try {
+      const response = await fetch('/api/create-checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + session.accessToken,
+        },
+        body: JSON.stringify({ plan }),
+      })
+      const data = await response.json()
+      if (!response.ok || !data?.url) throw new Error(data?.error || 'Paiement indisponible')
+      window.location.href = data.url
+    } catch {
+      window.alert('Le paiement est momentanément indisponible. Réessayez dans quelques instants.')
+    }
+  }
+
   return (
     <main id="accueil" className="cdc-home">
       <section className="cdc-hero">
@@ -65,7 +89,7 @@ export function HomePage() {
             <div className="cdc-price"><strong>4,99 €</strong><span>/ mois</span></div>
             <p>Pour découvrir la communauté à votre rythme.</p>
             <ul><li><Check size={15}/> Tous les courriers en entier</li><li><Check size={15}/> Accès aux réponses</li><li><Check size={15}/> Sans engagement</li></ul>
-            <a href="/compte">Profiter de mon mois offert</a>
+            <button type="button" onClick={() => startCheckout('monthly')}>Choisir l’abonnement mensuel</button>
           </article>
           <article className="cdc-price-card cdc-price-card-featured">
             <span className="cdc-price-badge">Le plus avantageux</span>
@@ -74,7 +98,7 @@ export function HomePage() {
             <div className="cdc-price"><strong>45 €</strong><span>/ an</span></div>
             <p>Soit 3,75 € par mois pour profiter de tous les mots partagés.</p>
             <ul><li><Check size={15}/> Tous les courriers en entier</li><li><Check size={15}/> Accès aux réponses</li><li><Check size={15}/> Économisez 14,88 € sur l’année</li></ul>
-            <a href="/compte">Profiter de mon mois offert</a>
+            <button type="button" onClick={() => startCheckout('yearly')}>Choisir l’abonnement annuel</button>
           </article>
         </div>
         <p className="cdc-pricing-note">♡ 30 jours offerts à la création du compte, sans prélèvement automatique. Ensuite, l’accès complet nécessite un abonnement.</p>
