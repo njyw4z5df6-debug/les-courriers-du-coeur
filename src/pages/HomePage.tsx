@@ -55,8 +55,8 @@ export function HomePage() {
       <section className="cdc-pricing" id="abonnement">
         <div className="cdc-pricing-heading">
           <p className="script-label">Offre de lancement ♡</p>
-          <h2>L’abonnement est <em>offert</em></h2>
-          <p>Pour célébrer le lancement des Courriers du Cœur, l’accès abonné est exceptionnellement offert. Profitez de tous les courriers en entier, sans paiement pendant cette période de lancement.</p>
+          <h2>Votre premier mois est <em>offert</em></h2>
+          <p>À la création de votre compte, vous profitez automatiquement de 30 jours d’accès complet à tous les courriers. À la fin de ces 30 jours, l’accès complet s’arrête automatiquement, sans prélèvement.</p>
         </div>
         <div className="cdc-pricing-grid">
           <article className="cdc-price-card">
@@ -65,7 +65,7 @@ export function HomePage() {
             <div className="cdc-price"><strong>4,99 €</strong><span>/ mois</span></div>
             <p>Pour découvrir la communauté à votre rythme.</p>
             <ul><li><Check size={15}/> Tous les courriers en entier</li><li><Check size={15}/> Accès aux réponses</li><li><Check size={15}/> Sans engagement</li></ul>
-            <a href="/compte">Profiter de l’offre de lancement</a>
+            <a href="/compte">Profiter de mon mois offert</a>
           </article>
           <article className="cdc-price-card cdc-price-card-featured">
             <span className="cdc-price-badge">Le plus avantageux</span>
@@ -74,10 +74,10 @@ export function HomePage() {
             <div className="cdc-price"><strong>45 €</strong><span>/ an</span></div>
             <p>Soit 3,75 € par mois pour profiter de tous les mots partagés.</p>
             <ul><li><Check size={15}/> Tous les courriers en entier</li><li><Check size={15}/> Accès aux réponses</li><li><Check size={15}/> Économisez 14,88 € sur l’année</li></ul>
-            <a href="/compte">Profiter de l’offre de lancement</a>
+            <a href="/compte">Profiter de mon mois offert</a>
           </article>
         </div>
-        <p className="cdc-pricing-note">♡ Offre de lancement : accès abonné offert. Les tarifs affichés entreront en vigueur ultérieurement.</p>
+        <p className="cdc-pricing-note">♡ 30 jours offerts à la création du compte, sans prélèvement automatique. Ensuite, l’accès complet nécessite un abonnement.</p>
       </section>
 
       <PublicLetters />
