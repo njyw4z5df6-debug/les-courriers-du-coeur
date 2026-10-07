@@ -124,7 +124,7 @@ export function AccountPage() {
     return (
       <main className="account-shell">
         <section className="account-card account-connected">
-          <div className="account-icon"><Heart /></div>
+          <div className="account-icon"><span>{avatars.find(([name]) => name === avatar)?.[1] || '❀'}</span> </div>
           <p className="script-label">Votre espace</p>
           <h1>Bonjour {session.pseudo}</h1>
           <p>Votre pseudonyme reste lié à ce compte et sera utilisé automatiquement pour vos courriers et vos réponses.</p>
