@@ -1212,3 +1212,63 @@ h1 em { font-family: 'Allura', cursive; font-size: 1.08em; font-weight: 400; let
   bottom:24px;
   width:220px;
 }
+
+
+/* Notifications de moderation */
+.moderation-notification {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 18px 0 26px;
+  padding: 16px 18px;
+  border: 1px solid rgba(86, 68, 58, 0.14);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 8px 24px rgba(86, 68, 58, 0.06);
+}
+
+.moderation-notification.has-pending {
+  border-color: rgba(181, 84, 84, 0.28);
+  background: rgba(255, 247, 245, 0.94);
+}
+
+.moderation-notification-bell {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 20px;
+}
+
+.moderation-notification > div:nth-child(2) {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.moderation-notification strong {
+  font-size: 0.98rem;
+}
+
+.moderation-notification span {
+  font-size: 0.88rem;
+  opacity: 0.75;
+}
+
+.moderation-notification-badge {
+  display: inline-grid;
+  place-items: center;
+  min-width: 30px;
+  height: 30px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: #b55454;
+  color: #fff;
+  font-weight: 700;
+  opacity: 1 !important;
+}
