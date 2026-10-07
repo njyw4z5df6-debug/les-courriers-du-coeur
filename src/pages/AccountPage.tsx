@@ -50,6 +50,7 @@ export function AccountPage() {
             pseudo: data.user.user_metadata?.pseudo || pseudo.trim(),
             email: data.user.email || email.trim(),
             avatar: data.user.user_metadata?.avatar || 'fleur',
+            createdAt: data.user.created_at,
           })
           setSession(getUserSession())
           setStatus('Votre compte est créé et vous êtes connecté·e.')
@@ -75,6 +76,7 @@ export function AccountPage() {
           pseudo: savedPseudo,
           email: data.user?.email || email.trim(),
           avatar: data.user?.user_metadata?.avatar || 'fleur',
+          createdAt: data.user?.created_at,
         })
         setSession(getUserSession())
         setStatus('Connexion réussie.')
