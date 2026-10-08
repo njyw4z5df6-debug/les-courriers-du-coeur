@@ -32,6 +32,8 @@ export function ModerationPage() {
   const [adminReply, setAdminReply] = useState('')
   const [status, setStatus] = useState('')
   const [loading, setLoading] = useState(false)
+  const [loadError, setLoadError] = useState(false)
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null)
   const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
   const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
@@ -83,6 +85,7 @@ export function ModerationPage() {
       setLoading(true)
       setStatus('')
     }
+    setLoadError(false)
     try {
       const headers = { apikey: supabaseKey, Authorization: `Bearer ${accessToken}` }
 
@@ -101,19 +104,20 @@ export function ModerationPage() {
         `${supabaseUrl}/rest/v1/reponses?select=id,courrier_id,created_at,pseudo,message,est_admin,statut&statut=eq.en_attente&order=created_at.asc`,
         { headers },
       )
-      if (reponsesResponse.ok) {
-        setReponses(await reponsesResponse.json())
-      } else {
-        setReponses([])
-      }
+      if (!reponsesResponse.ok) throw new Error(`Réponses : ${reponsesResponse.status}`)
+      setReponses(await reponsesResponse.json())
+      setLastUpdated(new Date())
     } catch (error) {
+      setLoadError(true)
+      setCourriers([])
+      setReponses([])
       const message = error instanceof Error ? error.message : 'Erreur de chargement.'
       if (/401|JWT|token|unauthorized/i.test(message)) {
         localStorage.removeItem('cdc_admin_token')
         setToken('')
         setStatus('Votre session administrateur a expiré. Reconnectez-vous.')
       } else {
-        setStatus('Impossible de charger les courriers à modérer.')
+        setStatus('Impossible de charger la modération. Vérifiez la connexion et réessayez.')
       }
     } finally {
       if (!silent) setLoading(false)
@@ -240,12 +244,13 @@ export function ModerationPage() {
 
         {status && <p className="form-status form-success">{status}</p>}
 
+        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:12,flexWrap:'wrap',marginBottom:16}}><span style={{fontSize:12}}>{lastUpdated ? `Actualisé à ${lastUpdated.toLocaleTimeString('fr-FR')}` : 'En attente de chargement'}</span><button className="button button-secondary" type="button" disabled={loading} onClick={() => void loadModeration(token)}>{loading ? 'Actualisation…' : '↻ Actualiser'}</button></div>
         <div className={pendingCount > 0 ? 'moderation-notification has-pending' : 'moderation-notification'}>
           <div className="moderation-notification-bell" aria-hidden="true">🔔</div>
           <div>
-            <strong>{pendingCount > 0 ? `${pendingCount} élément${pendingCount > 1 ? 's' : ''} à valider` : 'Tout est à jour'}</strong>
+            <strong>{loadError ? 'Chargement impossible' : loading && !lastUpdated ? 'Chargement…' : pendingCount > 0 ? `${pendingCount} élément${pendingCount > 1 ? 's' : ''} à valider` : 'Tout est à jour'}</strong>
             <span>
-              {pendingCount > 0
+              {loadError ? 'Les courriers ne sont pas accessibles actuellement.' : pendingCount > 0
                 ? `${courriers.length} courrier${courriers.length > 1 ? 's' : ''} · ${reponses.length} réponse${reponses.length > 1 ? 's' : ''} en attente`
                 : 'Aucun courrier ni aucune réponse en attente de validation.'}
             </span>
@@ -258,7 +263,7 @@ export function ModerationPage() {
           <span>{courriers.length}</span>
         </div>
 
-        {courriers.length === 0 ? (
+        {!loadError && courriers.length === 0 ? (
           <div className="moderation-empty"><ShieldCheck size={30} /><strong>Aucun courrier en attente.</strong><span>Tout est à jour.</span></div>
         ) : (
           <div className="moderation-list">
@@ -280,7 +285,7 @@ export function ModerationPage() {
           <span>{reponses.length}</span>
         </div>
 
-        {reponses.length === 0 ? (
+        {!loadError && reponses.length === 0 ? (
           <div className="moderation-empty moderation-empty-small"><MessageCircle size={28} /><strong>Aucune réponse en attente.</strong></div>
         ) : (
           <div className="moderation-list">
