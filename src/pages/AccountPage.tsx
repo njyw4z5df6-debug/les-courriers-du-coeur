@@ -38,11 +38,11 @@ export function AccountPage() {
       body: JSON.stringify({ plan }),
     })
       .then(async (response) => {
-        const data = await response.json()
+        const data = await response.json().catch(() => ({}))
         if (!response.ok || !data?.url) throw new Error(data?.error || 'Paiement indisponible')
         window.location.href = data.url
       })
-      .catch(() => setStatus('Le paiement est momentanément indisponible. Réessayez dans quelques instants.'))
+      .catch((error) => setStatus(error instanceof Error ? 'Stripe : ' + error.message : 'Le paiement est momentanément indisponible.'))
   }, [session])
 
   async function submit(event: FormEvent<HTMLFormElement>) {
