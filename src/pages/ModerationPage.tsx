@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
 import { Check, LogOut, MessageCircle, Send, ShieldCheck, X } from 'lucide-react'
+import { AdminStats } from '../components/AdminStats'
 
 type Courrier = {
   id: number
@@ -243,6 +244,8 @@ export function ModerationPage() {
         </div>
 
         {status && <p className="form-status form-success">{status}</p>}
+
+        <AdminStats token={token} />
 
         <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:12,flexWrap:'wrap',marginBottom:16}}><span style={{fontSize:12}}>{lastUpdated ? `Actualisé à ${lastUpdated.toLocaleTimeString('fr-FR')}` : 'En attente de chargement'}</span><button className="button button-secondary" type="button" disabled={loading} onClick={() => void loadModeration(token)}>{loading ? 'Actualisation…' : '↻ Actualiser'}</button></div>
         <div className={pendingCount > 0 ? 'moderation-notification has-pending' : 'moderation-notification'}>
