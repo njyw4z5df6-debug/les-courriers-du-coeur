@@ -2,6 +2,7 @@ import { verifyAdmin, countRows } from './_admin-stats-utils'
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' })
+  let stage = 'vérification des accès'
   try {
     const admin = await verifyAdmin(req, res)
     if (!admin) return
@@ -11,6 +12,7 @@ export default async function handler(req: any, res: any) {
     const startOfWeek = new Date(current.getTime() - 7 * 86400000).toISOString()
     const startOfMonth = new Date(current.getFullYear(), current.getMonth(), 1).toISOString()
 
+    stage = 'lecture des courriers et réponses'
     const [letters, replies, lettersPending, repliesPending, lettersPublished] = await Promise.all([
       countRows(url, key, 'courriers'),
       countRows(url, key, 'reponses'),
@@ -19,6 +21,7 @@ export default async function handler(req: any, res: any) {
       countRows(url, key, 'courriers', '&statut=eq.valide'),
     ])
 
+    stage = 'lecture des inscriptions'
     const members: Array<{ id: string; pseudo: string; email: string; created_at: string; confirmed: boolean; subscription_status: string }> = []
     let totalMembers = 0
     let membersToday = 0
@@ -63,7 +66,7 @@ export default async function handler(req: any, res: any) {
       visits: { available: false, message: 'Le suivi des visites doit encore être configuré.' },
     })
   } catch (error) {
-    console.error('Admin stats error', error)
-    return res.status(500).json({ error: 'Impossible de charger les statistiques pour le moment.' })
+    console.error('Admin stats error at ' + stage, error)
+    return res.status(500).json({ error: 'Statistiques indisponibles pendant : ' + stage + '. Une correction technique reste nécessaire.' })
   }
 }
