@@ -1,6 +1,7 @@
 import { ArrowRight, BookOpen, Check, Feather, Heart, MessageCircle, PenLine, UsersRound } from 'lucide-react'
 import { categories } from '../data/categories'
 import { PublicLetters } from '../components/PublicLetters'
+import { DailyPlume } from '../components/DailyPlume'
 import { getUserSession } from '../lib/userAuth'
 
 export function HomePage() {
@@ -43,6 +44,8 @@ export function HomePage() {
           </div>
         </div>
       </section>
+
+      <DailyPlume />
 
       <section className="cdc-categories" id="categories">
         {categories.map((category) => (
