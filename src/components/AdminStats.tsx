@@ -34,7 +34,7 @@ export function AdminStats({ token }: { token: string }) {
         signal,
       })
       const data = await response.json().catch(() => ({}))
-      if (!response.ok) throw new Error(data.error || 'Chargement impossible.')
+      if (!response.ok) throw new Error(data.error || 'Erreur serveur (HTTP ' + response.status + ').')
       setStats(data)
     } catch (err) {
       if (signal?.aborted) return
