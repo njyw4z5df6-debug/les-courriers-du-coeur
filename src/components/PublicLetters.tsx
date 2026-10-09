@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
 import { BookOpen, Feather, MessageCircle, Send } from 'lucide-react'
-import { getUserSession, isTrialActive, saveUserSession } from '../lib/userAuth'
+import { getUserSession, saveUserSession } from '../lib/userAuth'
 import { avatarSymbol } from '../lib/avatar'
 
 type PublicLetter = {
@@ -33,11 +33,6 @@ export function PublicLetters() {
   const [replyPseudo, setReplyPseudo] = useState(getUserSession()?.pseudo || '')
   const [replyMessage, setReplyMessage] = useState('')
   const [replyStatus, setReplyStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
-  const [freeLetterId, setFreeLetterId] = useState<number | null>(() => {
-    const value = localStorage.getItem('cdc_free_letter_id')
-    return value ? Number(value) : null
-  })
-
   const url = import.meta.env.VITE_SUPABASE_URL
   const key = import.meta.env.VITE_SUPABASE_ANON_KEY
 
@@ -102,17 +97,6 @@ export function PublicLetters() {
     () => activeCategory === 'Tous' ? letters : letters.filter((letter) => letter.categorie === activeCategory),
     [letters, activeCategory],
   )
-
-  function unlockFreeLetter(letterId: number) {
-    if (!session) {
-      window.location.href = '/compte'
-      return
-    }
-    if (freeLetterId === null) {
-      localStorage.setItem('cdc_free_letter_id', String(letterId))
-      setFreeLetterId(letterId)
-    }
-  }
 
   function openReply(letterId: number) {
     if (!session) {
@@ -196,14 +180,6 @@ export function PublicLetters() {
           <div className="public-letters-grid">
             {visibleLetters.map((letter) => {
               const letterReplies = replies.filter((reply) => reply.courrier_id === letter.id)
-              const trialActive = isTrialActive(session)
-              const isFreeLetter = session && freeLetterId === letter.id
-              const hasUsedFreeLetter = freeLetterId !== null
-            const isAdmin = Boolean(localStorage.getItem('cdc_admin_token'))
-              const canReadFull = isAdmin || Boolean(session && trialActive) || Boolean(isFreeLetter)
-              const previewLength = Math.max(120, Math.floor(letter.message.length / 3))
-              const shownMessage = canReadFull ? letter.message : letter.message.slice(0, previewLength).trimEnd() + '…'
-
               return (
                 <article className="public-letter-card" key={letter.id}>
                   <div className="public-letter-top">
@@ -218,27 +194,7 @@ export function PublicLetters() {
                   </div>
 
                   <div className="public-letter-separator" />
-                  <p className="public-letter-message">{shownMessage}</p>
-                  {!session ? (
-                    <div className="letter-paywall">
-                      <strong>Connectez-vous pour lire les courriers</strong>
-                      <span>Créez votre compte : votre premier mois d’accès complet est offert.</span>
-                      <a href="/compte">Se connecter gratuitement</a>
-                    </div>
-                  ) : !trialActive && !canReadFull && !hasUsedFreeLetter ? (
-                    <div className="letter-paywall">
-                      <strong>Votre premier courrier est offert ♡</strong>
-                      <span>Choisissez celui-ci pour le lire entièrement.</span>
-                      <button type="button" onClick={() => unlockFreeLetter(letter.id)}>Lire ce courrier gratuitement</button>
-                    </div>
-                  ) : !trialActive && !canReadFull ? (
-                    <div className="letter-paywall letter-paywall-paid">
-                      <strong>La suite est réservée aux abonnés</strong>
-                      <span>Accès illimité à tous les courriers : 4,99 € / mois ou 45 € / an.</span>
-                      <a href="/compte#abonnement">Découvrir l’abonnement</a>
-                    </div>
-                  ) : null}
-
+                  <p className="public-letter-message">{letter.message}</p>
                   <div className="public-letter-footer">
                     <span><MessageCircle size={15} /> {letterReplies.length} réponse{letterReplies.length > 1 ? 's' : ''}</span>
                     <button type="button" className="public-reply-button" onClick={() => openReply(letter.id)}>
