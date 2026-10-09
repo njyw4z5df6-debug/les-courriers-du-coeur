@@ -29,6 +29,7 @@ export function ModerationPage() {
   const [password, setPassword] = useState('')
   const [token, setToken] = useState(() => localStorage.getItem('cdc_admin_token') || '')
   const [courriers, setCourriers] = useState<Courrier[]>([])
+  const [publishedCourriers, setPublishedCourriers] = useState<Courrier[]>([])
   const [reponses, setReponses] = useState<Reponse[]>([])
   const [adminReplyTo, setAdminReplyTo] = useState<number | null>(null)
   const [adminReply, setAdminReply] = useState('')
@@ -101,6 +102,7 @@ export function ModerationPage() {
       }
       const allCourriers = await courriersResponse.json()
       setCourriers(allCourriers.filter((item: Courrier) => item.valide !== true && item.statut !== 'refuse'))
+      setPublishedCourriers(allCourriers.filter((item: Courrier) => item.valide === true && item.statut === 'valide').sort((a: Courrier, b: Courrier) => b.created_at.localeCompare(a.created_at)))
 
       const reponsesResponse = await fetch(
         `${supabaseUrl}/rest/v1/reponses?select=id,courrier_id,created_at,pseudo,message,est_admin,statut&statut=eq.en_attente&order=created_at.asc`,
@@ -112,6 +114,7 @@ export function ModerationPage() {
     } catch (error) {
       setLoadError(true)
       setCourriers([])
+      setPublishedCourriers([])
       setReponses([])
       const message = error instanceof Error ? error.message : 'Erreur de chargement.'
       if (/401|JWT|token|unauthorized/i.test(message)) {
@@ -143,6 +146,12 @@ export function ModerationPage() {
       })
       if (!response.ok) throw new Error('La modification a été refusée.')
       setCourriers((items) => items.filter((item) => item.id !== id))
+      if (action === 'valide') {
+        setPublishedCourriers((items) => {
+          const item = courriers.find((letter) => letter.id === id)
+          return item ? [{ ...item, valide: true, statut: 'valide' }, ...items] : items
+        })
+      }
       setStatus(action === 'valide' ? 'Courrier validé.' : 'Courrier refusé.')
     } catch (error) {
       setStatus(error instanceof Error ? error.message : 'Erreur pendant la modération.')
@@ -309,25 +318,62 @@ export function ModerationPage() {
         )}
 
         <div className="moderation-section-heading moderation-replies-heading">
-          <h2>Répondre en tant que Les Courriers du Cœur</h2>
+          <h2>Répondre aux courriers publiés</h2>
+          <span>{publishedCourriers.length}</span>
         </div>
-        <p className="moderation-copy">Vos réponses sont publiées directement et apparaissent avec une présentation différente des réponses des visiteurs.</p>
+        <p className="moderation-copy">Choisis simplement le courrier auquel tu souhaites répondre. Ta réponse apparaîtra sous la signature « Les Courriers du Cœur », sans numéro à saisir.</p>
 
-        <div className="moderation-admin-replies">
-          <label>
-            <span>Numéro du courrier</span>
-            <input type="number" min="1" value={adminReplyTo ?? ''} onChange={(e) => setAdminReplyTo(e.target.value ? Number(e.target.value) : null)} placeholder="Ex. 1" />
-          </label>
-          {adminReplyTo && (
-            <form onSubmit={(event) => sendAdminReply(event, adminReplyTo)}>
-              <label>
-                <span>Votre réponse</span>
-                <textarea rows={5} value={adminReply} onChange={(e) => setAdminReply(e.target.value)} placeholder="Écrivez votre réponse…" required />
-              </label>
-              <button className="button button-primary" type="submit" disabled={loading}><Send size={16} /> Publier ma réponse</button>
-            </form>
-          )}
-        </div>
+        {loadError ? (
+          <p className="moderation-copy">Impossible de charger les courriers publiés pour le moment.</p>
+        ) : publishedCourriers.length === 0 ? (
+          <div className="moderation-empty moderation-empty-small"><MessageCircle size={28} /><strong>Aucun courrier publié pour le moment.</strong></div>
+        ) : (
+          <div className="moderation-list">
+            {publishedCourriers.map((courrier) => (
+              <article className="moderation-card" key={courrier.id}>
+                <div className="moderation-meta">
+                  <span>{courrier.pseudo}</span>
+                  <span>{courrier.categorie}</span>
+                  <time>{new Date(courrier.created_at).toLocaleDateString('fr-FR')}</time>
+                </div>
+                <p className="moderation-message">{courrier.message}</p>
+                <div className="moderation-actions">
+                  <button
+                    className="button button-primary"
+                    type="button"
+                    disabled={loading}
+                    aria-expanded={adminReplyTo === courrier.id}
+                    onClick={() => {
+                      setAdminReplyTo(adminReplyTo === courrier.id ? null : courrier.id)
+                      setAdminReply('')
+                      setStatus('')
+                    }}
+                  >
+                    <MessageCircle size={17} /> {adminReplyTo === courrier.id ? 'Fermer la réponse' : 'Répondre à ce courrier'}
+                  </button>
+                </div>
+                {adminReplyTo === courrier.id && (
+                  <form className="moderation-admin-replies" onSubmit={(event) => sendAdminReply(event, courrier.id)}>
+                    <label>
+                      <span>Ta réponse à {courrier.pseudo}</span>
+                      <textarea
+                        rows={5}
+                        value={adminReply}
+                        onChange={(event) => setAdminReply(event.target.value)}
+                        placeholder="Écris ta réponse…"
+                        maxLength={2000}
+                        required
+                      />
+                    </label>
+                    <button className="button button-primary" type="submit" disabled={loading || !adminReply.trim()}>
+                      <Send size={16} /> {loading ? 'Publication…' : 'Publier ma réponse'}
+                    </button>
+                  </form>
+                )}
+              </article>
+            ))}
+          </div>
+        )}
       </section>
     </main>
   )
