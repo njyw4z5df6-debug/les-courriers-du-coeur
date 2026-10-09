@@ -76,7 +76,7 @@ export function AccountPage() {
           setSession(getUserSession())
           setStatus('Votre compte est créé et vous êtes connecté·e.')
         } else {
-          setStatus('Compte créé. Vérifiez votre e-mail pour confirmer votre inscription, puis revenez vous connecter.')
+          setStatus('Inscription enregistrée. Essayez de vous connecter avec votre adresse e-mail et votre mot de passe.')
           setMode('login')
         }
       } else {
