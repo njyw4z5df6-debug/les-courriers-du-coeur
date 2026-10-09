@@ -1,34 +1,9 @@
-import { ArrowRight, BookOpen, Check, Feather, Heart, MessageCircle, PenLine, UsersRound } from 'lucide-react'
+import { ArrowRight, BookOpen, Feather, Heart, MessageCircle, PenLine, UsersRound } from 'lucide-react'
 import { categories } from '../data/categories'
 import { PublicLetters } from '../components/PublicLetters'
 import { DailyPlume } from '../components/DailyPlume'
-import { getUserSession } from '../lib/userAuth'
 
 export function HomePage() {
-  async function startCheckout(plan: 'monthly' | 'yearly') {
-    const session = getUserSession()
-    if (!session) {
-      window.location.href = '/compte?checkout=' + plan
-      return
-    }
-    try {
-      const response = await fetch('/api/create-checkout', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + session.accessToken,
-        },
-        body: JSON.stringify({ plan }),
-      })
-      const data = await response.json()
-      if (!response.ok || !data?.url) throw new Error(data?.error || 'Paiement indisponible')
-      window.location.href = data.url
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'Paiement indisponible'
-      window.alert('Stripe : ' + message)
-    }
-  }
-
   return (
     <main id="accueil" className="cdc-home">
       <section className="cdc-hero">
@@ -79,34 +54,6 @@ export function HomePage() {
         </div>
       </section>
 
-
-      <section className="cdc-pricing" id="abonnement">
-        <div className="cdc-pricing-heading">
-          <p className="script-label">Offre de lancement ♡</p>
-          <h2>Votre premier mois est <em>offert</em></h2>
-          <p>À la création de votre compte, vous profitez automatiquement de 30 jours d’accès complet à tous les courriers. À la fin de ces 30 jours, l’accès complet s’arrête automatiquement, sans prélèvement.</p>
-        </div>
-        <div className="cdc-pricing-grid">
-          <article className="cdc-price-card">
-            <span className="cdc-price-kicker">Tarif à venir</span>
-            <h3>Mensuel</h3>
-            <div className="cdc-price"><strong>4,99 €</strong><span>/ mois</span></div>
-            <p>Pour découvrir la communauté à votre rythme.</p>
-            <ul><li><Check size={15}/> Tous les courriers en entier</li><li><Check size={15}/> Accès aux réponses</li><li><Check size={15}/> Sans engagement</li></ul>
-            <button type="button" onClick={() => startCheckout('monthly')}>Choisir l’abonnement mensuel</button>
-          </article>
-          <article className="cdc-price-card cdc-price-card-featured">
-            <span className="cdc-price-badge">Le plus avantageux</span>
-            <span className="cdc-price-kicker">Tarif à venir</span>
-            <h3>Annuel</h3>
-            <div className="cdc-price"><strong>45 €</strong><span>/ an</span></div>
-            <p>Soit 3,75 € par mois pour profiter de tous les mots partagés.</p>
-            <ul><li><Check size={15}/> Tous les courriers en entier</li><li><Check size={15}/> Accès aux réponses</li><li><Check size={15}/> Économisez 14,88 € sur l’année</li></ul>
-            <button type="button" onClick={() => startCheckout('yearly')}>Choisir l’abonnement annuel</button>
-          </article>
-        </div>
-        <p className="cdc-pricing-note">♡ 30 jours offerts à la création du compte, sans prélèvement automatique. Ensuite, l’accès complet nécessite un abonnement.</p>
-      </section>
 
       <PublicLetters />
 
