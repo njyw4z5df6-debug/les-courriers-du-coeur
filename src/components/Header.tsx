@@ -5,6 +5,7 @@ const links = [
   ['Accueil', 'accueil'],
   ['Lire les courriers', 'tous-les-courriers'],
   ['Les catégories', 'categories'],
+  ['La plume du jour', 'plume-du-jour'],
   ['Notre histoire', 'histoire'],
   ['Abonnement', 'abonnement'],
 ]
