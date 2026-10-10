@@ -44,6 +44,14 @@ export function HomePage() {
         </div>
       </section>
 
+      <section aria-labelledby="cdc-welcome-title" style={{maxWidth: 900, margin: '34px auto 58px', padding: '34px 26px', textAlign: 'center', background: '#faf5ee', border: '1px solid #e9d8c2', borderRadius: 18}}>
+        <p className="cdc-eyebrow">UN ESPACE POUR TOUTES LES HISTOIRES</p>
+        <h2 id="cdc-welcome-title" style={{fontFamily: 'Georgia, serif', fontWeight: 400, fontSize: 'clamp(23px, 3.5vw, 35px)', lineHeight: 1.3, margin: '10px 0 16px', color: '#654b3d'}}>Parce qu'on a tous quelque chose sur le cœur…</h2>
+        <p style={{fontSize: 16, lineHeight: 1.85, maxWidth: 710, margin: '0 auto 14px', color: '#654b3d'}}>Solitude, dépression, anxiété, burn-out, difficultés au travail, histoires de famille, deuil, addictions, projets de vie…</p>
+        <p style={{fontSize: 16, lineHeight: 1.75, maxWidth: 680, margin: '0 auto 22px', color: '#654b3d'}}>Peu importe ce que vous traversez, il y a une place pour votre histoire ici. 💌</p>
+        <a href="/#categories" style={{display: 'inline-flex', alignItems: 'center', gap: 8, color: '#855e45', fontWeight: 600, textDecoration: 'underline', textUnderlineOffset: 5}}>Découvrir toutes les catégories <ArrowRight size={17} /></a>
+      </section>
+
       <section className="cdc-how" id="histoire">
         <div className="cdc-title-row"><h2>Comment ça <em>fonctionne ?</em></h2><span className="cdc-gold-line">♡</span></div>
         <div className="cdc-how-grid">
