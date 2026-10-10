@@ -92,17 +92,17 @@ export function ModerationPage() {
     try {
       const headers = { apikey: supabaseKey, Authorization: `Bearer ${accessToken}` }
 
-      const courriersResponse = await fetch(
-        `${supabaseUrl}/rest/v1/courriers?select=id,created_at,pseudo,categorie,message,valide,statut&order=created_at.asc`,
-        { headers },
-      )
+      const courriersResponse = await fetch('/api/admin-courriers', {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
       if (!courriersResponse.ok) {
         const detail = await courriersResponse.text()
         throw new Error(`Courriers : ${courriersResponse.status} ${detail}`)
       }
-      const allCourriers = await courriersResponse.json()
-      setCourriers(allCourriers.filter((item: Courrier) => item.valide !== true && item.statut !== 'refuse'))
-      setPublishedCourriers(allCourriers.filter((item: Courrier) => item.valide === true && item.statut === 'valide').sort((a: Courrier, b: Courrier) => b.created_at.localeCompare(a.created_at)))
+      const { courriers: allCourriers } = await courriersResponse.json()
+      if (!Array.isArray(allCourriers)) throw new Error('Liste des courriers indisponible.')
+      setCourriers(allCourriers.filter((item: Courrier) => item.statut === 'en_attente' && item.valide !== true))
+      setPublishedCourriers(allCourriers.filter((item: Courrier) => item.statut === 'valide' || item.valide === true).sort((a: Courrier, b: Courrier) => b.created_at.localeCompare(a.created_at)))
 
       const reponsesResponse = await fetch(
         `${supabaseUrl}/rest/v1/reponses?select=id,courrier_id,created_at,pseudo,message,est_admin,statut&statut=eq.en_attente&order=created_at.asc`,
@@ -222,6 +222,7 @@ export function ModerationPage() {
     localStorage.removeItem('cdc_admin_token')
     setToken('')
     setCourriers([])
+    setPublishedCourriers([])
     setReponses([])
     setStatus('')
   }
@@ -318,10 +319,10 @@ export function ModerationPage() {
         )}
 
         <div className="moderation-section-heading moderation-replies-heading">
-          <h2>Répondre aux courriers publiés</h2>
+          <h2>Tous les courriers publiés</h2>
           <span>{publishedCourriers.length}</span>
         </div>
-        <p className="moderation-copy">Choisis simplement le courrier auquel tu souhaites répondre. Ta réponse apparaîtra sous la signature « Les Courriers du Cœur », sans numéro à saisir.</p>
+        <p className="moderation-copy">Retrouve ici tous les courriers, même les anciens. Réponds directement au nom des Courriers du Cœur, sans utiliser ton profil personnel ni chercher de numéro.</p>
 
         {loadError ? (
           <p className="moderation-copy">Impossible de charger les courriers publiés pour le moment.</p>
