@@ -32,6 +32,7 @@ export function ModerationPage() {
   const [publishedCourriers, setPublishedCourriers] = useState<Courrier[]>([])
   const [reponses, setReponses] = useState<Reponse[]>([])
   const [answeredIds, setAnsweredIds] = useState<number[]>([])
+  const [officialReplies, setOfficialReplies] = useState<Reponse[]>([])
   const [replyFilter, setReplyFilter] = useState<'all' | 'unanswered' | 'answered'>('all')
   const [adminReplyTo, setAdminReplyTo] = useState<number | null>(null)
   const [adminReply, setAdminReply] = useState('')
@@ -114,11 +115,12 @@ export function ModerationPage() {
       setReponses(await reponsesResponse.json())
 
       const officialRepliesResponse = await fetch(
-        `${supabaseUrl}/rest/v1/reponses?select=courrier_id&est_admin=eq.true&statut=eq.valide&limit=1000`,
+        `${supabaseUrl}/rest/v1/reponses?select=id,courrier_id,created_at,pseudo,message,est_admin,statut&est_admin=eq.true&statut=eq.valide&order=created_at.asc&limit=1000`,
         { headers },
       )
       if (!officialRepliesResponse.ok) throw new Error('Impossible de vérifier les réponses officielles.')
       const officialReplies: Array<{ courrier_id: number }> = await officialRepliesResponse.json()
+      setOfficialReplies(officialReplies as Reponse[])
       setAnsweredIds([...new Set(officialReplies.map((reply) => reply.courrier_id))])
       setLastUpdated(new Date())
     } catch (error) {
@@ -126,6 +128,7 @@ export function ModerationPage() {
       setCourriers([])
       setPublishedCourriers([])
       setAnsweredIds([])
+      setOfficialReplies([])
       setReponses([])
       const message = error instanceof Error ? error.message : 'Erreur de chargement.'
       if (/401|JWT|token|unauthorized/i.test(message)) {
