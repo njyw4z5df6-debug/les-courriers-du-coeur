@@ -233,6 +233,23 @@ export function ModerationPage() {
     }
   }
 
+  async function removeOfficialReply(reply: Reponse) {
+    if (!token || !window.confirm('Supprimer cette réponse ?')) return
+    setLoading(true)
+    try {
+      const response = await fetch('/api/admin-delete-reply?id=' + reply.id, { method: 'DELETE', headers: { Authorization: 'Bearer ' + token } })
+      if (!response.ok) throw new Error('Suppression impossible')
+      const remaining = officialReplies.filter((item) => item.id !== reply.id)
+      setOfficialReplies(remaining)
+      setAnsweredIds([...new Set(remaining.map((item) => item.courrier_id))])
+      setStatus('Réponse supprimée.')
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : 'Erreur.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   function logout() {
     localStorage.removeItem('cdc_admin_token')
     setToken('')
