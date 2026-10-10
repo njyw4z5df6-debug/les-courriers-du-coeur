@@ -31,6 +31,8 @@ export function ModerationPage() {
   const [courriers, setCourriers] = useState<Courrier[]>([])
   const [publishedCourriers, setPublishedCourriers] = useState<Courrier[]>([])
   const [reponses, setReponses] = useState<Reponse[]>([])
+  const [answeredIds, setAnsweredIds] = useState<number[]>([])
+  const [replyFilter, setReplyFilter] = useState<'all' | 'unanswered' | 'answered'>('all')
   const [adminReplyTo, setAdminReplyTo] = useState<number | null>(null)
   const [adminReply, setAdminReply] = useState('')
   const [status, setStatus] = useState('')
@@ -110,11 +112,20 @@ export function ModerationPage() {
       )
       if (!reponsesResponse.ok) throw new Error(`Réponses : ${reponsesResponse.status}`)
       setReponses(await reponsesResponse.json())
+
+      const officialRepliesResponse = await fetch(
+        `${supabaseUrl}/rest/v1/reponses?select=courrier_id&est_admin=eq.true&statut=eq.valide&limit=1000`,
+        { headers },
+      )
+      if (!officialRepliesResponse.ok) throw new Error('Impossible de vérifier les réponses officielles.')
+      const officialReplies: Array<{ courrier_id: number }> = await officialRepliesResponse.json()
+      setAnsweredIds([...new Set(officialReplies.map((reply) => reply.courrier_id))])
       setLastUpdated(new Date())
     } catch (error) {
       setLoadError(true)
       setCourriers([])
       setPublishedCourriers([])
+      setAnsweredIds([])
       setReponses([])
       const message = error instanceof Error ? error.message : 'Erreur de chargement.'
       if (/401|JWT|token|unauthorized/i.test(message)) {
@@ -210,6 +221,7 @@ export function ModerationPage() {
       if (!response.ok) throw new Error('Votre réponse n’a pas pu être publiée.')
       setAdminReply('')
       setAdminReplyTo(null)
+      setAnsweredIds((ids) => ids.includes(courrierId) ? ids : [...ids, courrierId])
       setStatus('Votre réponse a été publiée avec la signature Les Courriers du Cœur.')
     } catch (error) {
       setStatus(error instanceof Error ? error.message : 'Erreur pendant la publication.')
@@ -223,6 +235,7 @@ export function ModerationPage() {
     setToken('')
     setCourriers([])
     setPublishedCourriers([])
+    setAnsweredIds([])
     setReponses([])
     setStatus('')
   }
@@ -324,17 +337,24 @@ export function ModerationPage() {
         </div>
         <p className="moderation-copy">Retrouve ici tous les courriers, même les anciens. Réponds directement au nom des Courriers du Cœur, sans utiliser ton profil personnel ni chercher de numéro.</p>
 
+        <div className="moderation-actions" style={{marginBottom: 18, flexWrap: 'wrap'}}>
+          <button type="button" className={replyFilter === 'all' ? 'button button-primary' : 'button button-secondary'} onClick={() => setReplyFilter('all')}>Tous ({publishedCourriers.length})</button>
+          <button type="button" className={replyFilter === 'unanswered' ? 'button button-primary' : 'button button-secondary'} onClick={() => setReplyFilter('unanswered')}>À répondre ({publishedCourriers.filter((letter) => !answeredIds.includes(letter.id)).length})</button>
+          <button type="button" className={replyFilter === 'answered' ? 'button button-primary' : 'button button-secondary'} onClick={() => setReplyFilter('answered')}>Déjà répondus ({publishedCourriers.filter((letter) => answeredIds.includes(letter.id)).length})</button>
+        </div>
+
         {loadError ? (
           <p className="moderation-copy">Impossible de charger les courriers publiés pour le moment.</p>
         ) : publishedCourriers.length === 0 ? (
           <div className="moderation-empty moderation-empty-small"><MessageCircle size={28} /><strong>Aucun courrier publié pour le moment.</strong></div>
         ) : (
           <div className="moderation-list">
-            {publishedCourriers.map((courrier) => (
+            {publishedCourriers.filter((courrier) => replyFilter === 'all' || (replyFilter === 'answered' ? answeredIds.includes(courrier.id) : !answeredIds.includes(courrier.id))).map((courrier) => (
               <article className="moderation-card" key={courrier.id}>
                 <div className="moderation-meta">
                   <span>{courrier.pseudo}</span>
                   <span>{courrier.categorie}</span>
+                  <strong style={{color: answeredIds.includes(courrier.id) ? '#47785b' : '#aa6949'}}>{answeredIds.includes(courrier.id) ? '✓ Réponse officielle publiée' : '● En attente de ta réponse'}</strong>
                   <time>{new Date(courrier.created_at).toLocaleDateString('fr-FR')}</time>
                 </div>
                 <p className="moderation-message">{courrier.message}</p>
