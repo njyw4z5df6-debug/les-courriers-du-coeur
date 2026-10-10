@@ -378,6 +378,13 @@ export function ModerationPage() {
                   <time>{new Date(courrier.created_at).toLocaleDateString('fr-FR')}</time>
                 </div>
                 <p className="moderation-message">{courrier.message}</p>
+                {officialReplies.filter((reply) => reply.courrier_id === courrier.id).map((reply, index) => (
+                  <div key={reply.id}>
+                    <strong>Réponse officielle {index + 1} - {new Date(reply.created_at).toLocaleDateString('fr-FR')}</strong>
+                    <p>{reply.message}</p>
+                    <button type="button" disabled={loading} onClick={() => removeOfficialReply(reply)}>Supprimer cette réponse</button>
+                  </div>
+                ))}
                 <div className="moderation-actions">
                   <button
                     className="button button-primary"
