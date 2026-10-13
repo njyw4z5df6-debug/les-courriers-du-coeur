@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
-import { Heart, LogOut, UserRound } from 'lucide-react'
+import { Bell, Heart, LogOut, UserRound } from 'lucide-react'
 import { clearUserSession, getUserSession, saveUserSession } from '../lib/userAuth'
 
 type Mode = 'login' | 'signup'
@@ -14,6 +14,7 @@ export function AccountPage() {
   const [loading, setLoading] = useState(false)
   const [session, setSession] = useState(getUserSession())
   const [avatar, setAvatar] = useState(getUserSession()?.avatar || 'fleur')
+  const [noticePrefs, setNoticePrefs] = useState({ plume: false, courriers: false, email: false })
 
   const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
   const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
@@ -114,6 +115,36 @@ export function AccountPage() {
     }
   }
 
+  useEffect(() => {
+    if (!session) return
+    fetch(`${supabaseUrl}/auth/v1/user`, {
+      headers: { apikey: supabaseKey, Authorization: 'Bearer ' + session.accessToken },
+    }).then(r => r.ok ? r.json() : null).then(user => {
+      const saved = user?.user_metadata?.notifications
+      if (saved) setNoticePrefs({
+        plume: saved.plume === true, courriers: saved.courriers === true, email: saved.email === true,
+      })
+    }).catch(() => {})
+  }, [session?.accessToken, supabaseUrl, supabaseKey])
+
+  async function updateNoticePref(key: 'plume' | 'courriers' | 'email', enabled: boolean) {
+    if (!session) return
+    const next = { ...noticePrefs, [key]: enabled }
+    setNoticePrefs(next)
+    try {
+      const response = await fetch(`${supabaseUrl}/auth/v1/user`, {
+        method: 'PUT',
+        headers: { apikey: supabaseKey, Authorization: 'Bearer ' + session.accessToken, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ data: { notifications: next } }),
+      })
+      if (!response.ok) throw new Error('Enregistrement impossible')
+      setStatus('Vos préférences ont été enregistrées. Les alertes seront activées lors de la mise en service des notifications.')
+    } catch {
+      setNoticePrefs(noticePrefs)
+      setStatus('Impossible de sauvegarder vos préférences. Réessayez.')
+    }
+  }
+
   function logout() {
     clearUserSession()
     setSession(null)
@@ -138,6 +169,21 @@ export function AccountPage() {
               ))}
             </div>
             {status && <p className="account-status">{status}</p>}
+          </div>
+          <div style={{maxWidth: 620, width: '100%', margin: '22px auto', padding: '22px', borderRadius: 16, background: '#fffaf4', border: '1px solid #e9d8c2', textAlign: 'left'}}>
+            <h2 style={{display: 'flex', alignItems: 'center', gap: 9, fontSize: 22, margin: '0 0 8px'}}><Bell size={20} /> Mes notifications</h2>
+            <p style={{fontSize: 13, lineHeight: 1.6, marginBottom: 16}}>Choisissez les nouvelles que vous souhaitez recevoir. Les alertes ne sont pas encore actives : nous préparons leur mise en service.</p>
+            {([
+              ['plume', 'La plume du jour'],
+              ['courriers', 'Nouveaux courriers publiés'],
+              ['email', 'Recevoir ces nouvelles par e-mail'],
+            ] as const).map(([key, label]) => (
+              <label key={key} style={{display: 'flex', alignItems: 'center', gap: 12, padding: '10px 0', cursor: 'pointer', fontSize: 14}}>
+                <input type="checkbox" checked={noticePrefs[key]} onChange={event => updateNoticePref(key, event.target.checked)} style={{width: 18, height: 18}} />
+                <span>{label}</span>
+              </label>
+            ))}
+            <p style={{fontSize: 12, lineHeight: 1.6, margin: '12px 0 0'}}>Les notifications sur téléphone nécessiteront votre autorisation lorsqu'elles seront disponibles.</p>
           </div>
           <div className="account-actions">
             <a className="button button-primary" href="/#formulaire-courrier">Écrire un courrier</a>
