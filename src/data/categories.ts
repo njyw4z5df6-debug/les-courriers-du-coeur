@@ -6,6 +6,8 @@ export type Category = {
 
 export const categories: Category[] = [
   { name: 'Addictions', symbol: '♡', tone: 'rose' },
+  { name: 'Famille', symbol: '⌂', tone: 'sand' },
+  { name: 'Idées noires & détresse psychologique', symbol: '✧', tone: 'sage' },
   { name: 'Parentalité à distance', symbol: '❀', tone: 'rose' },
   { name: 'Deuil', symbol: '☼', tone: 'sand' },
   { name: 'Violences', symbol: '☾', tone: 'clay' },
