@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Feather, ArrowRight } from 'lucide-react'
+import { PlumeInteractions } from './PlumeInteractions'
 
 type Plume = { id: number; publication_date: string; categorie: string; texte: string }
 function categoryLink(category: string) {
@@ -48,6 +49,7 @@ export function DailyPlume() {
             Découvrir les courriers « {plume.categorie} » <ArrowRight size={16}/>
           </a>
         </div>
+        <PlumeInteractions plumeId={plume.id}/>
       </article>
       {entries.length > 1 && <div style={{ textAlign: 'center', marginTop: 24 }}>
         <button type="button" className="button button-secondary" onClick={() => setShowArchive(!showArchive)}>
@@ -58,6 +60,7 @@ export function DailyPlume() {
             <a href={categoryLink(entry.categorie)} style={{ color: '#9b6559', fontSize: 13 }}>{entry.categorie} ↗</a>
             <time style={{ display: 'block', marginTop: 9, color: '#79665e', fontSize: 12 }}>{formattedDate(entry.publication_date)}</time>
             <p style={{ whiteSpace: 'pre-wrap', marginTop: 12, lineHeight: 1.6 }}>{entry.texte}</p>
+            <PlumeInteractions plumeId={entry.id}/>
           </article>)}
         </div>}
       </div>}
