@@ -52,7 +52,7 @@ async function countRows(url: string, key: string, table: string, filter = ''): 
 
 
 const ALLOWED_CATEGORIES = [
-  'Addictions', 'Parentalité à distance', 'Deuil', 'Violences',
+  'Addictions', 'Famille', 'Idées noires & détresse psychologique', 'Parentalité à distance', 'Deuil', 'Violences',
   'Anxiété / Dépression', 'Travail / Burn-out',
   'Projets de vie (expatriation)', 'Conflits familiaux / Séparation conjugale',
 ]
