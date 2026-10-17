@@ -3,6 +3,7 @@ import type { FormEvent } from 'react'
 import { Feather, CalendarDays, Pencil, Trash2 } from 'lucide-react'
 import { categories } from '../data/categories'
 
+type PlumeComment = { id: number; plume_id: number; pseudo: string; message: string; created_at: string }
 type Plume = { id: number; publication_date: string; categorie: string; texte: string }
 function today() {
   return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Paris', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date())
@@ -10,6 +11,7 @@ function today() {
 
 export function AdminPlumes({ token }: { token: string }) {
   const [entries, setEntries] = useState<Plume[]>([])
+  const [comments, setComments] = useState<PlumeComment[]>([])
   const [id, setId] = useState<number | null>(null)
   const [date, setDate] = useState(today())
   const [categorie, setCategorie] = useState(categories[0].name)
@@ -28,7 +30,27 @@ export function AdminPlumes({ token }: { token: string }) {
     }
   }
 
-  useEffect(() => { void load() }, [token])
+  async function loadComments() {
+    try {
+      const response = await fetch('/api/admin-plume-comments', { headers: { Authorization: 'Bearer ' + token } })
+      if (response.ok) setComments((await response.json()).comments || [])
+    } catch { /* La modération des plumes peut ne pas être encore configurée. */ }
+  }
+  async function moderateComment(id: number, statut: 'valide' | 'refuse') {
+    setLoading(true)
+    try {
+      const response = await fetch('/api/admin-plume-comments', {
+        method: 'POST',
+        headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, statut }),
+      })
+      if (!response.ok) throw new Error()
+      setComments(items => items.filter(item => item.id !== id))
+      setMessage(statut === 'valide' ? 'Commentaire publié.' : 'Commentaire refusé.')
+    } catch { setMessage('Impossible de modérer ce commentaire pour le moment.') }
+    finally { setLoading(false) }
+  }
+  useEffect(() => { void load(); void loadComments() }, [token])
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -85,6 +107,18 @@ export function AdminPlumes({ token }: { token: string }) {
       </div>
     </form>
     {message && <p role="status" style={{ padding: 12, color: '#79554b' }}>{message}</p>}
+    <div style={{marginTop: 28}}>
+      <h3>Commentaires à valider sur les plumes {comments.length > 0 ? '(' + comments.length + ')' : ''}</h3>
+      {comments.length === 0 && <p style={{fontSize: 13, color: '#826b61'}}>Aucun commentaire en attente, ou service pas encore activé.</p>}
+      {comments.map(comment => <article key={comment.id} style={{border: '1px solid #e9d8c8', padding: 15, borderRadius: 12, marginTop: 10, background: '#fffaf6'}}>
+        <strong>{comment.pseudo}</strong> <small>· Plume du jour n°{comment.plume_id} · {new Date(comment.created_at).toLocaleDateString('fr-FR')}</small>
+        <p style={{whiteSpace: 'pre-wrap', margin: '10px 0'}}>{comment.message}</p>
+        <div style={{display: 'flex', gap: 9}}>
+          <button type="button" className="button button-primary" disabled={loading} onClick={() => void moderateComment(comment.id, 'valide')}>Valider</button>
+          <button type="button" className="button button-secondary" disabled={loading} onClick={() => void moderateComment(comment.id, 'refuse')}>Refuser</button>
+        </div>
+      </article>)}
+    </div>
     {entries.length > 0 && <>
       <h3 style={{ margin: '24px 0 12px' }}>Tes plumes</h3>
       <div style={{ display: 'grid', gap: 12 }}>
