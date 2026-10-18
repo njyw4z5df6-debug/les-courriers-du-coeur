@@ -18,13 +18,16 @@ export function Header() {
       window.location.href = '/#' + id
       return
     }
-    const target = document.getElementById(id)
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      window.history.replaceState(null, '', '/#' + id)
-    } else {
-      window.location.href = '/#' + id
+    window.history.replaceState(null, '', '/#' + id)
+    const scrollToTarget = () => {
+      const target = document.getElementById(id)
+      if (!target) return
+      const header = document.querySelector('.site-header')
+      const offset = (header?.getBoundingClientRect().height || 0) + 16
+      const top = Math.max(0, window.scrollY + target.getBoundingClientRect().top - offset)
+      window.scrollTo({ top, behavior: 'smooth' })
     }
+    window.requestAnimationFrame(scrollToTarget)
   }
 
   return (
