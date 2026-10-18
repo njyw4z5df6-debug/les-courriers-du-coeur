@@ -35,10 +35,14 @@ export function PlumeInteractions({ plumeId }: { plumeId: number }) {
         method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + session.accessToken },
         body: JSON.stringify({ plume_id: plumeId, action, ...(text ? { message: text } : {}) }),
       })
-      if (!r.ok) throw new Error()
+      if (!r.ok) {
+        if (r.status === 401) throw new Error('Votre connexion a expiré. Déconnectez-vous puis reconnectez-vous depuis « Mon compte ».')
+        const data = await r.json().catch(() => ({}))
+        throw new Error(data.error || 'Impossible d’enregistrer la réaction.')
+      }
       if (action === 'heart') { setLiked(!liked); setHearts(n => n + (liked ? -1 : 1)) }
       else { setMessage(''); setStatus('Merci pour vos mots 💗 Votre commentaire sera visible après validation.') }
-    } catch { setStatus('Impossible d’enregistrer votre réaction pour le moment.') }
+    } catch (error) { setStatus(error instanceof Error ? error.message : 'Impossible d’enregistrer votre réaction pour le moment.') }
     finally { setBusy(false) }
   }
   function submit(e: FormEvent<HTMLFormElement>) { e.preventDefault(); if (message.trim()) void send('comment', message.trim()) }
