@@ -25,12 +25,12 @@ export default async function handler(req: any, res: any) {
       const action = String(req.body?.action || '')
       if (action === 'heart') {
         const existing = await fetch(url + '/rest/v1/plume_reactions?select=id&plume_id=eq.' + id + '&user_id=eq.' + user.id, { headers })
-        if (!existing.ok) throw new Error('Database not ready')
+        if (!existing.ok) { console.error('Heart lookup failed', existing.status, await existing.text()); throw new Error('Impossible de consulter les cœurs enregistrés.') }
         const found = await existing.json()
         const response = found.length
           ? await fetch(url + '/rest/v1/plume_reactions?id=eq.' + found[0].id, { method: 'DELETE', headers })
           : await fetch(url + '/rest/v1/plume_reactions', { method: 'POST', headers, body: JSON.stringify({ plume_id: id, user_id: user.id }) })
-        if (!response.ok) throw new Error('Reaction failed')
+        if (!response.ok) { console.error('Heart write failed', response.status, await response.text()); throw new Error('Impossible de sauvegarder le cœur dans la base de données.') }
         return res.status(200).json({ ok: true })
       }
       if (action === 'comment') {
@@ -52,6 +52,6 @@ export default async function handler(req: any, res: any) {
     return res.status(200).json({ hearts: heartRows.length, liked: !!user && heartRows.some((r: any) => r.user_id === user.id), comments: await comments.json() })
   } catch (error) {
     console.error('Plume interaction failed', error)
-    return res.status(503).json({ error: 'Réactions indisponibles pour le moment.' })
+    return res.status(503).json({ error: error instanceof Error ? error.message : 'Réactions indisponibles pour le moment.' })
   }
 }
