@@ -29,7 +29,10 @@ export function PlumeInteractions({ plumeId }: { plumeId: number }) {
   }, [plumeId, session?.accessToken])
   async function send(action: 'heart' | 'comment', text?: string) {
     if (!session) { window.location.assign('/compte'); return }
+    if (busy) return
     setBusy(true); setStatus('')
+    const previousLiked = liked
+    if (action === 'heart') { setLiked(!liked); setHearts(n => Math.max(0, n + (liked ? -1 : 1))) }
     try {
       const r = await fetch('/api/plume-interactions', {
         method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + session.accessToken },
@@ -40,18 +43,21 @@ export function PlumeInteractions({ plumeId }: { plumeId: number }) {
         const data = await r.json().catch(() => ({}))
         throw new Error(data.error || 'Impossible d’enregistrer la réaction.')
       }
-      if (action === 'heart') { setLiked(!liked); setHearts(n => n + (liked ? -1 : 1)) }
+      if (action === 'heart') { /* Mise à jour immédiate déjà effectuée. */ }
       else { setMessage(''); setStatus('Merci pour vos mots 💗 Votre commentaire sera visible après validation.') }
-    } catch (error) { setStatus(error instanceof Error ? error.message : 'Impossible d’enregistrer votre réaction pour le moment.') }
+    } catch (error) {
+      if (action === 'heart') { setLiked(previousLiked); setHearts(n => Math.max(0, n + (previousLiked ? 1 : -1))) }
+      setStatus(error instanceof Error ? error.message : 'Impossible d’enregistrer votre réaction pour le moment.')
+    }
     finally { setBusy(false) }
   }
   function submit(e: FormEvent<HTMLFormElement>) { e.preventDefault(); if (message.trim()) void send('comment', message.trim()) }
   if (!ready) return null
   return <div style={{marginTop: 22, paddingTop: 17, borderTop: '1px solid #eddfd3'}}>
     <div style={{display: 'flex', gap: 14, alignItems: 'center', flexWrap: 'wrap'}}>
-      <button type="button" onClick={() => void send('heart')} disabled={busy} aria-label={liked ? 'Retirer mon cœur' : 'Laisser un cœur'} aria-pressed={liked}
+      <button type="button" onClick={(event) => { event.preventDefault(); event.stopPropagation(); void send('heart') }} disabled={busy} aria-label={liked ? 'Retirer mon cœur' : 'Laisser un cœur'} aria-pressed={liked}
         style={{display: 'inline-flex', alignItems: 'center', gap: 7, border: '1px solid #e9d6ce', background: liked ? '#fce8e6' : '#fffaf4', borderRadius: 24, padding: '8px 14px', cursor: 'pointer', color: '#99594f'}}>
-        <Heart size={17} fill={liked ? 'currentColor' : 'none'}/> {hearts} cœur{hearts > 1 ? 's' : ''}
+        <Heart size={17} fill={liked ? 'currentColor' : 'none'}/> {busy ? 'Un instant…' : `${hearts} cœur${hearts > 1 ? 's' : ''}`}
       </button>
       <span style={{display: 'inline-flex', alignItems: 'center', gap: 7, color: '#82675e', fontSize: 13}}><MessageCircle size={16}/> {comments.length} commentaire{comments.length > 1 ? 's' : ''}</span>
     </div>
