@@ -53,6 +53,9 @@ export function ModerationPage() {
   }, [token])
 
   const pendingCount = courriers.length + reponses.length
+  const unansweredCount = publishedCourriers.filter(item => !answeredIds.includes(item.id)).length
+  const priorityCount = pendingCount + unansweredCount
+  function jumpTo(id: string) { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }
 
   useEffect(() => {
     document.title = pendingCount > 0
@@ -289,9 +292,18 @@ export function ModerationPage() {
 
         {status && <p className="form-status form-success">{status}</p>}
 
-        <AdminStats token={token} />
-
-        <AdminPlumes token={token} />
+        <section aria-label="À traiter en priorité" style={{margin:'14px 0 24px',padding:'clamp(18px,4vw,28px)',border:'1px solid #e8d5c7',borderRadius:18,background:'#fffaf5'}}>
+          <p className="script-label" style={{marginBottom:8}}>Ton coup d'œil du jour</p>
+          <h2 style={{fontSize:'clamp(24px,5vw,34px)',lineHeight:1.2,margin:'0 0 12px',color:'#69483d'}}>{loadError ? 'Chargement impossible' : !lastUpdated ? 'Vérification en cours…' : priorityCount === 0 ? 'Tout est à jour 💗' : priorityCount + ' action' + (priorityCount > 1 ? 's' : '') + ' à faire 💌'}</h2>
+          {!loadError && lastUpdated && <p style={{fontSize:14,margin:'0 0 16px',color:'#765e54'}}>{unansweredCount} courrier(s) à répondre · {courriers.length} courrier(s) à valider · {reponses.length} réponse(s) à valider</p>}
+          {loadError && <p>Impossible de vérifier les demandes pour le moment. Réessaie avec « Actualiser ».</p>}
+          <div style={{display:'flex',gap:9,flexWrap:'wrap'}}>
+            {unansweredCount > 0 && <button className="button button-primary" type="button" onClick={() => { setReplyFilter('unanswered'); jumpTo('admin-courriers-a-repondre') }}>💌 Répondre ({unansweredCount})</button>}
+            {courriers.length > 0 && <button className="button button-secondary" type="button" onClick={() => jumpTo('admin-courriers-a-valider')}>Valider les courriers ({courriers.length})</button>}
+            {reponses.length > 0 && <button className="button button-secondary" type="button" onClick={() => jumpTo('admin-reponses-a-valider')}>Valider les réponses ({reponses.length})</button>}
+            <button className="button button-secondary" type="button" disabled={loading} onClick={() => void loadModeration(token)}>{loading ? 'Actualisation…' : '↻ Actualiser'}</button>
+          </div>
+        </section>
 
         <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:12,flexWrap:'wrap',marginBottom:16}}><span style={{fontSize:12}}>{lastUpdated ? `Actualisé à ${lastUpdated.toLocaleTimeString('fr-FR')}` : 'En attente de chargement'}</span><button className="button button-secondary" type="button" disabled={loading} onClick={() => void loadModeration(token)}>{loading ? 'Actualisation…' : '↻ Actualiser'}</button></div>
         <div className={pendingCount > 0 ? 'moderation-notification has-pending' : 'moderation-notification'}>
@@ -307,7 +319,11 @@ export function ModerationPage() {
           {pendingCount > 0 && <span className="moderation-notification-badge" aria-label={`${pendingCount} éléments en attente`}>{pendingCount}</span>}
         </div>
 
-        <div className="moderation-section-heading">
+        <AdminStats token={token} />
+
+        <AdminPlumes token={token} />
+
+        <div id="admin-courriers-a-valider" className="moderation-section-heading">
           <h2>Courriers en attente</h2>
           <span>{courriers.length}</span>
         </div>
@@ -329,7 +345,7 @@ export function ModerationPage() {
           </div>
         )}
 
-        <div className="moderation-section-heading moderation-replies-heading">
+        <div id="admin-reponses-a-valider" className="moderation-section-heading moderation-replies-heading">
           <h2>Réponses en attente</h2>
           <span>{reponses.length}</span>
         </div>
@@ -357,7 +373,7 @@ export function ModerationPage() {
         </div>
         <p className="moderation-copy">Retrouve ici tous les courriers, même les anciens. Réponds directement au nom des Courriers du Cœur, sans utiliser ton profil personnel ni chercher de numéro.</p>
 
-        <div className="moderation-actions" style={{marginBottom: 18, flexWrap: 'wrap'}}>
+        <div id="admin-courriers-a-repondre" className="moderation-actions" style={{marginBottom: 18, flexWrap: 'wrap',scrollMarginTop:100}}>
           <button type="button" className={replyFilter === 'all' ? 'button button-primary' : 'button button-secondary'} onClick={() => setReplyFilter('all')}>Tous ({publishedCourriers.length})</button>
           <button type="button" className={replyFilter === 'unanswered' ? 'button button-primary' : 'button button-secondary'} onClick={() => setReplyFilter('unanswered')}>À répondre ({publishedCourriers.filter((letter) => !answeredIds.includes(letter.id)).length})</button>
           <button type="button" className={replyFilter === 'answered' ? 'button button-primary' : 'button button-secondary'} onClick={() => setReplyFilter('answered')}>Déjà répondus ({publishedCourriers.filter((letter) => answeredIds.includes(letter.id)).length})</button>
