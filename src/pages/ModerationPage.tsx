@@ -305,20 +305,6 @@ export function ModerationPage() {
           </div>
         </section>
 
-        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:12,flexWrap:'wrap',marginBottom:16}}><span style={{fontSize:12}}>{lastUpdated ? `Actualisé à ${lastUpdated.toLocaleTimeString('fr-FR')}` : 'En attente de chargement'}</span><button className="button button-secondary" type="button" disabled={loading} onClick={() => void loadModeration(token)}>{loading ? 'Actualisation…' : '↻ Actualiser'}</button></div>
-        <div className={pendingCount > 0 ? 'moderation-notification has-pending' : 'moderation-notification'}>
-          <div className="moderation-notification-bell" aria-hidden="true">🔔</div>
-          <div>
-            <strong>{loadError ? 'Chargement impossible' : loading && !lastUpdated ? 'Chargement…' : pendingCount > 0 ? `${pendingCount} élément${pendingCount > 1 ? 's' : ''} à valider` : 'Tout est à jour'}</strong>
-            <span>
-              {loadError ? 'Les courriers ne sont pas accessibles actuellement.' : pendingCount > 0
-                ? `${courriers.length} courrier${courriers.length > 1 ? 's' : ''} · ${reponses.length} réponse${reponses.length > 1 ? 's' : ''} en attente`
-                : 'Aucun courrier ni aucune réponse en attente de validation.'}
-            </span>
-          </div>
-          {pendingCount > 0 && <span className="moderation-notification-badge" aria-label={`${pendingCount} éléments en attente`}>{pendingCount}</span>}
-        </div>
-
         <AdminStats token={token} />
 
         <AdminPlumes token={token} />
