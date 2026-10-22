@@ -55,10 +55,10 @@ export function HomePage() {
       <section className="cdc-how" id="histoire">
         <div className="cdc-title-row"><h2>Comment ça <em>fonctionne ?</em></h2><span className="cdc-gold-line">♡</span></div>
         <div className="cdc-how-grid">
-          <article><div><PenLine /></div><b>1</b><h3>J’écris</h3><p>Je partage mon histoire<br />en tout anonymat.</p></article>
-          <article><div><BookOpen /></div><b>2</b><h3>Je lis</h3><p>Je découvre des témoignages<br />qui me ressemblent.</p></article>
-          <article><div><MessageCircle /></div><b>3</b><h3>Je réagis</h3><p>J’échange avec bienveillance<br />dans les commentaires.</p></article>
-          <article><div><Feather /></div><b>4</b><h3>Je me sens moins seul(e)</h3><p>Un espace d’écoute,<br />sans jugement.</p></article>
+          <article><div><PenLine /></div><h3>J’écris</h3><p>Mon histoire</p></article>
+          <article><div><BookOpen /></div><h3>Je lis</h3><p>Les récits</p></article>
+          <article><div><MessageCircle /></div><h3>Je réagis</h3><p>J’échange</p></article>
+          <article><div><Feather /></div><h3>Je me sens</h3><p>Moins seul(e)</p></article>
         </div>
       </section>
 
