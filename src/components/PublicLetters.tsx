@@ -3,6 +3,7 @@ import type { FormEvent } from 'react'
 import { BookOpen, Feather, MessageCircle, Send } from 'lucide-react'
 import { getUserSession, saveUserSession } from '../lib/userAuth'
 import { avatarSymbol } from '../lib/avatar'
+import { ExpandableText } from './ExpandableText'
 
 type PublicLetter = {
   id: number
@@ -194,7 +195,7 @@ export function PublicLetters() {
                   </div>
 
                   <div className="public-letter-separator" />
-                  <p className="public-letter-message">{letter.message}</p>
+                  <ExpandableText className="public-letter-message" text={letter.message} />
                   <div className="public-letter-footer">
                     <span><MessageCircle size={15} /> {letterReplies.length} réponse{letterReplies.length > 1 ? 's' : ''}</span>
                     <button type="button" className="public-reply-button" onClick={() => openReply(letter.id)}>
