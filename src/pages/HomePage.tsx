@@ -2,6 +2,7 @@ import { ArrowRight, BookOpen, Feather, Heart, MessageCircle, PenLine, UsersRoun
 import { categories } from '../data/categories'
 import { PublicLetters } from '../components/PublicLetters'
 import { DailyPlume } from '../components/DailyPlume'
+import { AdPlacement } from '../components/AdPlacement'
 
 export function HomePage() {
   return (
@@ -29,6 +30,8 @@ export function HomePage() {
       </section>
 
       <DailyPlume />
+
+      <AdPlacement variant="banner" />
 
       <section className="cdc-categories" id="categories">
         {categories.map((category) => (
@@ -64,6 +67,8 @@ export function HomePage() {
 
 
       <PublicLetters />
+
+      <AdPlacement variant="editorial" />
 
       <section className="cdc-community">
         <div><p>Parce que<br /><em>vos mots comptent</em></p><span>♡</span></div>
