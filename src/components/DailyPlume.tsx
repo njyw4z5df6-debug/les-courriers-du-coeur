@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Feather, ArrowRight } from 'lucide-react'
 import { PlumeInteractions } from './PlumeInteractions'
+import { ExpandableText } from './ExpandableText'
 
 type Plume = { id: number; publication_date: string; categorie: string; texte: string }
 function categoryLink(category: string) {
@@ -42,7 +43,7 @@ export function DailyPlume() {
           <time style={{ color: '#846f63', fontSize: 13 }} dateTime={plume.publication_date}>{formattedDate(plume.publication_date)}</time>
         </div>
         <Feather size={26} color="#b98e71" style={{ marginTop: 16 }}/>
-        <p style={{ color: '#503d39', whiteSpace: 'pre-wrap', lineHeight: 1.58, fontSize: 'clamp(14px, 1.15vw, 15px)', marginTop: 12 }}>{plume.texte}</p>
+        <ExpandableText text={plume.texte} style={{ color: '#503d39', whiteSpace: 'pre-wrap', lineHeight: 1.58, fontSize: 'clamp(14px, 1.15vw, 15px)', marginTop: 12 }} />
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 16, color: '#9b6c61', fontStyle: 'italic', fontSize: 14 }}>♡ Les Courriers du Cœur</div>
         <div style={{ marginTop: 16, paddingTop: 14, borderTop: '1px solid #eddfd3' }}>
           <a href={categoryLink(plume.categorie)} style={{ color: '#87594e', fontSize: 13, display: 'inline-flex', alignItems: 'center', gap: 8, textDecoration: 'underline' }}>
@@ -59,7 +60,7 @@ export function DailyPlume() {
           {entries.slice(1).map(entry => <article key={entry.id} style={{ border: '1px solid #e6d8cd', borderRadius: 14, padding: 20, background: '#fffaf6' }}>
             <a href={categoryLink(entry.categorie)} style={{ color: '#9b6559', fontSize: 13 }}>{entry.categorie} ↗</a>
             <time style={{ display: 'block', marginTop: 9, color: '#79665e', fontSize: 12 }}>{formattedDate(entry.publication_date)}</time>
-            <p style={{ whiteSpace: 'pre-wrap', marginTop: 12, lineHeight: 1.6 }}>{entry.texte}</p>
+            <ExpandableText text={entry.texte} style={{ whiteSpace: 'pre-wrap', marginTop: 12, lineHeight: 1.6 }} />
             <PlumeInteractions plumeId={entry.id}/>
           </article>)}
         </div>}
