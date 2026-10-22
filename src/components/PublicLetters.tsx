@@ -212,7 +212,7 @@ export function PublicLetters() {
                             {reply.est_admin && <span>♡ Réponse de l’équipe</span>}
                             <time>{new Date(reply.created_at).toLocaleDateString('fr-FR')}</time>
                           </div>
-                          <p>{reply.message}</p>
+                          <ExpandableText text={reply.message} />
                         </div>
                       ))}
                     </div>
