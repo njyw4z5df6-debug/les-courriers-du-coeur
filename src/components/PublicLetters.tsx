@@ -24,12 +24,12 @@ type PublicReply = {
   avatar?: string
 }
 
-export function PublicLetters() {
+export function PublicLetters({ initialCategory }: { initialCategory?: string } = {}) {
   const [session, setSession] = useState(getUserSession())
   const [letters, setLetters] = useState<PublicLetter[]>([])
   const [replies, setReplies] = useState<PublicReply[]>([])
   const [loading, setLoading] = useState(true)
-  const [activeCategory, setActiveCategory] = useState(() => new URLSearchParams(window.location.search).get('categorie') || 'Tous')
+  const [activeCategory, setActiveCategory] = useState(() => initialCategory || new URLSearchParams(window.location.search).get('categorie') || 'Tous')
   const [replyingTo, setReplyingTo] = useState<number | null>(null)
   const [replyPseudo, setReplyPseudo] = useState(getUserSession()?.pseudo || '')
   const [replyMessage, setReplyMessage] = useState('')
