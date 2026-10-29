@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { categories } from '../data/categories'
 import { PublicLetters } from '../components/PublicLetters'
+import { DailyPlume } from '../components/DailyPlume'
 
 export const themePages = [
   { slug: 'addictions', name: 'Addictions', intro: 'Parler de ses difficultés avec une addiction, de ses doutes ou de son cheminement peut aider à se sentir moins seul. Cet espace accueille les récits sans jugement.' },
@@ -42,6 +43,7 @@ export function ThemePage({ slug }: { slug: string }) {
       {theme.slug === 'detresse-psychologique' && <p style={{lineHeight: 1.7}}>En cas de détresse ou de pensées suicidaires, appelez le <a href="tel:3114">3114</a> (gratuit, 24 h/24). En cas de danger immédiat, le <a href="tel:112">112</a>.</p>}
       <a className="cdc-button cdc-button-primary" href="/ecrire" style={{display: 'inline-flex', marginTop: 14}}>Écrire mon courrier</a>
     </section>
+    <DailyPlume category={theme.name} />
     <PublicLetters initialCategory={theme.name} />
     <section style={{maxWidth: 950, margin: '30px auto 60px', padding: '0 20px'}}>
       <h2 style={{fontFamily: 'Georgia, serif', color: '#654b3d'}}>Découvrir d’autres histoires</h2>
