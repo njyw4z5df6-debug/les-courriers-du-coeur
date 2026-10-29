@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url>
-<loc>https://www.lescourriersducoeur.fr/</loc>
-</url>
-</urlset>  
+  <url><loc>https://www.lescourriersducoeur.fr/</loc></url>
+  <url><loc>https://www.lescourriersducoeur.fr/ecrire</loc></url>
+  <url><loc>https://www.lescourriersducoeur.fr/themes/addictions</loc></url>
+  <url><loc>https://www.lescourriersducoeur.fr/themes/famille</loc></url>
+  <url><loc>https://www.lescourriersducoeur.fr/themes/detresse-psychologique</loc></url>
+  <url><loc>https://www.lescourriersducoeur.fr/themes/parentalite-a-distance</loc></url>
+  <url><loc>https://www.lescourriersducoeur.fr/themes/deuil</loc></url>
+  <url><loc>https://www.lescourriersducoeur.fr/themes/violences</loc></url>
+  <url><loc>https://www.lescourriersducoeur.fr/themes/anxiete-depression</loc></url>
+  <url><loc>https://www.lescourriersducoeur.fr/themes/travail-burn-out</loc></url>
+  <url><loc>https://www.lescourriersducoeur.fr/themes/projets-de-vie-expatriation</loc></url>
+  <url><loc>https://www.lescourriersducoeur.fr/themes/conflits-familiaux-separation</loc></url>
+</urlset>
