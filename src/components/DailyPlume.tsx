@@ -13,7 +13,7 @@ function formattedDate(day: string) {
   })
 }
 
-export function DailyPlume() {
+export function DailyPlume({ category }: { category?: string } = {}) {
   const [entries, setEntries] = useState<Plume[]>([])
   const [error, setError] = useState(false)
   const [showArchive, setShowArchive] = useState(false)
@@ -22,9 +22,9 @@ export function DailyPlume() {
     fetch('/api/plumes').then(async response => {
       if (!response.ok) throw new Error('unavailable')
       const data = await response.json()
-      setEntries(Array.isArray(data.archive) ? data.archive : [])
+      setEntries(Array.isArray(data.archive) ? data.archive.filter((entry: Plume) => !category || entry.categorie === category) : [])
     }).catch(() => setError(true))
-  }, [])
+  }, [category])
 
   if (entries.length === 0) return null
   const plume = entries[0]
@@ -32,7 +32,7 @@ export function DailyPlume() {
     <section id="plume-du-jour" style={{ padding: '28px 18px 26px', maxWidth: 820, margin: '0 auto' }}>
       <div style={{ textAlign: 'center', marginBottom: 16 }}>
         <p className="script-label">Un rendez-vous avec les mots</p>
-        <h2 style={{ marginTop: 7, fontSize: 'clamp(23px, 3vw, 32px)', color: '#533f39' }}>La plume <em>du jour</em></h2>
+        <h2 style={{ marginTop: 7, fontSize: 'clamp(23px, 3vw, 32px)', color: '#533f39' }}>{category ? 'Les plumes' : 'La plume'} <em>{category ? 'sur ce thème' : 'du jour'}</em></h2>
       </div>
       <article style={{ background: '#fffaf4', border: '1px solid #ead9cb', borderRadius: 18, padding: 'clamp(18px, 2.5vw, 26px)', boxShadow: '0 12px 40px rgba(86,53,33,.06)' }}>
         <div style={{ display: 'flex', gap: 10, justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
