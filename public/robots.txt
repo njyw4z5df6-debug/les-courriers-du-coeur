@@ -2,6 +2,5 @@ User-agent: *
 Allow: /
 Disallow: /moderation
 Disallow: /compte
-Disallow: /ecrire
 
 Sitemap: https://www.lescourriersducoeur.fr/sitemap.xml
