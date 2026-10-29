@@ -411,7 +411,7 @@ export function ModerationPage() {
                         value={adminReply}
                         onChange={(event) => setAdminReply(event.target.value)}
                         placeholder="Écris ta réponse…"
-                        maxLength={2000}
+                        maxLength={20000}
                         required
                       />
                     </label>
