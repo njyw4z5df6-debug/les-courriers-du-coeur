@@ -1,10 +1,26 @@
 import { ArrowRight, BookOpen, Feather, Heart, MessageCircle, PenLine, UsersRound } from 'lucide-react'
+import { useEffect } from 'react'
 import { categories } from '../data/categories'
 import { PublicLetters } from '../components/PublicLetters'
 import { DailyPlume } from '../components/DailyPlume'
 import { themePages } from './ThemePage'
 
 export function HomePage() {
+  useEffect(() => {
+    const hash = decodeURIComponent(window.location.hash.slice(1))
+    if (!hash) return
+    const align = () => {
+      if (window.location.hash.slice(1) !== hash) return
+      const target = document.getElementById(hash)
+      if (!target) return
+      const headerHeight = document.querySelector('.site-header')?.getBoundingClientRect().height || 0
+      const top = Math.max(0, window.scrollY + target.getBoundingClientRect().top - headerHeight - 18)
+      window.scrollTo({ top, behavior: 'instant' })
+    }
+    const frame = window.requestAnimationFrame(align)
+    const delays = [250, 850, 1800].map((ms) => window.setTimeout(align, ms))
+    return () => { window.cancelAnimationFrame(frame); delays.forEach(window.clearTimeout) }
+  }, [])
   return (
     <main id="accueil" className="cdc-home">
       <section className="cdc-hero">
