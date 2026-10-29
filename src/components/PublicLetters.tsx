@@ -232,7 +232,7 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
                           </label>
                           <label>
                             <span>Votre message</span>
-                            <textarea value={replyMessage} onChange={(e) => setReplyMessage(e.target.value)} rows={4} maxLength={2000} required />
+                            <textarea value={replyMessage} onChange={(e) => setReplyMessage(e.target.value)} rows={4} maxLength={20000} required />
                           </label>
                           <button className="button button-primary public-reply-submit" type="submit" disabled={replyStatus === 'sending'}>
                             <Send size={15} /> {replyStatus === 'sending' ? 'Envoi…' : 'Envoyer ma réponse'}
