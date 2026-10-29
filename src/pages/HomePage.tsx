@@ -2,6 +2,7 @@ import { ArrowRight, BookOpen, Feather, Heart, MessageCircle, PenLine, UsersRoun
 import { categories } from '../data/categories'
 import { PublicLetters } from '../components/PublicLetters'
 import { DailyPlume } from '../components/DailyPlume'
+import { themePages } from './ThemePage'
 
 export function HomePage() {
   return (
@@ -32,7 +33,7 @@ export function HomePage() {
 
       <section className="cdc-categories" id="categories">
         {categories.map((category) => (
-          <a href={`/?categorie=${encodeURIComponent(category.name)}#tous-les-courriers`} key={category.name}>
+          <a href={themePages.find((page) => page.name === category.name)?.slug ? `/themes/${themePages.find((page) => page.name === category.name)!.slug}` : `/?categorie=${encodeURIComponent(category.name)}#tous-les-courriers`} key={category.name}>
             <span>{category.symbol}</span><strong>{category.name}</strong>
           </a>
         ))}
