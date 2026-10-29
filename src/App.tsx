@@ -5,9 +5,15 @@ import { HomePage } from './pages/HomePage'
 import { ModerationPage } from './pages/ModerationPage'
 import { AccountPage } from './pages/AccountPage'
 import { WritePage } from './pages/WritePage'
+import { ThemePage, themePages } from './pages/ThemePage'
 
 export default function App() {
   const path = window.location.pathname.replace(/\/+$/, '') || '/'
+
+  if (path.startsWith('/themes/')) {
+    const slug = path.slice('/themes/'.length)
+    if (themePages.some((theme) => theme.slug === slug)) return <><Header /><ThemePage slug={slug} /><Footer /><Analytics /></>
+  }
 
   if (path === '/moderation') {
     return (
