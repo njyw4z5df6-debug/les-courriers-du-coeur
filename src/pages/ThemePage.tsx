@@ -36,6 +36,15 @@ export function ThemePage({ slug }: { slug: string }) {
   }, [theme])
   if (!theme) return null
   return <main className="cdc-home">
+    <nav aria-label="Navigation entre les catégories" style={{maxWidth: 900, margin: '20px auto 0', padding: '0 18px'}}>
+      <a href="/#categories" style={{display: 'inline-flex', alignItems: 'center', minHeight: 44, color: '#855e45', fontWeight: 600, textDecoration: 'underline', textUnderlineOffset: 4}}>← Toutes les catégories</a>
+      <p style={{color: '#79665e', fontSize: 14, margin: '12px 0 8px'}}>Explorer une autre catégorie :</p>
+      <div style={{display: 'flex', flexWrap: 'wrap', gap: 8}}>
+        {themePages.filter((page) => page.slug !== theme.slug).map((page) => (
+          <a key={page.slug} href={'/themes/' + page.slug} style={{display: 'inline-flex', alignItems: 'center', minHeight: 40, padding: '7px 12px', border: '1px solid #e9d8c2', borderRadius: 24, background: '#fffaf4', color: '#654b3d', fontSize: 13, textDecoration: 'none'}}>{page.name}</a>
+        ))}
+      </div>
+    </nav>
     <section aria-labelledby="theme-title" style={{maxWidth: 900, margin: '45px auto 38px', padding: '35px 24px', textAlign: 'center', background: '#faf5ee', border: '1px solid #e9d8c2', borderRadius: 18}}>
       <p className="cdc-eyebrow">LES COURRIERS DU CŒUR</p>
       <h1 id="theme-title" style={{fontFamily: 'Georgia, serif', fontWeight: 400, fontSize: 'clamp(28px, 4vw, 42px)', color: '#654b3d'}}>{theme.name}</h1>
