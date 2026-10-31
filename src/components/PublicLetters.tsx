@@ -64,10 +64,13 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
   }, [session, url, key])
 
   useEffect(() => {
-    if (!url || !key) {
+    if (!session || !url || !key) {
+      setLetters([])
+      setReplies([])
       setLoading(false)
       return
     }
+    setLoading(true)
 
     Promise.all([
       fetch(url + '/rest/v1/courriers?select=id,created_at,pseudo,categorie,message,avatar&valide=eq.true&statut=eq.valide&order=created_at.desc', {
@@ -87,7 +90,7 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
         setReplies([])
       })
       .finally(() => setLoading(false))
-  }, [url, key])
+  }, [url, key, session?.accessToken])
 
   const categories = useMemo(
     () => ['Tous', ...Array.from(new Set(letters.map((letter) => letter.categorie).filter(Boolean)))],
@@ -156,7 +159,16 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
           </div>
         </div>
 
-        {!loading && letters.length > 0 && (
+        {!session && (
+          <div className="public-letters-empty" style={{textAlign: 'center', padding: '35px 20px'}}>
+            <BookOpen size={28} />
+            <strong>Les courriers sont réservés aux membres</strong>
+            <span>Pour lire les témoignages et leurs réponses, connectez-vous ou créez votre compte avec une adresse e-mail.</span>
+            <a className="button button-primary" href="/compte" style={{display: 'inline-flex', marginTop: 16}}>Se connecter ou s’inscrire</a>
+          </div>
+        )}
+
+        {session && !loading && letters.length > 0 && (
           <div className="public-letters-toolbar">
             <div className="public-letters-filters" aria-label="Filtrer les courriers par catégorie">
               {categories.map((category) => (
@@ -169,7 +181,7 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
           </div>
         )}
 
-        {loading ? (
+        {!session ? null : loading ? (
           <p className="public-letters-empty">Chargement des courriers…</p>
         ) : letters.length === 0 ? (
           <div className="public-letters-empty">
