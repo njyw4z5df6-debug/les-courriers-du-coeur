@@ -6,6 +6,7 @@ import { ModerationPage } from './pages/ModerationPage'
 import { AccountPage } from './pages/AccountPage'
 import { WritePage } from './pages/WritePage'
 import { ThemePage, themePages } from './pages/ThemePage'
+import { EclairagesPage } from './pages/EclairagesPage'
 
 export default function App() {
   const path = window.location.pathname.replace(/\/+$/, '') || '/'
@@ -14,6 +15,9 @@ export default function App() {
     const slug = path.slice('/themes/'.length)
     if (themePages.some((theme) => theme.slug === slug)) return <><Header /><ThemePage slug={slug} /><Footer /><Analytics /></>
   }
+
+  if (path === '/eclairages') return <><Header /><EclairagesPage /><Footer /><Analytics /></>
+  if (path.startsWith('/eclairages/')) return <><Header /><EclairagesPage slug={path.slice('/eclairages/'.length)} /><Footer /><Analytics /></>
 
   if (path === '/moderation') {
     return (
