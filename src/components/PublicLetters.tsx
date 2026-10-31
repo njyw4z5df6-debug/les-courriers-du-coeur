@@ -74,10 +74,10 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
 
     Promise.all([
       fetch(url + '/rest/v1/courriers?select=id,created_at,pseudo,categorie,message,avatar&valide=eq.true&statut=eq.valide&order=created_at.desc', {
-        headers: { apikey: key, Authorization: 'Bearer ' + key },
+        headers: { apikey: key, Authorization: 'Bearer ' + session.accessToken },
       }),
       fetch(url + '/rest/v1/reponses?select=id,courrier_id,created_at,pseudo,message,est_admin,avatar&statut=eq.valide&order=created_at.asc', {
-        headers: { apikey: key, Authorization: 'Bearer ' + key },
+        headers: { apikey: key, Authorization: 'Bearer ' + session.accessToken },
       }),
     ])
       .then(async ([lettersResponse, repliesResponse]) => {
