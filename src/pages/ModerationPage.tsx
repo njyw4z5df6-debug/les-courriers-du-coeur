@@ -4,6 +4,7 @@ import { Check, LogOut, MessageCircle, Send, ShieldCheck, X } from 'lucide-react
 import { AdminStats } from '../components/AdminStats'
 import { AdminPlumes } from '../components/AdminPlumes'
 import { AdminEclairages } from '../components/AdminEclairages'
+import { AdminEclairages } from '../components/AdminEclairages'
 
 type Courrier = {
   id: number
@@ -309,6 +310,8 @@ export function ModerationPage() {
         <AdminStats token={token} />
 
         <AdminPlumes token={token} />
+
+        <AdminEclairages token={token} />
 
         <AdminEclairages token={token} />
 
