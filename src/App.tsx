@@ -17,6 +17,7 @@ export default function App() {
   }
 
   if (path === '/eclairages') return <><Header /><EclairagesPage /><Footer /><Analytics /></>
+  if (path.startsWith('/eclairages/')) return <><Header /><EclairagesPage slug={path.slice('/eclairages/'.length)} /><Footer /><Analytics /></>
 
   if (path === '/moderation') {
     return (
