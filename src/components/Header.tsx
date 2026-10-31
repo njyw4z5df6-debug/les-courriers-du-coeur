@@ -44,6 +44,7 @@ export function Header() {
       </button>
       <nav className={open ? 'main-nav is-open' : 'main-nav'} aria-label="Navigation principale">
         {links.map(([label, id]) => <a href={'/#' + id} key={id} onClick={(e) => { e.preventDefault(); goToSection(id) }}>{label}</a>)}
+        <a href="/eclairages" onClick={() => setOpen(false)}>Les Éclairages du Cœur</a>
         <a href="/compte" onClick={() => setOpen(false)}><UserRound size={15} /> Mon compte</a>
         <a className="nav-write" href="/ecrire" onClick={() => setOpen(false)}><PenLine size={16} /> Écrire mon courrier</a>
       </nav>
