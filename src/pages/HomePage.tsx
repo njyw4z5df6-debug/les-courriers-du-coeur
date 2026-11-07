@@ -40,7 +40,7 @@ export function HomePage() {
       <section aria-labelledby="cdc-welcome-title" style={{maxWidth: 900, margin: '22px auto 38px', padding: '25px 22px', textAlign: 'center', background: '#faf5ee', border: '1px solid #e9d8c2', borderRadius: 18}}>
         <p className="cdc-eyebrow">UN ESPACE POUR TOUTES LES HISTOIRES</p>
         <h2 id="cdc-welcome-title" style={{fontFamily: 'Georgia, serif', fontWeight: 400, fontSize: 'clamp(23px, 3.5vw, 35px)', lineHeight: 1.3, margin: '10px 0 16px', color: '#654b3d'}}>Parce qu'on a tous quelque chose sur le cœur…</h2>
-        <p style={{fontSize: 16, lineHeight: 1.85, maxWidth: 710, margin: '0 auto 14px', color: '#654b3d'}}>Solitude, dépression, anxiété, burn-out, difficultés au travail, histoires de famille, deuil, addictions, projets de vie…</p>
+        <p style={{fontSize: 16, lineHeight: 1.85, maxWidth: 710, margin: '0 auto 14px', color: '#654b3d'}}>Besoin de parler, de se confier sans jugement ou de partager un témoignage ? Solitude, anxiété, dépression, deuil, parentalité à distance, séparation, conflits familiaux, addictions, épuisement au travail ou projets de vie : chacun peut trouver ici un espace d’écoute et de partage.</p>
         <p style={{fontSize: 16, lineHeight: 1.75, maxWidth: 680, margin: '0 auto 22px', color: '#654b3d'}}>Peu importe ce que vous traversez, il y a une place pour votre histoire ici. 💌</p>
         <a href="/#categories" style={{display: 'inline-flex', alignItems: 'center', gap: 8, color: '#855e45', fontWeight: 600, textDecoration: 'underline', textUnderlineOffset: 5}}>Découvrir toutes les catégories <ArrowRight size={17} /></a>
       </section>
