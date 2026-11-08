@@ -15,6 +15,14 @@
     {
       "source": "/themes/:slug",
       "destination": "/index.html"
+    },
+    {
+      "source": "/eclairages",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/eclairages/:slug",
+      "destination": "/index.html"
     }
   ]
 }
