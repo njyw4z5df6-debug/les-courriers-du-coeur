@@ -54,7 +54,7 @@ export function HomePage() {
           <p>C’est de cette conviction qu’est né <strong>Les Courriers du Cœur</strong> : créer un espace bienveillant où chacun peut déposer ses mots, trouver des éclairages, recevoir du soutien et découvrir des pistes pour avancer à son rythme.</p>
           <p>Je ne prétends pas avoir réponse à tout. Mais je crois profondément au pouvoir de l’écoute, du partage et de l’accompagnement humain.</p>
           <p style={{fontFamily:'Georgia, serif',fontStyle:'italic',fontSize:19,textAlign:'center',margin:'22px auto'}}>« Parce que derrière chaque difficulté, il y a une personne qui mérite d’être entendue. »</p>
-          <p style={{textAlign:'right',fontSize:14,fontWeight:600,marginBottom:0}}>Anne-Laure · Fondatrice des Courriers du Cœur</p>
+          <p style={{textAlign:'right',fontSize:14,fontWeight:600,marginBottom:0}}>Anne-Laure · Fondatrice des Courriers du Cœur · Professionnelle de l’accompagnement et coach en accompagnement personnel</p>
         </div>
       </section>
 
