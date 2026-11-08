@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
-import { Feather, CalendarDays, Pencil, Trash2 } from 'lucide-react'
+import { Feather, CalendarDays, ChevronDown, ChevronUp, Pencil, Trash2 } from 'lucide-react'
 import { categories } from '../data/categories'
 
 type PlumeComment = { id: number; plume_id: number; pseudo: string; message: string; created_at: string }
@@ -18,6 +18,8 @@ export function AdminPlumes({ token }: { token: string }) {
   const [texte, setTexte] = useState('')
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
+  const [expandedPlumes, setExpandedPlumes] = useState<number[]>([])
+  const [showAllPlumes, setShowAllPlumes] = useState(false)
 
   async function load() {
     try {
@@ -120,9 +122,10 @@ export function AdminPlumes({ token }: { token: string }) {
       </article>)}
     </div>
     {entries.length > 0 && <>
-      <h3 style={{ margin: '24px 0 12px' }}>Tes plumes</h3>
+      <h3 style={{ margin: '24px 0 12px' }}>Tes plumes ({entries.length})</h3>
+      <p style={{ fontSize: 13, color: '#826b61', marginBottom: 12 }}>Les textes sont repliés pour accéder plus facilement aux Éclairages du Cœur.</p>
       <div style={{ display: 'grid', gap: 12 }}>
-        {entries.map(item => <article key={item.id} style={{ border: '1px solid #ebded5', background: '#fffaf6', borderRadius: 14, padding: 16 }}>
+        {(showAllPlumes ? entries : entries.slice(0, 5)).map(item => <article key={item.id} style={{ border: '1px solid #ebded5', background: '#fffaf6', borderRadius: 14, padding: 16 }}>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
             <span style={{ fontSize: 13, color: '#8f6258' }}><CalendarDays size={13} style={{ verticalAlign: 'middle' }}/> {new Date(item.publication_date + 'T12:00:00').toLocaleDateString('fr-FR')} · {item.categorie} · {item.publication_date > today() ? 'Programmée' : 'Publiée'}</span>
             <span style={{ display: 'flex', gap: 7 }}>
@@ -130,9 +133,11 @@ export function AdminPlumes({ token }: { token: string }) {
               <button type="button" className="button button-secondary" disabled={loading} onClick={() => void remove(item)} aria-label="Supprimer cette plume"><Trash2 size={14}/></button>
             </span>
           </div>
-          <p style={{ whiteSpace: 'pre-wrap', marginTop: 10, color: '#5f4c45' }}>{item.texte.length > 250 ? item.texte.slice(0,250) + '…' : item.texte}</p>
+          <p style={{ whiteSpace: 'pre-wrap', marginTop: 10, color: '#5f4c45' }}>{expandedPlumes.includes(item.id) ? item.texte : item.texte.length > 110 ? item.texte.slice(0, 110).trimEnd() + '…' : item.texte}</p>
+          {item.texte.length > 110 && <button type="button" className="button button-secondary" style={{ marginTop: 6 }} aria-expanded={expandedPlumes.includes(item.id)} onClick={() => setExpandedPlumes(ids => ids.includes(item.id) ? ids.filter(x => x !== item.id) : [...ids, item.id])}>{expandedPlumes.includes(item.id) ? <ChevronUp size={16}/> : <ChevronDown size={16}/>} {expandedPlumes.includes(item.id) ? 'Réduire' : 'Lire la suite'}</button>}
         </article>)}
       </div>
+      {entries.length > 5 && <button type="button" className="button button-secondary" style={{ marginTop: 14 }} aria-expanded={showAllPlumes} onClick={() => setShowAllPlumes(v => !v)}>{showAllPlumes ? <ChevronUp size={16}/> : <ChevronDown size={16}/>} {showAllPlumes ? 'Afficher moins de plumes' : `Afficher toutes les plumes (${entries.length})`}</button>}
     </>}
   </section>
 }
