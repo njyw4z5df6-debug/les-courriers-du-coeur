@@ -45,6 +45,19 @@ export function HomePage() {
         <a href="/#categories" style={{display: 'inline-flex', alignItems: 'center', gap: 8, color: '#855e45', fontWeight: 600, textDecoration: 'underline', textUnderlineOffset: 5}}>Découvrir toutes les catégories <ArrowRight size={17} /></a>
       </section>
 
+      <section aria-labelledby="fondatrice-title" style={{maxWidth: 900, margin: '22px auto 38px', padding: 'clamp(24px, 5vw, 40px)', background: '#fffaf6', border: '1px solid #e9d8c2', borderRadius: 18}}>
+        <p className="cdc-eyebrow" style={{textAlign:'center'}}>DERRIÈRE LES COURRIERS DU CŒUR</p>
+        <h2 id="fondatrice-title" style={{fontFamily:'Georgia, serif',fontWeight:400,fontSize:'clamp(24px, 4vw, 34px)',lineHeight:1.35,color:'#654b3d',textAlign:'center',margin:'12px auto 24px',maxWidth:740}}>Une femme, une maman, et la conviction que chaque histoire mérite d’être entendue.</h2>
+        <div style={{fontSize:16,lineHeight:1.85,color:'#654b3d',maxWidth:730,margin:'0 auto'}}>
+          <p>Je suis Anne-Laure, maman de deux enfants et professionnelle d’un métier profondément tourné vers l’humain.</p>
+          <p>Au fil de mon parcours, j’ai rencontré des personnes aux histoires très différentes, parfois marquées par des épreuves, des doutes, des ruptures ou un profond sentiment de solitude. Mon propre chemin de vie m’a aussi appris combien il peut être difficile de trouver une écoute sincère, sans jugement ni idées toutes faites.</p>
+          <p>C’est de cette conviction qu’est né <strong>Les Courriers du Cœur</strong> : créer un espace bienveillant où chacun peut déposer ses mots, trouver des éclairages, recevoir du soutien et découvrir des pistes pour avancer à son rythme.</p>
+          <p>Je ne prétends pas avoir réponse à tout. Mais je crois profondément au pouvoir de l’écoute, du partage et de l’accompagnement humain.</p>
+          <p style={{fontFamily:'Georgia, serif',fontStyle:'italic',fontSize:19,textAlign:'center',margin:'22px auto'}}>« Parce que derrière chaque difficulté, il y a une personne qui mérite d’être entendue. »</p>
+          <p style={{textAlign:'right',fontSize:14,fontWeight:600,marginBottom:0}}>Anne-Laure · Fondatrice des Courriers du Cœur</p>
+        </div>
+      </section>
+
       <section aria-labelledby="eclairages-home-title" style={{maxWidth: 900, margin: '28px auto 40px', padding: '30px 24px', background: '#faf5ee', border: '1px solid #e9d8c2', borderRadius: 18, textAlign: 'center'}}>
         <p className="cdc-eyebrow">UN RENDEZ-VOUS CHAQUE DIMANCHE</p>
         <h2 id="eclairages-home-title" style={{fontFamily: 'Georgia, serif', fontWeight: 400, fontSize: 'clamp(25px, 4vw, 36px)', margin: '10px 0', color: '#654b3d'}}>Les Éclairages du Cœur</h2>
