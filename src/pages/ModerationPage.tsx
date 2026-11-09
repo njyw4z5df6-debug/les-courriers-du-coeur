@@ -67,7 +67,7 @@ export function ModerationPage() {
       const registration = await navigator.serviceWorker.register('/sw.js', { scope: '/' })
       const ready = await navigator.serviceWorker.ready
       const keyResponse = await fetch('/api/push-config', { headers: { Authorization: 'Bearer ' + token } })
-      if (!keyResponse.ok) throw new Error('Le service de notifications n’est pas encore configuré sur le serveur.')
+      if (!keyResponse.ok) { const detail = await keyResponse.text().catch(() => ''); throw new Error('Configuration des notifications : erreur HTTP ' + keyResponse.status + (detail ? ' — ' + detail.slice(0, 140) : '') + '. Si erreur 401, déconnecte-toi puis reconnecte-toi.') }
       const { publicKey } = await keyResponse.json()
       if (!publicKey) throw new Error('Clé de notifications manquante.')
       const bytes = Uint8Array.from(atob(publicKey.replace(/-/g, '+').replace(/_/g, '/').padEnd(Math.ceil(publicKey.length / 4) * 4, '=')), c => c.charCodeAt(0))
