@@ -76,19 +76,6 @@ export function HomePage() {
         <a className="cdc-categories-more" href="/#categories">Voir toutes<br />les catégories <ArrowRight size={15} /></a>
       </section>
 
-      <section className="cdc-featured" id="courriers-du-moment">
-        <div className="cdc-title-row">
-          <h2>Quelques courriers <em>du moment</em></h2>
-          <span className="cdc-gold-line">♡</span>
-          <a href="/#tous-les-courriers">Lire tous les courriers <ArrowRight size={15} /></a>
-        </div>
-        <div className="cdc-letter-grid">
-          <article className="cdc-letter-card"><span>Parentalité à distance</span><p>« Chaque soir, je ferme les yeux en espérant les revoir bientôt… mais le silence est toujours là. »</p><Heart size={22} strokeWidth={1.4} /></article>
-          <article className="cdc-letter-card"><span>Anxiété / Dépression</span><p>« Je me sens perdue, mais vos mots m’aident à reprendre souffle. »</p><Heart size={22} strokeWidth={1.4} /></article>
-          <article className="cdc-letter-card"><span>Projets de vie</span><p>« Réinventer ma vie après la tempête… c’est possible. »</p><Heart size={22} strokeWidth={1.4} /></article>
-        </div>
-      </section>
-
       <section className="cdc-how" id="histoire">
         <div className="cdc-title-row"><h2>Comment ça <em>fonctionne ?</em></h2><span className="cdc-gold-line">♡</span></div>
         <div className="cdc-how-grid">
