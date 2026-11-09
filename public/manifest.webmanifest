@@ -1,12 +1,12 @@
 {
-  "id": "/moderation",
-  "name": "Les Courriers du Cœur — Administration",
-  "short_name": "LCDC Admin",
-  "start_url": "/moderation",
+  "id": "/",
+  "name": "Les Courriers du Cœur",
+  "short_name": "Courriers du Cœur",
+  "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "background_color": "#fbf7f1",
   "theme_color": "#fbf7f1",
   "lang": "fr",
-  "description": "Espace de modération des courriers"
+  "description": "Espace d'écoute et de partage"
 }
