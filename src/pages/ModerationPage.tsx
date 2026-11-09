@@ -26,6 +26,8 @@ type Reponse = {
 }
 
 export function ModerationPage() {
+  const [pushStatus, setPushStatus] = useState('')
+  const [pushEnabled, setPushEnabled] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [token, setToken] = useState(() => localStorage.getItem('cdc_admin_token') || '')
@@ -52,6 +54,37 @@ export function ModerationPage() {
 
     return () => window.clearInterval(refresh)
   }, [token])
+
+  async function enablePush() {
+    if (!token) return
+    setPushStatus('')
+    try {
+      if (!('serviceWorker' in navigator) || !('PushManager' in window) || !('Notification' in window)) {
+        throw new Error('Notifications non disponibles : ouvre l’administration depuis son icône sur l’écran d’accueil de ton iPhone.')
+      }
+      const permission = await Notification.requestPermission()
+      if (permission !== 'granted') throw new Error('Autorise les notifications dans les réglages de ton iPhone.')
+      const registration = await navigator.serviceWorker.register('/sw.js', { scope: '/' })
+      const ready = await navigator.serviceWorker.ready
+      const keyResponse = await fetch('/api/push-config', { headers: { Authorization: 'Bearer ' + token } })
+      if (!keyResponse.ok) throw new Error('Le service de notifications n’est pas encore configuré sur le serveur.')
+      const { publicKey } = await keyResponse.json()
+      if (!publicKey) throw new Error('Clé de notifications manquante.')
+      const bytes = Uint8Array.from(atob(publicKey.replace(/-/g, '+').replace(/_/g, '/').padEnd(Math.ceil(publicKey.length / 4) * 4, '=')), c => c.charCodeAt(0))
+      const subscription = await ready.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: bytes })
+      const save = await fetch('/api/push-subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+        body: JSON.stringify(subscription.toJSON()),
+      })
+      if (!save.ok) throw new Error('Impossible d’enregistrer cet iPhone pour les notifications.')
+      setPushEnabled(true)
+      setPushStatus('Notifications activées sur cet iPhone 💌')
+      void registration
+    } catch (error) {
+      setPushStatus(error instanceof Error ? error.message : 'Activation impossible.')
+    }
+  }
 
   const pendingCount = courriers.length + reponses.length
   const unansweredCount = publishedCourriers.filter(item => !answeredIds.includes(item.id)).length
@@ -304,6 +337,13 @@ export function ModerationPage() {
             {reponses.length > 0 && <button className="button button-secondary" type="button" onClick={() => jumpTo('admin-reponses-a-valider')}>Valider les réponses ({reponses.length})</button>}
             <button className="button button-secondary" type="button" disabled={loading} onClick={() => void loadModeration(token)}>{loading ? 'Actualisation…' : '↻ Actualiser'}</button>
           </div>
+        </section>
+
+        <section aria-label="Notifications administrateur" style={{margin:'0 0 24px',padding:20,border:'1px solid #e8d5c7',borderRadius:18}}>
+          <h2 style={{fontSize:22,margin:'0 0 8px'}}>🔔 Alertes nouveaux courriers</h2>
+          <p className="moderation-copy">Reçois une notification sur ton iPhone dès qu’un courrier attend une validation, sans recevoir d’e-mail.</p>
+          <button className="button button-secondary" type="button" onClick={() => void enablePush()} disabled={pushEnabled}>{pushEnabled ? '✓ Notifications activées' : 'Activer les notifications sur cet iPhone'}</button>
+          {pushStatus && <p role="status" style={{marginTop:10}}>{pushStatus}</p>}
         </section>
 
         <AdminStats token={token} />
