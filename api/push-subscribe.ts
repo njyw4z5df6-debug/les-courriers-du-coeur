@@ -3,7 +3,7 @@ type Res={status:(n:number)=>{json:(v:unknown)=>void}}
 export default async function handler(req:Req,res:Res){
  if(req.method!=='POST')return res.status(405).json({error:'Méthode non autorisée'})
  try {
-  const url=process.env.VITE_SUPABASE_URL?.replace(/\\/$/,'')
+  const url=process.env.VITE_SUPABASE_URL?.replace(/\/$/,'')
   const anon=process.env.VITE_SUPABASE_ANON_KEY
   const service=process.env.SUPABASE_SERVICE_ROLE_KEY
   if(!url||!anon||!service)return res.status(503).json({error:'Configuration serveur incomplète'})
