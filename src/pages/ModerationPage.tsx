@@ -77,7 +77,7 @@ export function ModerationPage() {
         headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
         body: JSON.stringify(subscription.toJSON()),
       })
-      if (!save.ok) throw new Error('Impossible d’enregistrer cet iPhone pour les notifications.')
+      if (!save.ok) { const detail = await save.json().catch(() => null) as { error?: string } | null; throw new Error('Enregistrement iPhone : erreur HTTP ' + save.status + (detail?.error ? ' — ' + detail.error : '') + '.') }
       setPushEnabled(true)
       setPushStatus('Notifications activées sur cet iPhone 💌')
       void registration
