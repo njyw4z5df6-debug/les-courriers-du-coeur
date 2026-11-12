@@ -16,12 +16,25 @@ export const themePages = [
   { slug: 'conflits-familiaux-separation', name: 'Conflits familiaux / Séparation conjugale', intro: 'Divorce, séparation amoureuse, conflits avec ses proches ou rupture familiale : ces situations peuvent laisser un sentiment d’injustice, de tristesse ou de solitude. Ici, vous pouvez vous confier et lire des histoires qui font écho à la vôtre.' },
 ] as const
 
+const searchDescriptions: Record<string, string> = {
+  addictions: 'Besoin de parler d’une addiction ou d’une dépendance affective ? Partagez votre histoire et découvrez des témoignages sans jugement.',
+  famille: 'Souffrir du rejet familial, se sentir incompris par ses proches ou porter des blessures d’enfance : un espace pour se confier.',
+  'detresse-psychologique': 'Quand tout devient trop lourd : mal-être, fatigue émotionnelle intense, sentiment d’abandon. Des témoignages pour rompre l’isolement.',
+  'parentalite-a-distance': 'Vivre loin de ses enfants, traverser une séparation familiale et préserver le lien : témoignages et confidences de parents.',
+  deuil: 'Écrire pour apaiser sa souffrance après un deuil, partager le manque et trouver des mots face à l’absence d’un proche.',
+  violences: 'Violences psychologiques, relation toxique, peur et reconstruction : partager son vécu sans être jugé.',
+  'anxiete-depression': 'Je me sens seule au monde, je n’ai personne à qui parler : confidences sur l’anxiété, la dépression et la fatigue émotionnelle.',
+  'travail-burn-out': 'Faire semblant d’aller bien au travail, vivre un burn-out ou une surcharge mentale : partager son expérience et se sentir moins seul.',
+  'projets-de-vie-expatriation': 'Retrouver confiance après une épreuve, recommencer sa vie et envisager un nouveau départ : récits et projets de vie.',
+  'conflits-familiaux-separation': 'Se reconstruire après une rupture familiale, se libérer de la culpabilité et apprendre à poser ses limites : témoignages.',
+}
+
 export function ThemePage({ slug }: { slug: string }) {
   const theme = themePages.find((item) => item.slug === slug)
   useEffect(() => {
     if (!theme) return
     const title = theme.name + ' : témoignages et confidences | Les Courriers du Cœur'
-    const description = theme.intro
+    const description = searchDescriptions[theme.slug] || theme.intro
     document.title = title
     const meta = document.querySelector('meta[name="description"]')
     if (meta) meta.setAttribute('content', description)
