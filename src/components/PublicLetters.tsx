@@ -17,6 +17,7 @@ type PublicLetter = {
 type PublicReply = {
   id: number
   courrier_id: number
+  parent_reponse_id: number | null
   created_at: string
   pseudo: string
   message: string
@@ -31,6 +32,7 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
   const [loading, setLoading] = useState(true)
   const [activeCategory, setActiveCategory] = useState(() => initialCategory || new URLSearchParams(window.location.search).get('categorie') || 'Tous')
   const [replyingTo, setReplyingTo] = useState<number | null>(null)
+  const [replyingToComment, setReplyingToComment] = useState<number | null>(null)
   const [replyPseudo, setReplyPseudo] = useState(getUserSession()?.pseudo || '')
   const [replyMessage, setReplyMessage] = useState('')
   const [replyStatus, setReplyStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
@@ -76,7 +78,7 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
       fetch(url + '/rest/v1/courriers?select=id,created_at,pseudo,categorie,message,avatar&valide=eq.true&statut=eq.valide&order=created_at.desc', {
         headers: { apikey: key, Authorization: 'Bearer ' + session.accessToken },
       }),
-      fetch(url + '/rest/v1/reponses?select=id,courrier_id,created_at,pseudo,message,est_admin,avatar&statut=eq.valide&order=created_at.asc', {
+      fetch(url + '/rest/v1/reponses?select=id,courrier_id,parent_reponse_id,created_at,pseudo,message,est_admin,avatar&statut=eq.valide&order=created_at.asc', {
         headers: { apikey: key, Authorization: 'Bearer ' + session.accessToken },
       }),
     ])
@@ -102,12 +104,13 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
     [letters, activeCategory],
   )
 
-  function openReply(letterId: number) {
+  function openReply(letterId: number, commentId: number | null = null) {
     if (!session) {
       window.location.href = '/compte'
       return
     }
-    setReplyingTo(replyingTo === letterId ? null : letterId)
+    setReplyingTo(letterId)
+    setReplyingToComment(commentId)
     setReplyStatus('idle')
     setReplyPseudo(session.pseudo)
     setReplyMessage('')
@@ -129,6 +132,7 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
         },
         body: JSON.stringify({
           courrier_id: courrierId,
+          parent_reponse_id: replyingToComment,
           pseudo: replyPseudo.trim(),
           message: replyMessage.trim(),
           statut: 'en_attente',
@@ -193,6 +197,17 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
           <div className="public-letters-grid">
             {visibleLetters.map((letter) => {
               const letterReplies = replies.filter((reply) => reply.courrier_id === letter.id)
+              const orderedReplies: Array<{reply: PublicReply; depth: number}> = []
+              const seen = new Set<number>()
+              const appendReplies = (parent: number | null, depth: number) => {
+                letterReplies.filter(r => (r.parent_reponse_id ?? null) === parent && !seen.has(r.id)).forEach(r => {
+                  seen.add(r.id)
+                  orderedReplies.push({reply:r,depth})
+                  appendReplies(r.id, depth + 1)
+                })
+              }
+              appendReplies(null, 0)
+              letterReplies.filter(r => !seen.has(r.id)).forEach(r => orderedReplies.push({reply:r,depth:0}))
               return (
                 <article className="public-letter-card" key={letter.id}>
                   <div className="public-letter-top">
@@ -217,14 +232,15 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
 
                   {letterReplies.length > 0 && (
                     <div className="public-replies">
-                      {letterReplies.map((reply) => (
-                        <div className={reply.est_admin ? 'public-reply public-reply-admin' : 'public-reply'} key={reply.id}>
+                      {orderedReplies.map(({reply, depth}) => (
+                        <div className={reply.est_admin ? 'public-reply public-reply-admin' : 'public-reply'} key={reply.id} style={{marginLeft: Math.min(depth, 4) * 16, borderLeft: depth ? '2px solid #d6b99f' : undefined, paddingLeft: depth ? 12 : undefined}}>
                           <div className="public-reply-meta">
                             <strong>{reply.est_admin ? 'Les Courriers du Cœur' : reply.pseudo}</strong>
                             {reply.est_admin && <span>♡ Réponse de l’équipe</span>}
                             <time>{new Date(reply.created_at).toLocaleDateString('fr-FR')}</time>
                           </div>
                           <ExpandableText text={reply.message} />
+                          <button type="button" className="public-reply-button" onClick={() => openReply(letter.id, reply.id)}>↳ Répondre à ce commentaire</button>
                         </div>
                       ))}
                     </div>
@@ -232,7 +248,7 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
 
                   {replyingTo === letter.id && (
                     <form className="public-reply-form" onSubmit={(event) => submitReply(event, letter.id)}>
-                      <p className="public-reply-form-title">Votre réponse</p>
+                      <p className="public-reply-form-title">{replyingToComment ? 'Répondre au commentaire de ' + (letterReplies.find(r => r.id === replyingToComment)?.pseudo || 'ce membre') : 'Votre réponse au courrier'}</p>
 
                       {replyStatus === 'success' ? (
                         <div className="public-reply-success">♡ Merci. Votre réponse sera visible après modération.</div>
