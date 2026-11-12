@@ -65,6 +65,24 @@ export function HomePage() {
         <a href="/eclairages" style={{display: 'inline-flex', alignItems: 'center', gap: 8, color: '#855e45', fontWeight: 600, textDecoration: 'underline', textUnderlineOffset: 4}}>Découvrir les Éclairages <ArrowRight size={17} /></a>
       </section>
 
+      <section aria-labelledby="questions-ecoute-title" style={{maxWidth: 900, margin: '28px auto 42px', padding: '30px 24px', background: '#fffaf6', border: '1px solid #e9d8c2', borderRadius: 18}}>
+        <p className="cdc-eyebrow" style={{textAlign: 'center'}}>DES MOTS POUR COMMENCER</p>
+        <h2 id="questions-ecoute-title" style={{fontFamily: 'Georgia, serif', fontWeight: 400, fontSize: 'clamp(24px, 3.5vw, 34px)', color: '#654b3d', textAlign: 'center', margin: '10px 0 22px'}}>Quand on a besoin de vider son sac…</h2>
+        <div style={{maxWidth: 740, margin: '0 auto', color: '#654b3d', fontSize: 16, lineHeight: 1.8}}>
+          <h3 style={{fontSize: 19, margin: '20px 0 6px'}}>Je n’ai personne à qui parler : où me confier ?</h3>
+          <p>Quand on se sent seul, incompris ou au bout du rouleau, écrire peut aider à mettre de l’ordre dans ses pensées. Sur Les Courriers du Cœur, vous pouvez partager votre histoire, exprimer vos émotions et découvrir les témoignages d’autres personnes, dans un espace d’écoute sans jugement.</p>
+          <h3 style={{fontSize: 19, margin: '20px 0 6px'}}>Peut-on raconter son histoire sans être jugé ?</h3>
+          <p>Oui. Qu’il s’agisse de souffrance familiale, de difficultés dans le couple, de deuil, de solitude ou de mal-être, chaque vécu mérite d’être accueilli avec respect. Vous choisissez les mots et les détails que vous souhaitez partager.</p>
+          <h3 style={{fontSize: 19, margin: '20px 0 6px'}}>Écrire une lettre peut-il aider à se libérer ?</h3>
+          <p>Écrire pour se libérer, déposer sa colère, sa tristesse ou son sentiment d’abandon peut apporter un peu de recul. Cela ne résout pas toujours les difficultés, mais mettre des mots sur ce que l’on traverse est parfois un premier pas.</p>
+          <h3 style={{fontSize: 19, margin: '20px 0 6px'}}>Et si je traverse une séparation ou un conflit familial ?</h3>
+          <p>Une rupture, l’éloignement de ses enfants ou des relations familiales compliquées peuvent bouleverser le quotidien. Vous pouvez lire les <a href="/themes/conflits-familiaux-separation" style={{color: '#855e45'}}>témoignages sur les conflits familiaux</a> ou ceux consacrés à la <a href="/themes/parentalite-a-distance" style={{color: '#855e45'}}>parentalité à distance</a>.</p>
+          <h3 style={{fontSize: 19, margin: '20px 0 6px'}}>Comment trouver du soutien quand je ne vais pas bien ?</h3>
+          <p>Vous pouvez commencer par lire des récits sur <a href="/themes/anxiete-depression" style={{color: '#855e45'}}>l’anxiété et la dépression</a>, partager ce que vous ressentez ou en parler à une personne de confiance. En cas de souffrance intense ou persistante, un professionnel de santé peut également vous accompagner.</p>
+          <div style={{textAlign: 'center', marginTop: 26}}><a className="cdc-button cdc-button-primary" href="/ecrire">Déposer mon histoire</a></div>
+        </div>
+      </section>
+
       <DailyPlume />
 
       <section className="cdc-categories" id="categories">
