@@ -29,6 +29,19 @@ const searchDescriptions: Record<string, string> = {
   'conflits-familiaux-separation': 'Se reconstruire après une rupture familiale, se libérer de la culpabilité et apprendre à poser ses limites : témoignages.',
 }
 
+const relatedSearchTopics: Record<string, string> = {
+  "addictions": "La dépendance affective et la peur de l’abandon peuvent rendre les relations douloureuses. Certains restent dans leur couple par peur d’être seuls et cherchent un endroit où déposer leurs émotions.",
+  "famille": "Une enfance difficile peut laisser des conséquences à l’âge adulte. « Je ne me sens pas aimée par mes parents », « je n’arrive pas à pardonner à mes proches » : entre la culpabilité, les blessures anciennes et la décision de couper les ponts avec sa famille, chacun avance à son rythme.",
+  "detresse-psychologique": "« Je garde tout pour moi », « je pleure quand je suis seule », « personne ne comprend ma souffrance » : faire semblant d’aller bien peut être épuisant. Quand on est fatiguée d’être forte, avoir besoin d’écrire ce que l’on ressent est légitime. Ici, on peut raconter son histoire sans être jugé.",
+  "parentalite-a-distance": "La culpabilité d’être une mauvaise mère, l’éloignement de ses enfants ou le sentiment de ne plus avoir de place dans leur quotidien peuvent être difficiles à dire. Ces vécus méritent une écoute respectueuse.",
+  "deuil": "À l’approche de Noël et des fêtes, l’absence d’un proche peut devenir plus douloureuse. Il est possible d’écrire sur ce manque, même lorsque l’entourage semble avoir repris le cours de sa vie.",
+  "violences": "Se sentir invisible pour son conjoint, ne plus être heureuse dans son couple ou chercher comment se reconstruire après une trahison peut soulever de nombreuses questions. Toutes les relations difficiles ne relèvent pas de violences, mais chacune mérite de pouvoir être racontée.",
+  "anxiete-depression": "« Je me sens seule même entourée », « personne ne prend de mes nouvelles », « je n’ai plus confiance en l’avenir » : ces sentiments peuvent peser longtemps. On peut avoir besoin de parler à quelqu’un anonymement, sans devoir tout expliquer d’un coup.",
+  "travail-burn-out": "Faire semblant d’aller bien au travail, se sentir épuisée à force de tenir ou garder toutes ses inquiétudes pour soi peut accentuer la souffrance professionnelle. Cet espace permet de mettre des mots sur ce que l’on traverse.",
+  "projets-de-vie-expatriation": "Renoncer à se soigner faute d’argent, vivre dans un désert médical ou subir une détresse psychologique faute d’accès aux soins peut fragiliser les projets d’avenir. L’angoisse à l’approche de Noël ou la peur de ne pas avoir les moyens d’offrir des cadeaux à ses enfants font aussi partie des difficultés que l’on peut confier.",
+  "conflits-familiaux-separation": "« Je ne suis plus heureuse dans mon couple », « je reste dans mon couple par peur d’être seule » : une séparation peut mêler peur de l’abandon, dépendance affective et sentiment de rejet. Après une trahison ou une rupture, chacun peut raconter son histoire à sa manière."
+}
+
 export function ThemePage({ slug }: { slug: string }) {
   const theme = themePages.find((item) => item.slug === slug)
   useEffect(() => {
@@ -62,6 +75,7 @@ export function ThemePage({ slug }: { slug: string }) {
       <p className="cdc-eyebrow">LES COURRIERS DU CŒUR</p>
       <h1 id="theme-title" style={{fontFamily: 'Georgia, serif', fontWeight: 400, fontSize: 'clamp(28px, 4vw, 42px)', color: '#654b3d'}}>{theme.name}</h1>
       <p style={{fontSize: 16, lineHeight: 1.8, maxWidth: 690, margin: '16px auto', color: '#654b3d'}}>{theme.intro}</p>
+      {relatedSearchTopics[theme.slug] && <p style={{fontSize: 15, lineHeight: 1.8, maxWidth: 690, margin: '12px auto', color: '#654b3d'}}>{relatedSearchTopics[theme.slug]}</p>}
       {theme.slug === 'detresse-psychologique' && <p style={{lineHeight: 1.7}}>En cas de détresse ou de pensées suicidaires, appelez le <a href="tel:3114">3114</a> (gratuit, 24 h/24). En cas de danger immédiat, le <a href="tel:112">112</a>.</p>}
       <a className="cdc-button cdc-button-primary" href="/ecrire" style={{display: 'inline-flex', marginTop: 14}}>Écrire mon courrier</a>
     </section>
