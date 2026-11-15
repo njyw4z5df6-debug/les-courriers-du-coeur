@@ -74,6 +74,7 @@ function seoPages(mode: string) {
           '@context': 'https://schema.org',
           '@type': 'Article',
           headline: entry.heading,
+          author: { '@type': 'Person', name: 'Anne-Laure' },
           description: entry.description,
           datePublished: entry.date,
           inLanguage: 'fr-FR',
