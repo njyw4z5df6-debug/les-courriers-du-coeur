@@ -17,8 +17,8 @@ function seoPages(mode: string) {
       const html = await readFile(join(dist, 'index.html'), 'utf8')
       const source = await readFile(join(process.cwd(), 'src/pages/ThemePage.tsx'), 'utf8')
       const descriptions: Record<string, string> = {}
-      const descriptionsBlock = source.match(/const searchDescriptions: Record<string, string> = \\{([\\s\\S]*?)\\n\\}/)?.[1] || ''
-      for (const match of descriptionsBlock.matchAll(/^\\s*(?:'([^']+)'|([a-z][a-z0-9-]*)):\\s*'([^']*)',?$/gm)) {
+      const descriptionsBlock = source.match(/const searchDescriptions: Record<string, string> = \{([\s\S]*?)\n\}/)?.[1] || ''
+      for (const match of descriptionsBlock.matchAll(/^\s*(?:'([^']+)'|([a-z][a-z0-9-]*)):\s*'([^']*)',?$/gm)) {
         descriptions[match[1] || match[2]] = match[3]
       }
       const entries: Entry[] = []
