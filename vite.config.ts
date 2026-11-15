@@ -7,7 +7,7 @@ const base = 'https://www.lescourriersducoeur.fr'
 const escapeHtml = (value: string) => value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;')
 const seoDescriptions: Record<string, string> = {
   'se-sentir-seul-au-milieu-des-autres': 'Pourquoi se sentir seul même entouré de ses proches ? Comprendre la solitude émotionnelle, ses causes et les façons de retrouver des liens sincères.',
-  'la-charge-mentale-quand-penser-a-tout-devient-un-travail-invisible': 'Penser à tout, organiser, anticiper : découvrez ce qu'est la charge mentale, pourquoi elle épuise et comment mieux partager les responsabilités.',
+  'la-charge-mentale-quand-penser-a-tout-devient-un-travail-invisible': "Penser à tout, organiser, anticiper : découvrez ce qu'est la charge mentale, pourquoi elle épuise et comment mieux partager les responsabilités.",
 }
 const escapeXml = escapeHtml
 
