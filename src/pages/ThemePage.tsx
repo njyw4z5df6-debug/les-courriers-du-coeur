@@ -18,13 +18,13 @@ export const themePages = [
 
 const searchDescriptions: Record<string, string> = {
   addictions: 'Besoin de parler d’une addiction ou d’une dépendance affective ? Partagez votre histoire et découvrez des témoignages sans jugement.',
-  famille: 'Souffrir du rejet familial, se sentir incompris par ses proches ou porter des blessures d’enfance : un espace pour se confier.',
-  'detresse-psychologique': 'Quand tout devient trop lourd : mal-être, fatigue émotionnelle intense, sentiment d’abandon. Des témoignages pour rompre l’isolement.',
+  famille: 'Blessures d’enfance, rejet familial et psychologie des relations : des témoignages pour mettre des mots sur son histoire et se sentir moins seul.',
+  'detresse-psychologique': 'Souffrance psychologique, idées noires, solitude : lire des témoignages et mettre des mots sur son vécu, sans remplacer un psychologue ou une thérapie.',
   'parentalite-a-distance': 'Vivre loin de ses enfants, traverser une séparation familiale et préserver le lien : témoignages et confidences de parents.',
   deuil: 'Écrire pour apaiser sa souffrance après un deuil, partager le manque et trouver des mots face à l’absence d’un proche.',
   violences: 'Violences psychologiques, relation toxique, peur et reconstruction : partager son vécu sans être jugé.',
-  'anxiete-depression': 'Je me sens seule au monde, je n’ai personne à qui parler : confidences sur l’anxiété, la dépression et la fatigue émotionnelle.',
-  'travail-burn-out': 'Faire semblant d’aller bien au travail, vivre un burn-out ou une surcharge mentale : partager son expérience et se sentir moins seul.',
+  'anxiete-depression': 'Anxiété, dépression, psychologie du quotidien : des témoignages pour se sentir moins seul, en complément et non à la place d’une thérapie.',
+  'travail-burn-out': 'Burn-out, épuisement psychologique, stress professionnel : partager son vécu et lire des témoignages, sans se substituer à un psychologue.',
   'projets-de-vie-expatriation': 'Retrouver confiance après une épreuve, recommencer sa vie et envisager un nouveau départ : récits et projets de vie.',
   'conflits-familiaux-separation': 'Se reconstruire après une rupture familiale, se libérer de la culpabilité et apprendre à poser ses limites : témoignages.',
 }
@@ -83,6 +83,10 @@ export function ThemePage({ slug }: { slug: string }) {
       <p style={{color:'#654b3d',lineHeight:1.7}}>Tu souhaites mieux comprendre ce que tu traverses ? Les Éclairages du Cœur proposent des articles documentés, accessibles et sans jugement.</p>
       <a href="/eclairages" style={{color:'#855e45',fontWeight:600,textDecoration:'underline',textUnderlineOffset:4}}>Découvrir les Éclairages du Cœur</a>
     </aside>
+    {['detresse-psychologique', 'anxiete-depression', 'travail-burn-out'].includes(theme.slug) && <aside style={{maxWidth:900,margin:'0 auto 30px',padding:'0 20px',color:'#654b3d',lineHeight:1.8}}>
+      <h2 style={{fontFamily:'Georgia, serif',fontSize:23,fontWeight:400}}>Psychologie, psychologue et thérapie : quelle place pour les témoignages ?</h2>
+      <p>Les expériences partagées ici peuvent aider à trouver des mots, à comprendre ce que d’autres vivent et à se sentir moins seul. Elles ne constituent ni une consultation avec un psychologue, ni une psychothérapie, ni un diagnostic. Si tu envisages une thérapie ou un accompagnement psychologique, un professionnel qualifié pourra t’aider à identifier une approche adaptée à ta situation.</p>
+    </aside>}
     <DailyPlume category={theme.name} />
     <PublicLetters initialCategory={theme.name} />
     <section style={{maxWidth: 950, margin: '30px auto 60px', padding: '0 20px'}}>
