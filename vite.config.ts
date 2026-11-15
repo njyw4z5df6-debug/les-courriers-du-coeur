@@ -12,7 +12,11 @@ function seoPages(mode: string) {
   return {
     name: 'seo-static-pages',
     apply: 'build' as const,
+    buildStart() {
+      console.log('[SEO] Générateur de pages statiques chargé par Vite.')
+    },
     async closeBundle() {
+      console.log('[SEO] Début de génération des pages et du sitemap.')
       const dist = join(process.cwd(), 'dist')
       const html = await readFile(join(dist, 'index.html'), 'utf8')
       const source = await readFile(join(process.cwd(), 'src/pages/ThemePage.tsx'), 'utf8')
