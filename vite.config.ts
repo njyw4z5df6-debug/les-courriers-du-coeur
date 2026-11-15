@@ -101,6 +101,15 @@ function seoPages(mode: string) {
       const sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
         + [...sitemapEntries.values()].map(entry => '  <url><loc>' + escapeXml(base + entry.path) + '</loc>' + (entry.date && /^\d{4}-\d{2}-\d{2}$/.test(entry.date) ? '<lastmod>' + entry.date + '</lastmod>' : '') + '</url>').join('\n')
         + '\n</urlset>\n'
+      const expectedPaths = ['/', '/ecrire', '/eclairages', ...themeEntries.map(e => e.path)]
+      for (const path of expectedPaths) {
+        if (!sitemapEntries.has(path)) throw new Error('[SEO] URL manquante du sitemap : ' + path)
+      }
+      if (articleEntries.length === 0) {
+        console.warn('[SEO] Aucun article récupéré depuis Supabase : vérifier les variables VITE_SUPABASE_URL et VITE_SUPABASE_ANON_KEY et les règles de lecture publique. Les URLs de secours sont conservées.')
+      } else {
+        console.log('[SEO] ' + articleEntries.length + ' Éclairages publiés récupérés pour les pages statiques.')
+      }
       await writeFile(join(dist, 'sitemap.xml'), sitemap)
       if (entries.filter(e => e.path.startsWith('/themes/')).length !== 10) throw new Error('[SEO] Pages thématiques manquantes')
       console.log('[SEO] ' + entries.length + ' pages statiques générées et sitemap mis à jour.')
