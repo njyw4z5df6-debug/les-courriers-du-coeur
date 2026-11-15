@@ -89,8 +89,17 @@ function seoPages(mode: string) {
         await mkdir(folder, { recursive: true })
         await writeFile(join(folder, 'index.html'), page)
       }
+      // Conserver les URLs déjà publiées si Supabase est momentanément indisponible au build.
+      // Les nouveaux articles sont ajoutés automatiquement lors du prochain déploiement réussi.
+      const fallbackXml = await readFile(join(process.cwd(), 'public/sitemap.xml'), 'utf8').catch(() => '')
+      const fallbackPaths = [...fallbackXml.matchAll(/<loc>https:\/\/www\.lescourriersducoeur\.fr([^<]*)<\/loc>/g)]
+        .map(match => match[1])
+        .filter(path => path === '/' || path === '/ecrire' || path === '/eclairages' || /^\/themes\/[a-z0-9-]+$/.test(path) || /^\/eclairages\/[a-z0-9-]+$/.test(path))
+      const sitemapEntries = new Map<string, { path: string; date?: string }>()
+      for (const path of fallbackPaths) sitemapEntries.set(path, { path })
+      for (const entry of [{ path: '/' }, { path: '/ecrire' }, ...entries]) sitemapEntries.set(entry.path, { path: entry.path, date: 'date' in entry ? entry.date : undefined })
       const sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-        + ([{ path: '/' }, { path: '/ecrire' }, ...entries] as Entry[]).map(entry => '  <url><loc>' + escapeXml(base + entry.path) + '</loc>' + (entry.date && /^\d{4}-\d{2}-\d{2}$/.test(entry.date) ? '<lastmod>' + entry.date + '</lastmod>' : '') + '</url>').join('\n')
+        + [...sitemapEntries.values()].map(entry => '  <url><loc>' + escapeXml(base + entry.path) + '</loc>' + (entry.date && /^\d{4}-\d{2}-\d{2}$/.test(entry.date) ? '<lastmod>' + entry.date + '</lastmod>' : '') + '</url>').join('\n')
         + '\n</urlset>\n'
       await writeFile(join(dist, 'sitemap.xml'), sitemap)
       if (entries.filter(e => e.path.startsWith('/themes/')).length !== 10) throw new Error('[SEO] Pages thématiques manquantes')
