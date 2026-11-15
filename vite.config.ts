@@ -56,11 +56,16 @@ function seoPages(mode: string) {
           console.warn('[SEO] Éclairages non récupérés pendant le build :', error)
         }
       }
+      const articleEntries = entries.filter(e => e.path.startsWith('/eclairages/'))
+      const themeEntries = entries.filter(e => e.path.startsWith('/themes/'))
       for (const entry of entries) {
         const canonical = base + entry.path
         const title = escapeHtml(entry.title)
         const desc = escapeHtml(entry.description)
-        const visible = '<main style="max-width:900px;margin:50px auto;padding:24px;font-family:Georgia,serif;color:#654b3d"><h1>' + escapeHtml(entry.heading) + '</h1><p style="white-space:pre-wrap;line-height:1.8">' + escapeHtml(entry.body) + '</p></main>'
+        const links = entry.path === '/eclairages' ? articleEntries : entry.path.startsWith('/themes/') ? articleEntries.slice(0, 8) : entry.path.startsWith('/eclairages/') ? articleEntries.filter(e => e.path !== entry.path).slice(0, 5) : []
+        const linkSection = links.length ? '<nav aria-label="Autres articles"><h2>À découvrir également</h2><ul>' + links.map(e => '<li><a href="' + escapeHtml(e.path) + '">' + escapeHtml(e.heading) + '</a></li>').join('') + '</ul></nav>' : ''
+        const themeSection = entry.path === '/eclairages' ? '<nav aria-label="Thèmes"><h2>Explorer les thèmes</h2><ul>' + themeEntries.map(e => '<li><a href="' + escapeHtml(e.path) + '">' + escapeHtml(e.heading) + '</a></li>').join('') + '</ul></nav>' : ''
+        const visible = '<main style="max-width:900px;margin:50px auto;padding:24px;font-family:Georgia,serif;color:#654b3d"><h1>' + escapeHtml(entry.heading) + '</h1><p style="white-space:pre-wrap;line-height:1.8">' + escapeHtml(entry.body) + '</p>' + linkSection + themeSection + '</main>'
         const schema = entry.path.startsWith('/eclairages/') ? {
           '@context': 'https://schema.org',
           '@type': 'Article',
