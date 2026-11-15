@@ -54,6 +54,15 @@ export function EclairagesPage({slug}:{slug?:string}) {
             {current.sources.map((s,i)=><li key={i}><strong>{s.auteur}</strong> — {s.titre}. <a href={s.url} target="_blank" rel="noopener noreferrer" style={{color:'#855e45',textDecoration:'underline'}}>Consulter la source</a></li>)}
           </ul>
         </section>
+        <nav aria-label="Continuer la lecture" style={{marginTop:32,padding:'24px',border:'1px solid #e9d8c2',borderRadius:16,background:'#fffaf6'}}>
+          <h2 style={{fontFamily:'Georgia, serif',fontWeight:400,fontSize:23,margin:'0 0 12px'}}>Continuer à explorer</h2>
+          <p style={{lineHeight:1.8,margin:'0 0 12px'}}>Ce sujet fait écho à ton histoire ? Tu peux la partager anonymement, à ton rythme.</p>
+          <a href="/ecrire" style={{color:'#855e45',fontWeight:600,textDecoration:'underline'}}>Écrire mon courrier</a>
+          <div style={{marginTop:18,display:'grid',gap:10}}>
+            {articles.filter(a=>a.slug!==current.slug).slice(0,3).map(a=><a key={a.id} href={'/eclairages/'+a.slug} style={{color:'#855e45',textDecoration:'underline'}}>{a.titre}</a>)}
+          </div>
+          <a href="/eclairages" style={{display:'inline-block',marginTop:16,color:'#855e45',textDecoration:'underline'}}>Tous les Éclairages du Cœur</a>
+        </nav>
         <p style={{fontSize:14,lineHeight:1.8,marginTop:25}}>Information générale : ce contenu ne remplace pas un avis médical, psychologique ou juridique adapté à votre situation.</p>
       </article>}
       {!loading&&!error&&!slug&&<section style={{padding:'40px 8px',color:'#654b3d'}}>
