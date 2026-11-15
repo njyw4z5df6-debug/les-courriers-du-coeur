@@ -5,6 +5,10 @@ import { join } from 'node:path'
 
 const base = 'https://www.lescourriersducoeur.fr'
 const escapeHtml = (value: string) => value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;')
+const seoDescriptions: Record<string, string> = {
+  'se-sentir-seul-au-milieu-des-autres': 'Pourquoi se sentir seul même entouré de ses proches ? Comprendre la solitude émotionnelle, ses causes et les façons de retrouver des liens sincères.',
+  'la-charge-mentale-quand-penser-a-tout-devient-un-travail-invisible': 'Penser à tout, organiser, anticiper : découvrez ce qu'est la charge mentale, pourquoi elle épuise et comment mieux partager les responsabilités.',
+}
 const escapeXml = escapeHtml
 
 type Entry = { path: string; title: string; description: string; heading: string; body: string; date?: string }
@@ -54,7 +58,7 @@ function seoPages(mode: string) {
           const articles = await response.json() as { slug: string; titre: string; resume: string; contenu: string; publication_date: string }[]
           for (const article of articles) {
             if (!/^[a-z0-9-]+$/.test(article.slug)) continue
-            entries.push({ path: '/eclairages/' + article.slug, title: article.titre + ' | Les Éclairages du Cœur', description: article.resume.slice(0, 160), heading: article.titre, body: article.resume + '\n\n' + article.contenu, date: article.publication_date })
+            entries.push({ path: '/eclairages/' + article.slug, title: article.titre + ' | Les Éclairages du Cœur', description: seoDescriptions[article.slug] || article.resume.slice(0, 160), heading: article.titre, body: article.resume + '\n\n' + article.contenu, date: article.publication_date })
           }
         } catch (error) {
           console.warn('[SEO] Éclairages non récupérés pendant le build :', error)
