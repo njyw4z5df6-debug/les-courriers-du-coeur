@@ -79,6 +79,10 @@ export function ThemePage({ slug }: { slug: string }) {
       {theme.slug === 'detresse-psychologique' && <p style={{lineHeight: 1.7}}>En cas de détresse ou de pensées suicidaires, appelez le <a href="tel:3114">3114</a> (gratuit, 24 h/24). En cas de danger immédiat, le <a href="tel:112">112</a>.</p>}
       <a className="cdc-button cdc-button-primary" href="/ecrire" style={{display: 'inline-flex', marginTop: 14}}>Écrire mon courrier</a>
     </section>
+    <aside aria-label="Pour approfondir ce thème" style={{maxWidth:900,margin:'0 auto 32px',padding:'0 20px',textAlign:'center'}}>
+      <p style={{color:'#654b3d',lineHeight:1.7}}>Tu souhaites mieux comprendre ce que tu traverses ? Les Éclairages du Cœur proposent des articles documentés, accessibles et sans jugement.</p>
+      <a href="/eclairages" style={{color:'#855e45',fontWeight:600,textDecoration:'underline',textUnderlineOffset:4}}>Découvrir les Éclairages du Cœur</a>
+    </aside>
     <DailyPlume category={theme.name} />
     <PublicLetters initialCategory={theme.name} />
     <section style={{maxWidth: 950, margin: '30px auto 60px', padding: '0 20px'}}>
