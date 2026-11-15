@@ -74,13 +74,13 @@ function seoPages(mode: string) {
           .replace(/(<meta property="og:title" content=")[^"]*(")/, '$1' + title + '$2')
           .replace(/(<meta property="og:description" content=")[^"]*(")/, '$1' + desc + '$2')
           .replace('<div id="root"></div>', '<div id="root">' + visible + '</div>')
-        if (schema) page = page.replace('</head>', '<script type="application/ld+json">' + JSON.stringify(schema).replace(/</g, '\\u003c') + '</script></head>')
+        if (schema) page = page.replace('</head>', '<script type="application/ld+json">' + JSON.stringify(schema).replace(/</g, '\u003c') + '</script></head>')
         const folder = join(dist, entry.path.slice(1))
         await mkdir(folder, { recursive: true })
         await writeFile(join(folder, 'index.html'), page)
       }
       const sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-        + [{ path: '/' }, { path: '/ecrire' }, ...entries].map(entry => '  <url><loc>' + escapeXml(base + entry.path) + '</loc>' + (entry.date && /^\\d{4}-\\d{2}-\\d{2}$/.test(entry.date) ? '<lastmod>' + entry.date + '</lastmod>' : '') + '</url>').join('\\n')
+        + [{ path: '/' }, { path: '/ecrire' }, ...entries].map(entry => '  <url><loc>' + escapeXml(base + entry.path) + '</loc>' + (entry.date && /^\\d{4}-\\d{2}-\\d{2}$/.test(entry.date) ? '<lastmod>' + entry.date + '</lastmod>' : '') + '</url>').join('\n')
         + '\n</urlset>\n'
       await writeFile(join(dist, 'sitemap.xml'), sitemap)
       console.log('[SEO] ' + entries.length + ' pages statiques générées et sitemap mis à jour.')
