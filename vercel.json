@@ -14,15 +14,15 @@
     },
     {
       "source": "/themes/:slug",
-      "destination": "/index.html"
+      "destination": "/themes/:slug/index.html"
     },
     {
       "source": "/eclairages",
-      "destination": "/index.html"
+      "destination": "/eclairages/index.html"
     },
     {
       "source": "/eclairages/:slug",
-      "destination": "/index.html"
+      "destination": "/eclairages/:slug/index.html"
     }
   ]
 }
