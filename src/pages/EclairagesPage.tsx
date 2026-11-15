@@ -6,7 +6,7 @@ type Article = { id: number; slug: string; titre: string; categorie: string; res
 const base = 'https://www.lescourriersducoeur.fr'
 const seoDescriptions: Record<string, string> = {
   'se-sentir-seul-au-milieu-des-autres': 'Pourquoi se sentir seul même entouré de ses proches ? Comprendre la solitude émotionnelle, ses causes et les façons de retrouver des liens sincères.',
-  'la-charge-mentale-quand-penser-a-tout-devient-un-travail-invisible': 'Penser à tout, organiser, anticiper : découvrez ce qu'est la charge mentale, pourquoi elle épuise et comment mieux partager les responsabilités.',
+  'la-charge-mentale-quand-penser-a-tout-devient-un-travail-invisible': "Penser à tout, organiser, anticiper : découvrez ce qu'est la charge mentale, pourquoi elle épuise et comment mieux partager les responsabilités.",
 }
 const day = (date:string) => new Date(date + 'T12:00:00').toLocaleDateString('fr-FR', { day:'numeric',month:'long',year:'numeric' })
 
