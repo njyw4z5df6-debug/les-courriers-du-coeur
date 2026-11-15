@@ -4,6 +4,10 @@ import { BookOpen, Heart, ArrowLeft } from 'lucide-react'
 type Source = { auteur: string; titre: string; url: string }
 type Article = { id: number; slug: string; titre: string; categorie: string; resume: string; contenu: string; publication_date: string; sources: Source[] }
 const base = 'https://www.lescourriersducoeur.fr'
+const seoDescriptions: Record<string, string> = {
+  'se-sentir-seul-au-milieu-des-autres': 'Pourquoi se sentir seul même entouré de ses proches ? Comprendre la solitude émotionnelle, ses causes et les façons de retrouver des liens sincères.',
+  'la-charge-mentale-quand-penser-a-tout-devient-un-travail-invisible': 'Penser à tout, organiser, anticiper : découvrez ce qu'est la charge mentale, pourquoi elle épuise et comment mieux partager les responsabilités.',
+}
 const day = (date:string) => new Date(date + 'T12:00:00').toLocaleDateString('fr-FR', { day:'numeric',month:'long',year:'numeric' })
 
 export function EclairagesPage({slug}:{slug?:string}) {
@@ -24,7 +28,7 @@ export function EclairagesPage({slug}:{slug?:string}) {
   const current=slug?articles.find(a=>a.slug===slug):null
   useEffect(()=>{
     const title=current?current.titre+' | Les Éclairages du Cœur':'Les Éclairages du Cœur | Les Courriers du Cœur'
-    const description=current?current.resume:'Des éclairages documentés et accessibles pour mieux comprendre les émotions, les liens familiaux et les épreuves de la vie.'
+    const description=current?(seoDescriptions[current.slug] || current.resume):'Des éclairages documentés et accessibles pour mieux comprendre les émotions, les liens familiaux et les épreuves de la vie.'
     const canonical=base+'/eclairages'+(slug?'/'+slug:'')
     document.title=title
     document.querySelector('meta[name="description"]')?.setAttribute('content',description)
