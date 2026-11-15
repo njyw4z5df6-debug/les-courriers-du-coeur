@@ -56,6 +56,16 @@ function seoPages(mode: string) {
         const title = escapeHtml(entry.title)
         const desc = escapeHtml(entry.description)
         const visible = '<main style="max-width:900px;margin:50px auto;padding:24px;font-family:Georgia,serif;color:#654b3d"><h1>' + escapeHtml(entry.heading) + '</h1><p style="white-space:pre-wrap;line-height:1.8">' + escapeHtml(entry.body) + '</p></main>'
+        const schema = entry.path.startsWith('/eclairages/') ? {
+          '@context': 'https://schema.org',
+          '@type': 'Article',
+          headline: entry.heading,
+          description: entry.description,
+          datePublished: entry.date,
+          inLanguage: 'fr-FR',
+          mainEntityOfPage: canonical,
+          publisher: { '@type': 'Organization', name: 'Les Courriers du Cœur', url: base },
+        } : null
         let page = html
           .replace(/<title>[^<]*<\/title>/, '<title>' + title + '</title>')
           .replace(/(<meta name="description" content=")[^"]*(")/, '$1' + desc + '$2')
@@ -64,12 +74,13 @@ function seoPages(mode: string) {
           .replace(/(<meta property="og:title" content=")[^"]*(")/, '$1' + title + '$2')
           .replace(/(<meta property="og:description" content=")[^"]*(")/, '$1' + desc + '$2')
           .replace('<div id="root"></div>', '<div id="root">' + visible + '</div>')
+        if (schema) page = page.replace('</head>', '<script type="application/ld+json">' + JSON.stringify(schema).replace(/</g, '\\u003c') + '</script></head>')
         const folder = join(dist, entry.path.slice(1))
         await mkdir(folder, { recursive: true })
         await writeFile(join(folder, 'index.html'), page)
       }
       const sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-        + ['/', '/ecrire', ...entries.map(e => e.path)].map(path => '  <url><loc>' + escapeXml(base + (path === '/' ? '/' : path)) + '</loc></url>').join('\n')
+        + [{ path: '/' }, { path: '/ecrire' }, ...entries].map(entry => '  <url><loc>' + escapeXml(base + entry.path) + '</loc>' + (entry.date && /^\\d{4}-\\d{2}-\\d{2}$/.test(entry.date) ? '<lastmod>' + entry.date + '</lastmod>' : '') + '</url>').join('\\n')
         + '\n</urlset>\n'
       await writeFile(join(dist, 'sitemap.xml'), sitemap)
       console.log('[SEO] ' + entries.length + ' pages statiques générées et sitemap mis à jour.')
