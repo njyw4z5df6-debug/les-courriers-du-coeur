@@ -85,9 +85,10 @@ function seoPages(mode: string) {
         await writeFile(join(folder, 'index.html'), page)
       }
       const sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-        + ([{ path: '/' }, { path: '/ecrire' }, ...entries] as Entry[]).map(entry => '  <url><loc>' + escapeXml(base + entry.path) + '</loc>' + (entry.date && /^\\d{4}-\\d{2}-\\d{2}$/.test(entry.date) ? '<lastmod>' + entry.date + '</lastmod>' : '') + '</url>').join('\n')
+        + ([{ path: '/' }, { path: '/ecrire' }, ...entries] as Entry[]).map(entry => '  <url><loc>' + escapeXml(base + entry.path) + '</loc>' + (entry.date && /^\d{4}-\d{2}-\d{2}$/.test(entry.date) ? '<lastmod>' + entry.date + '</lastmod>' : '') + '</url>').join('\n')
         + '\n</urlset>\n'
       await writeFile(join(dist, 'sitemap.xml'), sitemap)
+      if (entries.filter(e => e.path.startsWith('/themes/')).length !== 10) throw new Error('[SEO] Pages thématiques manquantes')
       console.log('[SEO] ' + entries.length + ' pages statiques générées et sitemap mis à jour.')
     },
   }
