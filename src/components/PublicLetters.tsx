@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
 import { BookOpen, Feather, MessageCircle, Send } from 'lucide-react'
+import { track } from '@vercel/analytics'
 import { getUserSession, saveUserSession } from '../lib/userAuth'
 import { avatarSymbol } from '../lib/avatar'
 import { ExpandableText } from './ExpandableText'
@@ -109,6 +110,7 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
       window.location.href = '/compte'
       return
     }
+    track('communaute_reponse_ouverte')
     setReplyingTo(letterId)
     setReplyingToComment(commentId)
     setReplyStatus('idle')
@@ -143,6 +145,7 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
       if (!response.ok) throw new Error()
       setReplyPseudo(session.pseudo)
       setReplyMessage('')
+      track('communaute_reponse_envoyee')
       setReplyStatus('success')
     } catch {
       setReplyStatus('error')
@@ -275,6 +278,7 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
             })}
           </div>
         )}
+        {session && <div style={{textAlign:'center',marginTop:28,padding:'22px 16px',borderTop:'1px solid #e9d8c2'}}><p style={{color:'#654b3d',lineHeight:1.7}}>Une histoire à partager, vous aussi ? Vos mots ont leur place ici.</p><a className="button button-primary" href="/ecrire">Déposer mon courrier</a></div>}
       </div>
     </section>
   )
