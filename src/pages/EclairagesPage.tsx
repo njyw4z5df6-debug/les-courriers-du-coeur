@@ -60,7 +60,7 @@ export function EclairagesPage({slug}:{slug?:string}) {
         </section>
         <nav aria-label="Continuer la lecture" style={{marginTop:32,padding:'24px',border:'1px solid #e9d8c2',borderRadius:16,background:'#fffaf6'}}>
           <h2 style={{fontFamily:'Georgia, serif',fontWeight:400,fontSize:23,margin:'0 0 12px'}}>Continuer à explorer</h2>
-          <p style={{lineHeight:1.8,margin:'0 0 12px'}}>Ce sujet fait écho à ton histoire ? Tu peux la partager anonymement, à ton rythme.</p>
+          <p style={{lineHeight:1.8,margin:'0 0 12px'}}>Ce sujet fait écho à votre histoire ? Vous pouvez la partager sous pseudonyme, à votre rythme. L'inscription est nécessaire et votre courrier sera publié après modération.</p>
           <a href="/ecrire" style={{color:'#855e45',fontWeight:600,textDecoration:'underline'}}>Écrire mon courrier</a>
           <div style={{marginTop:18,display:'grid',gap:10}}>
             {articles.filter(a=>a.slug!==current.slug).slice(0,3).map(a=><a key={a.id} href={'/eclairages/'+a.slug} style={{color:'#855e45',textDecoration:'underline'}}>{a.titre}</a>)}
