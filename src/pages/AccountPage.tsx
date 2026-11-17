@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
 import { Bell, Heart, LogOut, UserRound } from 'lucide-react'
 import { track } from '@vercel/analytics'
-import { clearUserSession, getUserSession, saveUserSession } from '../lib/userAuth'
+import { clearUserSession, getFreshUserSession, getUserSession, saveUserSession } from '../lib/userAuth'
 import { subscribeMemberToPush, unsubscribeMemberFromPush } from '../lib/pushNotifications'
 
 type Mode = 'login' | 'signup'
@@ -127,9 +127,9 @@ export function AccountPage() {
 
   useEffect(() => {
     if (!session) return
-    fetch(`${supabaseUrl}/auth/v1/user`, {
-      headers: { apikey: supabaseKey, Authorization: 'Bearer ' + session.accessToken },
-    }).then(r => r.ok ? r.json() : null).then(user => {
+    getFreshUserSession().then(fresh => fresh ? fetch(`${supabaseUrl}/auth/v1/user`, {
+      headers: { apikey: supabaseKey, Authorization: 'Bearer ' + fresh.accessToken },
+    }) : null).then(r => r?.ok ? r.json() : null).then(user => {
       const saved = user?.user_metadata?.notifications
       if (saved) setNoticePrefs({
         plume: saved.plume === true, courriers: saved.courriers === true, email: saved.email === true, push: saved.push === true,
