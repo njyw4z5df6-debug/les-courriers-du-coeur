@@ -12,8 +12,12 @@ export async function subscribeMemberToPush(): Promise<void> {
   if (!('serviceWorker' in navigator) || !('PushManager' in window) || !('Notification' in window)) {
     throw new Error('Les notifications push ne sont pas compatibles avec ce navigateur.')
   }
-  const vapidKey = import.meta.env.VITE_VAPID_PUBLIC_KEY
-  if (!vapidKey) throw new Error('Les notifications push ne sont pas encore disponibles.')
+  const responseKey = await fetch(import.meta.env.VITE_SUPABASE_URL + '/functions/v1/member-push-public-key', {
+    headers: { apikey: import.meta.env.VITE_SUPABASE_ANON_KEY },
+  })
+  if (!responseKey.ok) throw new Error('Les notifications push ne sont pas encore disponibles.')
+  const { publicKey: vapidKey } = await responseKey.json()
+  if (typeof vapidKey !== 'string' || !vapidKey) throw new Error('Clé push indisponible.')
   const session = await getFreshUserSession()
   if (!session) throw new Error('Reconnectez-vous pour activer les notifications.')
   const permission = await Notification.requestPermission()
