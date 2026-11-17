@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
 import { Bell, Heart, LogOut, UserRound } from 'lucide-react'
+import { track } from '@vercel/analytics'
 import { clearUserSession, getUserSession, saveUserSession } from '../lib/userAuth'
 
 type Mode = 'login' | 'signup'
@@ -30,6 +31,7 @@ export function AccountPage() {
     event.preventDefault()
     setStatus('')
     setLoading(true)
+    track('compte_tentative', { mode, origine: returnToWrite ? 'courrier' : 'direct' })
 
     try {
       if (mode === 'signup') {
@@ -55,9 +57,11 @@ export function AccountPage() {
             createdAt: data.user.created_at,
           })
           setSession(getUserSession())
+          track('compte_inscription_reussie', { origine: returnToWrite ? 'courrier' : 'direct' })
           if (returnToWrite) { window.location.assign('/ecrire'); return }
           setStatus('Votre compte est créé et vous êtes connecté·e.')
         } else {
+          track('compte_inscription_confirmation_requise')
           setStatus('Inscription enregistrée. Essayez de vous connecter avec votre adresse e-mail et votre mot de passe.')
           setMode('login')
         }
@@ -82,12 +86,14 @@ export function AccountPage() {
           createdAt: data.user?.created_at,
         })
         setSession(getUserSession())
+        track('compte_connexion_reussie', { origine: returnToWrite ? 'courrier' : 'direct' })
         if (returnToWrite) { window.location.assign('/ecrire'); return }
         setStatus('Connexion réussie.')
       }
 
       setPassword('')
     } catch (error) {
+      track('compte_echec', { mode })
       setStatus(error instanceof Error ? error.message : 'Une erreur est survenue.')
     } finally {
       setLoading(false)
