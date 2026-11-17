@@ -3,6 +3,7 @@ import type { FormEvent } from 'react'
 import { Bell, Heart, LogOut, UserRound } from 'lucide-react'
 import { track } from '@vercel/analytics'
 import { clearUserSession, getUserSession, saveUserSession } from '../lib/userAuth'
+import { subscribeMemberToPush, unsubscribeMemberFromPush } from '../lib/pushNotifications'
 
 type Mode = 'login' | 'signup'
 
@@ -136,11 +137,21 @@ export function AccountPage() {
     }).catch(() => {})
   }, [session?.accessToken, supabaseUrl, supabaseKey])
 
+  async function activatePush() {
+    try {
+      await subscribeMemberToPush()
+      setStatus('Cet appareil est inscrit aux notifications push. Les envois seront disponibles après activation du service.')
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : 'Impossible d’activer les notifications push.')
+    }
+  }
+
   async function updateNoticePref(key: 'plume' | 'courriers' | 'email' | 'push', enabled: boolean) {
     if (!session) return
     const next = { ...noticePrefs, [key]: enabled }
     setNoticePrefs(next)
     try {
+      if (key === 'push' && !enabled) await unsubscribeMemberFromPush()
       const response = await fetch(`${supabaseUrl}/auth/v1/user`, {
         method: 'PUT',
         headers: { apikey: supabaseKey, Authorization: 'Bearer ' + session.accessToken, 'Content-Type': 'application/json' },
@@ -193,6 +204,7 @@ export function AccountPage() {
                 <span>{label}</span>
               </label>
             ))}
+            {noticePrefs.push && <button type="button" className="button button-secondary" onClick={activatePush}>Autoriser les notifications sur cet appareil</button>}
             <p style={{fontSize: 12, lineHeight: 1.6, margin: '12px 0 0'}}>Vous pouvez choisir les deux modes. Sur iPhone, les notifications push nécessitent l’ajout du site à l’écran d’accueil et votre autorisation. Aucun envoi n’est encore actif.</p>
           </div>
           <div className="account-actions">
