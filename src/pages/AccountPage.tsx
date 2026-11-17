@@ -7,6 +7,7 @@ type Mode = 'login' | 'signup'
 
 export function AccountPage() {
   const [mode, setMode] = useState<Mode>('login')
+  const returnToWrite = new URLSearchParams(window.location.search).get('retour') === 'ecrire'
   const [email, setEmail] = useState('')
   const [pseudo, setPseudo] = useState('')
   const [password, setPassword] = useState('')
@@ -54,6 +55,7 @@ export function AccountPage() {
             createdAt: data.user.created_at,
           })
           setSession(getUserSession())
+          if (returnToWrite) { window.location.assign('/ecrire'); return }
           setStatus('Votre compte est créé et vous êtes connecté·e.')
         } else {
           setStatus('Inscription enregistrée. Essayez de vous connecter avec votre adresse e-mail et votre mot de passe.')
@@ -80,6 +82,7 @@ export function AccountPage() {
           createdAt: data.user?.created_at,
         })
         setSession(getUserSession())
+        if (returnToWrite) { window.location.assign('/ecrire'); return }
         setStatus('Connexion réussie.')
       }
 
@@ -186,7 +189,7 @@ export function AccountPage() {
             <p style={{fontSize: 12, lineHeight: 1.6, margin: '12px 0 0'}}>Les notifications sur téléphone nécessiteront votre autorisation lorsqu'elles seront disponibles.</p>
           </div>
           <div className="account-actions">
-            <a className="button button-primary" href="/#formulaire-courrier">Écrire un courrier</a>
+            <a className="button button-primary" href="/ecrire">Écrire un courrier</a>
             <button className="button button-secondary" type="button" onClick={logout}><LogOut size={16} /> Se déconnecter</button>
           </div>
         </section>
@@ -201,7 +204,7 @@ export function AccountPage() {
         <p className="script-label">{mode === 'signup' ? 'Créer votre espace' : 'Retrouver votre espace'}</p>
         <h1>{mode === 'signup' ? 'Créer mon compte' : 'Se connecter'}</h1>
         <p className="account-copy">
-          Votre e-mail reste privé. Sur le site, les autres personnes ne voient que votre pseudonyme.
+          Votre e-mail reste privé. Sur le site, les autres personnes ne voient que votre pseudonyme. Les courriers sont publiés après modération.
         </p>
 
         <div className="account-switch">
