@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { PenLine } from 'lucide-react'
+import { track } from '@vercel/analytics'
 import { categories } from '../data/categories'
 import { getUserSession } from '../lib/userAuth'
 
@@ -18,6 +19,7 @@ export function WritePage() {
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     if (!session || !message.trim()) return
+    track('courrier_envoi_tentative')
     setLoading(true); setStatus('')
     try {
       const response = await fetch(url + '/rest/v1/courriers', {
@@ -26,9 +28,10 @@ export function WritePage() {
         body: JSON.stringify({ pseudo: session.pseudo, categorie, message: message.trim(), avatar: session.avatar || 'fleur', statut: 'en_attente', valide: false }),
       })
       if (!response.ok) throw new Error()
+      track('courrier_envoi_reussi')
       setMessage('')
       setStatus('♡ Merci. Votre courrier a bien été envoyé et sera publié après modération.')
-    } catch { setStatus('Votre courrier n’a pas pu être envoyé pour le moment.') }
+    } catch { track('courrier_envoi_echec'); setStatus('Votre courrier n’a pas pu être envoyé pour le moment.') }
     finally { setLoading(false) }
   }
 
