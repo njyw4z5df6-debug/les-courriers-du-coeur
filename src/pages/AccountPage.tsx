@@ -152,9 +152,11 @@ export function AccountPage() {
     setNoticePrefs(next)
     try {
       if (key === 'push' && !enabled) await unsubscribeMemberFromPush()
+      const fresh = await getFreshUserSession()
+      if (!fresh) throw new Error('Session expirée')
       const response = await fetch(`${supabaseUrl}/auth/v1/user`, {
         method: 'PUT',
-        headers: { apikey: supabaseKey, Authorization: 'Bearer ' + session.accessToken, 'Content-Type': 'application/json' },
+        headers: { apikey: supabaseKey, Authorization: 'Bearer ' + fresh.accessToken, 'Content-Type': 'application/json' },
         body: JSON.stringify({ data: { notifications: next } }),
       })
       if (!response.ok) throw new Error('Enregistrement impossible')
