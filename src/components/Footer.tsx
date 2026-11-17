@@ -18,7 +18,7 @@ export function Footer() {
       {info === 'bienveillance' && (
         <div className="footer-info">
           <strong>♡ Ici, on échange avec bienveillance.</strong>
-          <p>Respect, écoute et absence de jugement sont essentiels. Les insultes, propos haineux, discriminatoires, humiliants, menaçants ou le harcèlement ne sont pas acceptés. Pour préserver chacun, les courriers et réponses sont modérés avant publication.</p>
+          <p>Respect, écoute et absence de jugement sont essentiels. Les insultes, propos haineux, discriminatoires, humiliants, menaçants ou le harcèlement ne sont pas acceptés. Pour préserver chacun, les courriers et réponses sont modérés avant publication. Pour signaler un contenu préoccupant, utilisez le lien « Nous écrire » en indiquant le courrier concerné, sans recopier d'informations sensibles.</p>
         </div>
       )}
 
