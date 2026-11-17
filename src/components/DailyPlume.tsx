@@ -51,6 +51,8 @@ export function DailyPlume({ category }: { category?: string } = {}) {
           </a>
         </div>
         <PlumeInteractions plumeId={plume.id}/>
+        <p style={{marginTop:18,textAlign:'center',lineHeight:1.7,color:'#654b3d'}}>Ces mots font écho à votre histoire ? Vous pouvez déposer la vôtre, à votre rythme, sous pseudonyme.</p>
+        <div style={{textAlign:'center',marginTop:12}}><a className="button button-primary" href="/ecrire">Écrire mon courrier</a></div>
       </article>
       {entries.length > 1 && <div style={{ textAlign: 'center', marginTop: 24 }}>
         <button type="button" className="button button-secondary" onClick={() => setShowArchive(!showArchive)}>
