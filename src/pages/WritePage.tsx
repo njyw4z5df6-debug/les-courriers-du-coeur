@@ -13,7 +13,7 @@ export function WritePage() {
   const url = import.meta.env.VITE_SUPABASE_URL
   const key = import.meta.env.VITE_SUPABASE_ANON_KEY
 
-  if (!session) return <main className="account-shell"><section className="account-card"><div className="account-icon"><PenLine /></div><p className="script-label">Votre courrier</p><h1>Écrire mon courrier</h1><p className="account-copy">Connectez-vous pour écrire sous votre pseudonyme.</p><div className="account-actions"><a className="button button-primary" href="/compte">Se connecter ou créer un compte</a></div></section></main>
+  if (!session) return <main className="account-shell"><section className="account-card"><div className="account-icon"><PenLine /></div><p className="script-label">Votre courrier</p><h1>Écrire mon courrier</h1><p className="account-copy">Connectez-vous ou créez votre compte pour écrire sous un pseudonyme. Votre adresse e-mail ne sera pas affichée et votre courrier sera publié après modération.</p><div className="account-actions"><a className="button button-primary" href="/compte?retour=ecrire">Se connecter ou créer un compte</a></div></section></main>
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
