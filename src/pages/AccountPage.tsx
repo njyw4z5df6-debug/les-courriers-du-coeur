@@ -232,9 +232,10 @@ export function AccountPage() {
           </label>
           <label>
             <span>Mot de passe</span>
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete={mode === 'signup' ? 'new-password' : 'current-password'} minLength={6} required />
+            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete={mode === 'signup' ? 'new-password' : 'current-password'} minLength={mode === 'signup' ? 12 : 6} required />
           </label>
 
+          {mode === 'signup' && <small>Choisissez au moins 12 caractères, idéalement une phrase de passe unique. Évitez les mots de passe déjà utilisés ailleurs.</small>}
           <button className="button button-primary account-submit" type="submit" disabled={loading}>
             {loading ? 'Un instant…' : mode === 'signup' ? 'Créer mon compte' : 'Se connecter'}
           </button>
