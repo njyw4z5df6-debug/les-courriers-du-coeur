@@ -10,6 +10,12 @@ const seoDescriptions: Record<string, string> = {
   'la-charge-mentale-quand-penser-a-tout-devient-un-travail-invisible': "Penser à tout, organiser, anticiper : découvrez ce qu'est la charge mentale, pourquoi elle épuise et comment mieux partager les responsabilités.",
 }
 const escapeXml = escapeHtml
+const shortArticleTitle = (title: string) => {
+  const preferred = title.replace(/^💗\s*/, '')
+  if (preferred.length <= 58) return preferred
+  const shortened = preferred.slice(0, 58)
+  return shortened.slice(0, shortened.lastIndexOf(' ')).replace(/[\s:;,.-]+$/, '') + '…'
+}
 
 type Entry = { path: string; title: string; description: string; heading: string; body: string; date?: string }
 function seoPages(mode: string) {
@@ -30,15 +36,16 @@ function seoPages(mode: string) {
         descriptions[match[1] || match[2]] = match[3]
       }
       const entries: Entry[] = []
+      const guides = JSON.parse(await readFile(join(process.cwd(), 'src/data/themeGuides.json'), 'utf8')) as Record<string, { title: string; paragraphs: string[]; seoTitle: string }>
       // Les descriptions et introductions proviennent des pages réelles, sans duplication manuelle.
       const re = /^\s*\{ slug: '([^']+)', name: '([^']+)', intro: '(.*)' \},?\s*$/gm
       for (const match of source.matchAll(re)) {
         entries.push({
           path: '/themes/' + match[1],
-          title: match[2] + ' : témoignages | Courriers du Cœur',
+          title: guides[match[1]]?.seoTitle || match[2] + ' | Courriers du Cœur',
           description: (descriptions[match[1]] || match[3]).slice(0, 160),
           heading: match[2],
-          body: match[3],
+          body: match[3] + '\n\n' + (guides[match[1]] ? guides[match[1]].title + '\n\n' + guides[match[1]].paragraphs.join('\n\n') : ''),
         })
       }
       entries.push({
@@ -53,7 +60,7 @@ function seoPages(mode: string) {
         title: 'Les Éclairages du Cœur | Les Courriers du Cœur',
         description: 'Des éclairages documentés et accessibles pour mieux comprendre les émotions, les liens familiaux et les épreuves de la vie.',
         heading: 'Les Éclairages du Cœur',
-        body: 'Des textes originaux et documentés pour mieux comprendre les épreuves de la vie.',
+        body: 'Des articles originaux, accessibles et documentés pour mieux comprendre ce que nous traversons. Les Éclairages du Cœur abordent notamment la solitude, les liens familiaux, la charge mentale et les épreuves de la vie. Chaque article aide à mettre des mots sur une expérience, à mieux distinguer les situations et à découvrir des pistes de réflexion. Les textes s’appuient sur des références identifiables et ne remplacent pas les conseils d’un professionnel de santé, du droit ou du travail.',
       })
       const env = loadEnv(mode, process.cwd(), 'VITE_')
       if (env.VITE_SUPABASE_URL && env.VITE_SUPABASE_ANON_KEY) {
@@ -65,7 +72,7 @@ function seoPages(mode: string) {
           const articles = await response.json() as { slug: string; titre: string; resume: string; contenu: string; publication_date: string }[]
           for (const article of articles) {
             if (!/^[a-z0-9-]+$/.test(article.slug)) continue
-            entries.push({ path: '/eclairages/' + article.slug, title: article.titre.slice(0, 56), description: seoDescriptions[article.slug] || article.resume.slice(0, 160), heading: article.titre, body: article.resume + '\n\n' + article.contenu, date: article.publication_date })
+            entries.push({ path: '/eclairages/' + article.slug, title: shortArticleTitle(article.titre), description: seoDescriptions[article.slug] || article.resume.slice(0, 160), heading: article.titre, body: article.resume + '\n\n' + article.contenu, date: article.publication_date })
           }
         } catch (error) {
           console.warn('[SEO] Éclairages non récupérés pendant le build :', error)
@@ -126,6 +133,9 @@ function seoPages(mode: string) {
       } else {
         console.log('[SEO] ' + articleEntries.length + ' Éclairages publiés récupérés pour les pages statiques.')
       }
+      // Donner aussi une vraie version HTML à l'accueil : le crawler ne doit pas dépendre de JavaScript.
+      const homeIntro = '<main style="max-width:920px;margin:40px auto;padding:24px;font-family:Georgia,serif;color:#654b3d;line-height:1.8"><h1>Les Courriers du Cœur : parler, témoigner et être écouté</h1><p>Un espace de partage bienveillant pour raconter ce que l’on traverse : anxiété, dépression, deuil, solitude, violences, addictions, conflits familiaux, séparation, parentalité à distance ou épuisement au travail. Les témoignages sont publiés sous pseudonyme, après modération.</p><p>Découvrez nos rubriques pour lire des récits et déposer vos mots à votre rythme. Nos Éclairages du Cœur proposent également des articles documentés, sans se substituer à un accompagnement médical ou juridique.</p><h2>Explorer les témoignages par thème</h2><ul>' + themeEntries.map(e => '<li><a href="' + escapeHtml(e.path) + '">' + escapeHtml(e.heading) + '</a></li>').join('') + '</ul><h2>Lire les Éclairages du Cœur</h2><p><a href="/eclairages">Tous les articles et éclairages</a></p><ul>' + articleEntries.map(e => '<li><a href="' + escapeHtml(e.path) + '">' + escapeHtml(e.heading) + '</a></li>').join('') + '</ul><p><a href="/ecrire">Écrire mon courrier sous pseudonyme</a></p></main>'
+      await writeFile(join(dist, 'index.html'), html.replace('<div id="root"></div>', '<div id="root">' + homeIntro + '</div>'))
       await writeFile(join(dist, 'sitemap.xml'), sitemap)
       if (entries.filter(e => e.path.startsWith('/themes/')).length !== 10) throw new Error('[SEO] Pages thématiques manquantes')
       console.log('[SEO] ' + entries.length + ' pages statiques générées et sitemap mis à jour.')
