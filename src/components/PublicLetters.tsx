@@ -212,7 +212,7 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
               appendReplies(null, 0)
               letterReplies.filter(r => !seen.has(r.id)).forEach(r => orderedReplies.push({reply:r,depth:0}))
               return (
-                <article className="public-letter-card" key={letter.id}>
+                <article className="public-letter-card" id={`courrier-${letter.id}`} key={letter.id}>
                   <div className="public-letter-top">
                     <div className="public-letter-author">
                       <span className="public-letter-avatar">{avatarSymbol(letter.avatar, letter.pseudo.slice(0, 1).toUpperCase())}</span>
