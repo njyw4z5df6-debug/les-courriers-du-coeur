@@ -10,7 +10,7 @@
     },
     {
       "source": "/ecrire",
-      "destination": "/index.html"
+      "destination": "/ecrire/index.html"
     },
     {
       "source": "/themes/:slug",
