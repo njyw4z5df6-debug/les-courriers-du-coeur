@@ -35,7 +35,7 @@ function seoPages(mode: string) {
       for (const match of source.matchAll(re)) {
         entries.push({
           path: '/themes/' + match[1],
-          title: match[2] + ' : témoignages et confidences | Les Courriers du Cœur',
+          title: match[2] + ' : témoignages | Courriers du Cœur',
           description: (descriptions[match[1]] || match[3]).slice(0, 160),
           heading: match[2],
           body: match[3],
@@ -65,7 +65,7 @@ function seoPages(mode: string) {
           const articles = await response.json() as { slug: string; titre: string; resume: string; contenu: string; publication_date: string }[]
           for (const article of articles) {
             if (!/^[a-z0-9-]+$/.test(article.slug)) continue
-            entries.push({ path: '/eclairages/' + article.slug, title: article.titre + ' | Les Éclairages du Cœur', description: seoDescriptions[article.slug] || article.resume.slice(0, 160), heading: article.titre, body: article.resume + '\n\n' + article.contenu, date: article.publication_date })
+            entries.push({ path: '/eclairages/' + article.slug, title: article.titre.slice(0, 56), description: seoDescriptions[article.slug] || article.resume.slice(0, 160), heading: article.titre, body: article.resume + '\n\n' + article.contenu, date: article.publication_date })
           }
         } catch (error) {
           console.warn('[SEO] Éclairages non récupérés pendant le build :', error)
