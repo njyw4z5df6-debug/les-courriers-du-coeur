@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { categories } from '../data/categories'
 import { PublicLetters } from '../components/PublicLetters'
 import { DailyPlume } from '../components/DailyPlume'
+import themeGuides from '../data/themeGuides.json'
 
 export const themePages = [
   { slug: 'addictions', name: 'Addictions', intro: 'Alcool, dépendance affective, jeux ou autres addictions : il n’est pas toujours facile de parler de ce que l’on vit. Ici, vous pouvez écrire votre histoire, lire des témoignages et vous confier sans jugement, à votre rythme. Les questions de dépendance psychologique, de comportements compulsifs et de thérapie des addictions peuvent aussi être abordées à travers les expériences personnelles, sans remplacer un suivi spécialisé.' },
@@ -44,9 +45,10 @@ const relatedSearchTopics: Record<string, string> = {
 
 export function ThemePage({ slug }: { slug: string }) {
   const theme = themePages.find((item) => item.slug === slug)
+  const guide = (themeGuides as Record<string, { title: string; paragraphs: string[]; seoTitle: string }>)[slug]
   useEffect(() => {
     if (!theme) return
-    const title = theme.name + ' : témoignages et confidences | Les Courriers du Cœur'
+    const title = guide?.seoTitle || theme.name + ' | Les Courriers du Cœur'
     const description = searchDescriptions[theme.slug] || theme.intro
     document.title = title
     const meta = document.querySelector('meta[name="description"]')
@@ -59,7 +61,7 @@ export function ThemePage({ slug }: { slug: string }) {
     if (ogTitle) ogTitle.setAttribute('content', title)
     const ogDescription = document.querySelector('meta[property="og:description"]')
     if (ogDescription) ogDescription.setAttribute('content', description)
-  }, [theme])
+  }, [theme, guide])
   if (!theme) return null
   return <main className="cdc-home">
     <nav aria-label="Navigation entre les catégories" style={{maxWidth: 900, margin: '20px auto 0', padding: '0 18px'}}>
@@ -79,6 +81,7 @@ export function ThemePage({ slug }: { slug: string }) {
       {theme.slug === 'detresse-psychologique' && <p style={{lineHeight: 1.7}}>En cas de détresse ou de pensées suicidaires, appelez le <a href="tel:3114">3114</a> (gratuit, 24 h/24). En cas de danger immédiat, le <a href="tel:112">112</a>.</p>}
       <a className="cdc-button cdc-button-primary" href="/ecrire" style={{display: 'inline-flex', marginTop: 14}}>Écrire mon courrier</a>
     </section>
+    {guide && <section aria-labelledby="guide-title" style={{maxWidth:900,margin:'0 auto 32px',padding:'12px 24px 26px',color:'#654b3d',lineHeight:1.85}}><h2 id="guide-title" style={{fontFamily:'Georgia,serif',fontSize:25,fontWeight:400,marginBottom:14}}>{guide.title}</h2>{guide.paragraphs.map((paragraph,i)=><p key={i} style={{margin:'12px 0'}}>{paragraph}</p>)}</section>}
     <aside aria-label="Pour approfondir ce thème" style={{maxWidth:900,margin:'0 auto 32px',padding:'0 20px',textAlign:'center'}}>
       <p style={{color:'#654b3d',lineHeight:1.7}}>Tu souhaites mieux comprendre ce que tu traverses ? Les Éclairages du Cœur proposent des articles documentés, accessibles et sans jugement.</p>
       <a href="/eclairages" style={{color:'#855e45',fontWeight:600,textDecoration:'underline',textUnderlineOffset:4}}>Découvrir les Éclairages du Cœur</a>
