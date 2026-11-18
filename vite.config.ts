@@ -53,14 +53,14 @@ function seoPages(mode: string) {
         title: 'Écrire un témoignage anonyme | Les Courriers du Cœur',
         description: 'Déposer votre témoignage sous pseudonyme, raconter votre vécu et échanger avec bienveillance après modération.',
         heading: 'Écrire votre courrier',
-        body: 'Un espace pour raconter votre histoire à votre rythme, sous pseudonyme. Les témoignages sont publiés après modération.',
+        body: 'Vous cherchez un endroit pour vous confier sans afficher votre identité ? Les Courriers du Cœur vous permettent de déposer un récit personnel sous pseudonyme, à votre rythme et sans jugement. Vous pouvez parler de solitude, de deuil, d’anxiété, de burn-out, de séparation, d’addiction ou de relations familiales difficiles. Votre témoignage est soumis à une modération avant sa publication. Il reste possible de lire les rubriques et les Éclairages du Cœur sans écrire de courrier. Les échanges entre membres ne remplacent pas les services médicaux, juridiques ou d’urgence.',
       })
       entries.push({
         path: '/eclairages',
         title: 'Les Éclairages du Cœur | Les Courriers du Cœur',
         description: 'Des éclairages documentés et accessibles pour mieux comprendre les émotions, les liens familiaux et les épreuves de la vie.',
         heading: 'Les Éclairages du Cœur',
-        body: 'Des articles originaux, accessibles et documentés pour mieux comprendre ce que nous traversons. Les Éclairages du Cœur abordent notamment la solitude, les liens familiaux, la charge mentale et les épreuves de la vie. Chaque article aide à mettre des mots sur une expérience, à mieux distinguer les situations et à découvrir des pistes de réflexion. Les textes s’appuient sur des références identifiables et ne remplacent pas les conseils d’un professionnel de santé, du droit ou du travail.',
+        body: 'Les Éclairages du Cœur rassemblent des articles originaux et documentés pour mieux comprendre ce que nous traversons au quotidien. Solitude affective, deuil, charge mentale, burn-out, anxiété, séparation et liens familiaux : chaque sujet est abordé avec des mots accessibles et des sources identifiables. Ces articles cherchent à faire la différence entre les idées reçues et les situations vécues, en respectant la singularité de chaque parcours. Vous pouvez commencer par l’article qui correspond à votre question, poursuivre avec les rubriques thématiques, puis partager votre propre histoire si vous en avez envie. Les textes apportent des informations générales et des pistes de réflexion ; ils ne constituent pas un diagnostic, un conseil médical ou un avis juridique personnalisé.',
       })
       const env = loadEnv(mode, process.cwd(), 'VITE_')
       if (env.VITE_SUPABASE_URL && env.VITE_SUPABASE_ANON_KEY) {
@@ -84,7 +84,7 @@ function seoPages(mode: string) {
         const canonical = base + entry.path
         const title = escapeHtml(entry.title)
         const desc = escapeHtml(entry.description)
-        const links = entry.path === '/eclairages' ? articleEntries : entry.path.startsWith('/themes/') ? articleEntries.slice(0, 8) : entry.path.startsWith('/eclairages/') ? articleEntries.filter(e => e.path !== entry.path).slice(0, 5) : []
+        const links = entry.path === '/ecrire' ? themeEntries : entry.path === '/eclairages' ? articleEntries : entry.path.startsWith('/themes/') ? articleEntries.slice(0, 8) : entry.path.startsWith('/eclairages/') ? articleEntries.filter(e => e.path !== entry.path).slice(0, 5) : []
         const linkSection = links.length ? '<nav aria-label="Autres articles"><h2>À découvrir également</h2><ul>' + links.map(e => '<li><a href="' + escapeHtml(e.path) + '">' + escapeHtml(e.heading) + '</a></li>').join('') + '</ul></nav>' : ''
         const themeSection = entry.path === '/eclairages' || entry.path.startsWith('/eclairages/') ? '<nav aria-label="Thèmes"><h2>Explorer les thèmes</h2><ul>' + themeEntries.map(e => '<li><a href="' + escapeHtml(e.path) + '">' + escapeHtml(e.heading) + '</a></li>').join('') + '</ul></nav>' : ''
         const visible = '<main style="max-width:900px;margin:50px auto;padding:24px;font-family:Georgia,serif;color:#654b3d"><h1>' + escapeHtml(entry.heading) + '</h1><p style="white-space:pre-wrap;line-height:1.8">' + escapeHtml(entry.body) + '</p>' + linkSection + themeSection + '</main>'
