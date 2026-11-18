@@ -31,7 +31,7 @@ function seoPages(mode: string) {
       }
       const entries: Entry[] = []
       // Les descriptions et introductions proviennent des pages réelles, sans duplication manuelle.
-      const re = /\{ slug: '([^']+)', name: '([^']+)', intro: '([^']+)' \}/g
+      const re = /^\s*\{ slug: '([^']+)', name: '([^']+)', intro: '(.*)' \},?\s*$/gm
       for (const match of source.matchAll(re)) {
         entries.push({
           path: '/themes/' + match[1],
@@ -41,6 +41,13 @@ function seoPages(mode: string) {
           body: match[3],
         })
       }
+      entries.push({
+        path: '/ecrire',
+        title: 'Écrire un témoignage anonyme | Les Courriers du Cœur',
+        description: 'Déposer votre témoignage sous pseudonyme, raconter votre vécu et échanger avec bienveillance après modération.',
+        heading: 'Écrire votre courrier',
+        body: 'Un espace pour raconter votre histoire à votre rythme, sous pseudonyme. Les témoignages sont publiés après modération.',
+      })
       entries.push({
         path: '/eclairages',
         title: 'Les Éclairages du Cœur | Les Courriers du Cœur',
