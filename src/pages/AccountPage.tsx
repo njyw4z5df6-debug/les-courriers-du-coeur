@@ -17,7 +17,7 @@ export function AccountPage() {
   const [loading, setLoading] = useState(false)
   const [session, setSession] = useState(getUserSession())
   const [avatar, setAvatar] = useState(getUserSession()?.avatar || 'fleur')
-  const [noticePrefs, setNoticePrefs] = useState({ plume: false, courriers: false, email: false, push: false })
+  const [noticePrefs, setNoticePrefs] = useState({ plume: false, courriers: false, email: false, push: false, repliesEmail: false })
 
   const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
   const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
@@ -132,7 +132,7 @@ export function AccountPage() {
     }) : null).then(r => r?.ok ? r.json() : null).then(user => {
       const saved = user?.user_metadata?.notifications
       if (saved) setNoticePrefs({
-        plume: saved.plume === true, courriers: saved.courriers === true, email: saved.email === true, push: saved.push === true,
+        plume: saved.plume === true, courriers: saved.courriers === true, email: saved.email === true, push: saved.push === true, repliesEmail: saved.repliesEmail === true,
       })
     }).catch(() => {})
   }, [session?.accessToken, supabaseUrl, supabaseKey])
@@ -146,7 +146,7 @@ export function AccountPage() {
     }
   }
 
-  async function updateNoticePref(key: 'plume' | 'courriers' | 'email' | 'push', enabled: boolean) {
+  async function updateNoticePref(key: 'plume' | 'courriers' | 'email' | 'push' | 'repliesEmail', enabled: boolean) {
     if (!session) return
     const next = { ...noticePrefs, [key]: enabled }
     setNoticePrefs(next)
@@ -194,12 +194,13 @@ export function AccountPage() {
           </div>
           <div style={{maxWidth: 620, width: '100%', margin: '22px auto', padding: '22px', borderRadius: 16, background: '#fffaf4', border: '1px solid #e9d8c2', textAlign: 'left'}}>
             <h2 style={{display: 'flex', alignItems: 'center', gap: 9, fontSize: 22, margin: '0 0 8px'}}><Bell size={20} /> Mes notifications</h2>
-            <p style={{fontSize: 13, lineHeight: 1.6, marginBottom: 16}}>Choisissez les nouvelles qui vous intéressent et votre mode de réception. Les envois ne sont pas encore actifs.</p>
+            <p style={{fontSize: 13, lineHeight: 1.6, marginBottom: 16}}>Choisissez les nouvelles qui vous intéressent et votre mode de réception. Choisissez les notifications que vous souhaitez recevoir.</p>
             {([
               ['plume', 'La plume du jour'],
               ['courriers', 'Nouveaux courriers publiés'],
               ['push', 'Recevoir des notifications push sur mon appareil'],
               ['email', 'Recevoir ces nouvelles par e-mail'],
+              ['repliesEmail', 'Recevoir un e-mail lorsqu’une réponse à mon courrier est publiée'],
             ] as const).map(([key, label]) => (
               <label key={key} style={{display: 'flex', alignItems: 'center', gap: 12, padding: '10px 0', cursor: 'pointer', fontSize: 14}}>
                 <input type="checkbox" checked={noticePrefs[key]} onChange={event => updateNoticePref(key, event.target.checked)} style={{width: 18, height: 18}} />
@@ -207,7 +208,7 @@ export function AccountPage() {
               </label>
             ))}
             {noticePrefs.push && <button type="button" className="button button-secondary" onClick={activatePush}>Autoriser les notifications sur cet appareil</button>}
-            <p style={{fontSize: 12, lineHeight: 1.6, margin: '12px 0 0'}}>Vous pouvez choisir les deux modes. Sur iPhone, les notifications push nécessitent l’ajout du site à l’écran d’accueil et votre autorisation. Aucun envoi n’est encore actif.</p>
+            <p style={{fontSize: 12, lineHeight: 1.6, margin: '12px 0 0'}}>Vous pouvez choisir les deux modes. Sur iPhone, les notifications push nécessitent l’ajout du site à l’écran d’accueil et votre autorisation. Les e-mails de réponse sont facultatifs et ne contiennent pas votre témoignage.</p>
           </div>
           <div className="account-actions">
             <a className="button button-primary" href="/ecrire">Écrire un courrier</a>
