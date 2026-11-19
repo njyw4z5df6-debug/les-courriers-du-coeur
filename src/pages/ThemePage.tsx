@@ -45,7 +45,7 @@ const relatedSearchTopics: Record<string, string> = {
 
 export function ThemePage({ slug }: { slug: string }) {
   const theme = themePages.find((item) => item.slug === slug)
-  const guide = (themeGuides as Record<string, { title: string; paragraphs: string[]; seoTitle: string }>)[slug]
+  const guide = (themeGuides as Record<string, { title: string; paragraphs: string[]; seoTitle: string; faq?: [string, string][] }>)[slug]
   useEffect(() => {
     if (!theme) return
     const title = guide?.seoTitle || theme.name + ' | Les Courriers du Cœur'
@@ -82,6 +82,10 @@ export function ThemePage({ slug }: { slug: string }) {
       <a className="cdc-button cdc-button-primary" href="/ecrire" style={{display: 'inline-flex', marginTop: 14}}>Écrire mon courrier</a>
     </section>
     {guide && <section aria-labelledby="guide-title" style={{maxWidth:900,margin:'0 auto 32px',padding:'12px 24px 26px',color:'#654b3d',lineHeight:1.85}}><h2 id="guide-title" style={{fontFamily:'Georgia,serif',fontSize:25,fontWeight:400,marginBottom:14}}>{guide.title}</h2>{guide.paragraphs.map((paragraph,i)=><p key={i} style={{margin:'12px 0'}}>{paragraph}</p>)}</section>}
+    {guide?.faq && <section aria-labelledby="questions-frequentes-title" style={{maxWidth:900,margin:'0 auto 35px',padding:'22px 24px',background:'#fffaf6',border:'1px solid #e9d8c2',borderRadius:18,color:'#654b3d'}}>
+      <h2 id="questions-frequentes-title" style={{fontFamily:'Georgia, serif',fontSize:25,fontWeight:400,margin:'0 0 18px'}}>Vos questions sur ce sujet</h2>
+      {guide.faq.map(([question,answer])=><article key={question} style={{marginBottom:18}}><h3 style={{fontFamily:'Georgia, serif',fontSize:19,fontWeight:400,margin:'0 0 8px'}}>{question}</h3><p style={{lineHeight:1.8,margin:0}}>{answer}</p></article>)}
+    </section>}
     <aside aria-label="Pour approfondir ce thème" style={{maxWidth:900,margin:'0 auto 32px',padding:'0 20px',textAlign:'center'}}>
       <p style={{color:'#654b3d',lineHeight:1.7}}>Tu souhaites mieux comprendre ce que tu traverses ? Les Éclairages du Cœur proposent des articles documentés, accessibles et sans jugement.</p>
       <a href="/eclairages" style={{color:'#855e45',fontWeight:600,textDecoration:'underline',textUnderlineOffset:4}}>Découvrir les Éclairages du Cœur</a>
