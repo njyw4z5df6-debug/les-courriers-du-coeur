@@ -14,7 +14,17 @@
       "Vous pouvez ici raconter un épisode précis, décrire vos émotions ou simplement partager les questions qui restent sans réponse. Chacun garde le choix de ce qu’il souhaite dévoiler. Les échanges entre membres peuvent apporter un autre regard, sans imposer une réconciliation ni une rupture familiale.",
       "Un conflit familial peut prendre la forme de disputes répétées, d’un silence prolongé ou d’une rupture du dialogue. Exprimer ce que l’on ressent, fixer des limites et chercher une écoute extérieure sont des pistes possibles, sans obligation de se réconcilier. Ici, les témoignages reflètent des expériences personnelles et ne remplacent pas un accompagnement adapté."
     ],
-    "seoTitle": "Conflit familial : en parler | Les Courriers du Cœur"
+    "seoTitle": "Conflit familial : en parler | Les Courriers du Cœur",
+    "faq": [
+      [
+        "Comment gérer un conflit familial qui dure ?",
+        "Commencer par identifier ce qui vous blesse et ce que vous souhaitez protéger peut aider à clarifier vos limites. Selon les situations, un dialogue, une médiation ou une prise de distance peuvent être envisagés ; aucune solution ne convient à toutes les familles."
+      ],
+      [
+        "Peut-on souffrir d’une relation familiale sans vouloir rompre ?",
+        "Oui. Il est possible d’aimer un proche et de souffrir de certains comportements. Témoigner permet parfois de reconnaître cette ambivalence sans devoir choisir immédiatement entre réconciliation et rupture."
+      ]
+    ]
   },
   "detresse-psychologique": {
     "title": "Exprimer sa souffrance sans devoir tout expliquer",
@@ -39,7 +49,17 @@
       "Écrire un souvenir, raconter une date difficile ou parler d’un manque persistant peut être une manière de donner une place à ce que l’on traverse. Ici, il n’est pas nécessaire de présenter une histoire terminée ou une reconstruction exemplaire : les récits peuvent aussi parler des jours où rien ne va.",
       "Comment faire son deuil après la perte d’un proche ? Il n’existe pas de méthode universelle. Certaines personnes trouvent du réconfort dans les souvenirs, d’autres ont besoin de parler du manque ou de prendre du recul. Les récits partagés ici permettent de découvrir différents vécus, sans imposer de délai ni de façon de ressentir."
     ],
-    "seoTitle": "Comment faire son deuil ? Témoignages | Courriers du Cœur"
+    "seoTitle": "Comment faire son deuil ? Témoignages | Courriers du Cœur",
+    "faq": [
+      [
+        "Comment faire son deuil après la perte d’un proche ?",
+        "Il n’existe ni durée normale ni étapes obligatoires à suivre dans un ordre précis. Parler de la personne disparue, conserver des souvenirs ou chercher une écoute peut aider certaines personnes, tandis que d’autres ont besoin de silence et de temps."
+      ],
+      [
+        "Pourquoi le manque revient-il longtemps après un décès ?",
+        "Une date, un lieu ou un souvenir peut raviver la tristesse même après une période plus apaisée. Cela ne signifie pas nécessairement que l’on régresse : le vécu du deuil peut évoluer et rester sensible dans le temps."
+      ]
+    ]
   },
   "violences": {
     "title": "Mettre des mots sur des violences vécues",
@@ -56,7 +76,17 @@
       "Lire des confidences ne permet pas de poser un diagnostic, mais peut aider à se sentir moins isolé et à identifier les mots qui décrivent son quotidien. Vous pouvez parler de votre expérience, de ce qui vous aide ou de ce qui reste difficile. Pour une souffrance intense ou des idées suicidaires, le 3114 est disponible gratuitement en France, jour et nuit.",
       "L’épuisement émotionnel peut donner l’impression de ne plus avoir d’énergie pour les tâches quotidiennes, les relations ou les imprévus. Il peut coexister avec de l’anxiété ou d’autres difficultés, sans désigner à lui seul un diagnostic. Mettre des mots sur ce ressenti et lire d’autres expériences peut apporter du soutien."
     ],
-    "seoTitle": "Épuisement émotionnel et anxiété | Courriers du Cœur"
+    "seoTitle": "Épuisement émotionnel et anxiété | Courriers du Cœur",
+    "faq": [
+      [
+        "Pourquoi je me sens seul même entouré ?",
+        "La solitude émotionnelle ne dépend pas seulement du nombre de personnes autour de soi. Elle peut apparaître lorsque l’on ne se sent pas compris ou que l’on n’ose pas exprimer ce que l’on vit. Lire des expériences différentes peut aider à mettre des mots sur ce décalage."
+      ],
+      [
+        "Comment reconnaître un épuisement émotionnel ?",
+        "Une fatigue persistante, une irritabilité inhabituelle ou la sensation de ne plus pouvoir faire face peuvent accompagner un épuisement émotionnel. Ces signes ont plusieurs causes possibles : ils ne suffisent pas à poser un diagnostic."
+      ]
+    ]
   },
   "travail-burn-out": {
     "title": "Comprendre ce que l’épuisement professionnel fait vivre",
@@ -65,7 +95,17 @@
       "Cette rubrique permet de raconter une situation d’épuisement, une mise à l’arrêt, un retour au travail ou une reconversion envisagée. Vous pouvez aussi partager les difficultés à expliquer votre état à vos proches ou à vos collègues. Les témoignages n’ont pas vocation à remplacer une évaluation médicale ou un accompagnement professionnel.",
       "Fatigue persistante, difficultés de concentration, sommeil perturbé ou perte de motivation peuvent être décrits par des personnes en épuisement professionnel. Ces signes ne suffisent pas à établir un diagnostic de burn-out. Partager son vécu peut aider à rompre l’isolement, tandis qu’un professionnel de santé peut évaluer les symptômes et proposer un accompagnement."
     ],
-    "seoTitle": "Burn-out et épuisement professionnel | Courriers du Cœur"
+    "seoTitle": "Burn-out et épuisement professionnel | Courriers du Cœur",
+    "faq": [
+      [
+        "Quels signes peuvent évoquer un burn-out ?",
+        "Une fatigue intense, des troubles du sommeil, des difficultés à se concentrer et un sentiment de détachement du travail sont parfois rapportés. Ils peuvent aussi avoir d’autres causes ; seul un professionnel qualifié peut évaluer la situation."
+      ],
+      [
+        "Quelle différence entre charge mentale et burn-out ?",
+        "La charge mentale correspond au poids de devoir penser, organiser et anticiper de nombreuses tâches. Le burn-out désigne un phénomène d’épuisement lié au contexte professionnel. Ils peuvent se recouper, mais ne sont pas synonymes."
+      ]
+    ]
   },
   "projets-de-vie-expatriation": {
     "title": "Préparer un nouveau départ et partager ses doutes",
