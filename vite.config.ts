@@ -36,7 +36,7 @@ function seoPages(mode: string) {
         descriptions[match[1] || match[2]] = match[3]
       }
       const entries: Entry[] = []
-      const guides = JSON.parse(await readFile(join(process.cwd(), 'src/data/themeGuides.json'), 'utf8')) as Record<string, { title: string; paragraphs: string[]; seoTitle: string }>
+      const guides = JSON.parse(await readFile(join(process.cwd(), 'src/data/themeGuides.json'), 'utf8')) as Record<string, { title: string; paragraphs: string[]; seoTitle: string; faq?: [string, string][] }>
       // Les descriptions et introductions proviennent des pages réelles, sans duplication manuelle.
       const re = /^\s*\{ slug: '([^']+)', name: '([^']+)', intro: '(.*)' \},?\s*$/gm
       for (const match of source.matchAll(re)) {
@@ -45,7 +45,7 @@ function seoPages(mode: string) {
           title: guides[match[1]]?.seoTitle || match[2] + ' | Courriers du Cœur',
           description: (descriptions[match[1]] || match[3]).slice(0, 160),
           heading: match[2],
-          body: match[3] + '\n\n' + (guides[match[1]] ? guides[match[1]].title + '\n\n' + guides[match[1]].paragraphs.join('\n\n') : ''),
+          body: match[3] + '\n\n' + (guides[match[1]] ? guides[match[1]].title + '\n\n' + guides[match[1]].paragraphs.join('\n\n') + '\n\n' + (guides[match[1]].faq || []).map(([question, answer]) => question + '\n' + answer).join('\n\n') : ''),
         })
       }
       entries.push({
