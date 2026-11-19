@@ -107,7 +107,7 @@ function seoPages(mode: string) {
           .replace(/(<meta property="og:title" content=")[^"]*(")/, '$1' + title + '$2')
           .replace(/(<meta property="og:description" content=")[^"]*(")/, '$1' + desc + '$2')
           .replace('<div id="root"></div>', '<div id="root">' + visible + '</div>')
-        if (schema) page = page.replace('</head>', '<script type="application/ld+json">' + JSON.stringify(schema).replace(/</g, '\u003c') + '</script></head>')
+        if (schema) page = page.replace('</head>', '<script type="application/ld+json">' + JSON.stringify(schema).replace(/</g, '\\u003c') + '</script></head>')
         const folder = join(dist, entry.path.slice(1))
         await mkdir(folder, { recursive: true })
         await writeFile(join(folder, 'index.html'), page)
@@ -135,7 +135,16 @@ function seoPages(mode: string) {
       }
       // Donner aussi une vraie version HTML à l'accueil : le crawler ne doit pas dépendre de JavaScript.
       const homeIntro = '<main style="max-width:920px;margin:40px auto;padding:24px;font-family:Georgia,serif;color:#654b3d;line-height:1.8"><h1>Les Courriers du Cœur : parler, témoigner et être écouté</h1><p>Un espace de partage bienveillant pour raconter ce que l’on traverse : anxiété, dépression, deuil, solitude, violences, addictions, conflits familiaux, séparation, parentalité à distance ou épuisement au travail. Les témoignages sont publiés sous pseudonyme, après modération. Il n’est pas nécessaire d’avoir une histoire parfaitement organisée pour commencer à mettre des mots sur une difficulté. Les membres peuvent s’exprimer sur ce qu’ils vivent, ce qu’ils ressentent et ce qu’ils souhaitent comprendre.</p><p>Découvrez nos rubriques pour lire des récits et déposer vos mots à votre rythme. Nos Éclairages du Cœur proposent également des articles documentés, sans se substituer à un accompagnement médical ou juridique. Si vous traversez une période de solitude, un conflit ou une épreuve, vous pouvez consulter les textes à votre rythme et choisir ensuite de rejoindre les échanges. Les articles comportent des références pour poursuivre la lecture et explorer les sujets qui vous intéressent.</p><h2>Explorer les témoignages par thème</h2><ul>' + themeEntries.map(e => '<li><a href="' + escapeHtml(e.path) + '">' + escapeHtml(e.heading) + '</a></li>').join('') + '</ul><h2>Lire les Éclairages du Cœur</h2><p><a href="/eclairages">Tous les articles et éclairages</a></p><ul>' + articleEntries.map(e => '<li><a href="' + escapeHtml(e.path) + '">' + escapeHtml(e.heading) + '</a></li>').join('') + '</ul><p><a href="/ecrire">Écrire mon courrier sous pseudonyme</a></p></main>'
-      await writeFile(join(dist, 'index.html'), html.replace('<div id="root"></div>', '<div id="root">' + homeIntro + '</div>'))
+      const homeSchema = {
+        '@context': 'https://schema.org',
+        '@graph': [
+          { '@type': 'WebSite', name: 'Les Courriers du Cœur', url: base + '/', inLanguage: 'fr-FR', description: 'Témoignages sous pseudonyme et articles documentés sur les épreuves de la vie.' },
+          { '@type': 'Organization', name: 'Les Courriers du Cœur', url: base + '/' },
+        ],
+      }
+      const homeHtml = html.replace('<div id="root"></div>', '<div id="root">' + homeIntro + '</div>')
+        .replace('</head>', '<script type="application/ld+json">' + JSON.stringify(homeSchema).replace(/</g, '\\u003c') + '</script></head>')
+      await writeFile(join(dist, 'index.html'), homeHtml)
       await writeFile(join(dist, 'sitemap.xml'), sitemap)
       if (entries.filter(e => e.path.startsWith('/themes/')).length !== 10) throw new Error('[SEO] Pages thématiques manquantes')
       console.log('[SEO] ' + entries.length + ' pages statiques générées et sitemap mis à jour.')
