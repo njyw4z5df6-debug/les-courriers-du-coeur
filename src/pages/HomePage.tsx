@@ -66,6 +66,17 @@ export function HomePage() {
         <a href="/eclairages" style={{display: 'inline-flex', alignItems: 'center', gap: 8, color: '#855e45', fontWeight: 600, textDecoration: 'underline', textUnderlineOffset: 4}}>Découvrir les Éclairages <ArrowRight size={17} /></a>
       </section>
 
+      <section aria-labelledby="parcours-accueil-title" style={{maxWidth:900,margin:'24px auto 38px',padding:'24px 20px',textAlign:'center',background:'#faf5ee',border:'1px solid #e9d8c2',borderRadius:18}}>
+        <p className="cdc-eyebrow">À VOTRE RYTHME</p>
+        <h2 id="parcours-accueil-title" style={{fontFamily:'Georgia, serif',fontWeight:400,color:'#654b3d',fontSize:'clamp(24px,4vw,34px)'}}>Par où commencer ?</h2>
+        <p style={{maxWidth:650,margin:'12px auto 22px',color:'#654b3d',lineHeight:1.8}}>Vous pouvez lire nos articles librement. Pour découvrir les courriers des membres, échanger ou témoigner sous pseudonyme, rejoignez la communauté.</p>
+        <div style={{display:'flex',justifyContent:'center',flexWrap:'wrap',gap:12}}>
+          <a className="cdc-button cdc-button-secondary" href="/eclairages" onClick={() => track('accueil_parcours_articles')}><BookOpen size={17}/> Lire les articles</a>
+          <a className="cdc-button cdc-button-secondary" href="/compte" onClick={() => track('accueil_parcours_communaute')}><UsersRound size={17}/> Lire et échanger</a>
+          <a className="cdc-button cdc-button-primary" href="/ecrire" onClick={() => track('accueil_parcours_temoigner')}><PenLine size={17}/> Partager mon histoire</a>
+        </div>
+      </section>
+
       <DailyPlume />
 
       <section className="cdc-categories" id="categories">
