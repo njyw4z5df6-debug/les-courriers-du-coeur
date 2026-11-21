@@ -48,6 +48,14 @@ function seoPages(mode: string) {
           body: match[3] + '\n\n' + (guides[match[1]] ? guides[match[1]].title + '\n\n' + guides[match[1]].paragraphs.join('\n\n') + '\n\n' + (guides[match[1]].faq || []).map(([question, answer]) => question + '\n' + answer).join('\n\n') : ''),
         })
       }
+      const focusedArticles = JSON.parse(await readFile(join(process.cwd(), 'src/data/searchArticles.json'), 'utf8')) as {slug:string;title:string;description:string;sections:[string,string][]}[]
+      for (const article of focusedArticles) entries.push({
+        path: '/comprendre/' + article.slug,
+        title: article.title + ' | Les Courriers du Cœur',
+        description: article.description.slice(0,160),
+        heading: article.title,
+        body: article.description + '\\n\\n' + article.sections.map(([heading,body])=>heading+'\\n'+body).join('\\n\\n'),
+      })
       entries.push({
         path: '/ecrire',
         title: 'Écrire un témoignage anonyme | Les Courriers du Cœur',
@@ -80,11 +88,12 @@ function seoPages(mode: string) {
       }
       const articleEntries = entries.filter(e => e.path.startsWith('/eclairages/'))
       const themeEntries = entries.filter(e => e.path.startsWith('/themes/'))
+      const focusedEntries = entries.filter(e => e.path.startsWith('/comprendre/'))
       for (const entry of entries) {
         const canonical = base + entry.path
         const title = escapeHtml(entry.title)
         const desc = escapeHtml(entry.description)
-        const links = entry.path === '/ecrire' ? themeEntries : entry.path === '/eclairages' ? articleEntries : entry.path.startsWith('/themes/') ? articleEntries.slice(0, 8) : entry.path.startsWith('/eclairages/') ? articleEntries.filter(e => e.path !== entry.path).slice(0, 5) : []
+        const links = entry.path === '/ecrire' ? themeEntries : entry.path === '/eclairages' ? articleEntries : entry.path.startsWith('/comprendre/') ? focusedEntries.filter(e => e.path !== entry.path) : entry.path.startsWith('/themes/') ? [...focusedEntries,...articleEntries].slice(0, 8) : entry.path.startsWith('/eclairages/') ? articleEntries.filter(e => e.path !== entry.path).slice(0, 5) : []
         const linkSection = links.length ? '<nav aria-label="Autres articles"><h2>À découvrir également</h2><ul>' + links.map(e => '<li><a href="' + escapeHtml(e.path) + '">' + escapeHtml(e.heading) + '</a></li>').join('') + '</ul></nav>' : ''
         const themeSection = entry.path === '/eclairages' || entry.path.startsWith('/eclairages/') ? '<nav aria-label="Thèmes"><h2>Explorer les thèmes</h2><ul>' + themeEntries.map(e => '<li><a href="' + escapeHtml(e.path) + '">' + escapeHtml(e.heading) + '</a></li>').join('') + '</ul></nav>' : ''
         const visible = '<main style="max-width:900px;margin:50px auto;padding:24px;font-family:Georgia,serif;color:#654b3d"><h1>' + escapeHtml(entry.heading) + '</h1><p style="white-space:pre-wrap;line-height:1.8">' + escapeHtml(entry.body) + '</p>' + linkSection + themeSection + '</main>'
@@ -124,7 +133,7 @@ function seoPages(mode: string) {
       const sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
         + [...sitemapEntries.values()].map(entry => '  <url><loc>' + escapeXml(base + entry.path) + '</loc>' + (entry.date && /^\d{4}-\d{2}-\d{2}$/.test(entry.date) ? '<lastmod>' + entry.date + '</lastmod>' : '') + '</url>').join('\n')
         + '\n</urlset>\n'
-      const expectedPaths = ['/', '/ecrire', '/eclairages', ...themeEntries.map(e => e.path)]
+      const expectedPaths = ['/', '/ecrire', '/eclairages', ...themeEntries.map(e => e.path), ...focusedEntries.map(e=>e.path)]
       for (const path of expectedPaths) {
         if (!sitemapEntries.has(path)) throw new Error('[SEO] URL manquante du sitemap : ' + path)
       }
