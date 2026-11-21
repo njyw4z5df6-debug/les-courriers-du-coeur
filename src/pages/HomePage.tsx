@@ -3,7 +3,6 @@ import { useEffect } from 'react'
 import { track } from '@vercel/analytics'
 import { categories } from '../data/categories'
 import { PublicLetters } from '../components/PublicLetters'
-import { DailyPlume } from '../components/DailyPlume'
 import { themePages } from './ThemePage'
 
 export function HomePage() {
@@ -37,6 +36,13 @@ export function HomePage() {
           </div>
         </div>
       </section>
+
+      <section style={{maxWidth:900,margin:'22px auto 12px',padding:'20px',background:'#fffaf6',border:'1px solid #e9d8c2',borderRadius:18,textAlign:'center'}}>
+        <h2 style={{fontFamily:'Georgia, serif',fontWeight:400,color:'#654b3d',fontSize:'clamp(23px,4vw,31px)',margin:'0 0 10px'}}>Les courriers de la communauté</h2>
+        <p style={{color:'#654b3d',margin:'0 0 15px',lineHeight:1.6}}>Retrouvez les témoignages et échangez avec les membres, sous pseudonyme.</p>
+        <a className="cdc-button cdc-button-primary" href="/#tous-les-courriers" onClick={(e) => { e.preventDefault(); document.getElementById('tous-les-courriers')?.scrollIntoView({behavior:'smooth',block:'start'}) }}><BookOpen size={17}/> Accéder aux courriers</a>
+      </section>
+      <PublicLetters />
 
       <section aria-labelledby="cdc-welcome-title" style={{maxWidth: 900, margin: '22px auto 38px', padding: '25px 22px', textAlign: 'center', background: '#faf5ee', border: '1px solid #e9d8c2', borderRadius: 18}}>
         <p className="cdc-eyebrow">UN ESPACE POUR TOUTES LES HISTOIRES</p>
@@ -77,8 +83,6 @@ export function HomePage() {
         </div>
       </section>
 
-      <DailyPlume />
-
       <section className="cdc-categories" id="categories">
         {categories.map((category) => (
           <a href={themePages.find((page) => page.name === category.name)?.slug ? `/themes/${themePages.find((page) => page.name === category.name)!.slug}` : `/?categorie=${encodeURIComponent(category.name)}#tous-les-courriers`} key={category.name}>
@@ -98,8 +102,6 @@ export function HomePage() {
         </div>
       </section>
 
-
-      <PublicLetters />
 
       <section className="cdc-community">
         <div><p>Parce que<br /><em>vos mots comptent</em></p><span>♡</span></div>
