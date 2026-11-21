@@ -1,8 +1,8 @@
-type Req = { method?: string; headers: Record<string, string | undefined> }
+type Req = { method?: string; headers: Record<string, string | undefined>; body?: { id?: number; action?: string } }
 type Res = { status: (code: number) => { json: (body: unknown) => void } }
 
 export default async function handler(req: Req, res: Res) {
-  if (req.method !== 'GET') return res.status(405).json({ error: 'Méthode non autorisée.' })
+  if (req.method !== 'GET' && req.method !== 'PATCH') return res.status(405).json({ error: 'Méthode non autorisée.' })
   const url = process.env.VITE_SUPABASE_URL?.replace(/\/$/, '')
   const publicKey = process.env.VITE_SUPABASE_ANON_KEY
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -20,6 +20,30 @@ export default async function handler(req: Req, res: Res) {
     const privileged = user.app_metadata?.role === 'admin' || user.app_metadata?.is_admin === true
     if (!(privileged || (allowedEmail && email === allowedEmail))) {
       return res.status(403).json({ error: 'Accès réservé à l’administration.' })
+    }
+    if (req.method === 'PATCH') {
+      const id = Number(req.body?.id)
+      const action = req.body?.action
+      if (!Number.isSafeInteger(id) || id <= 0 || (action !== 'valide' && action !== 'refuse')) {
+        return res.status(400).json({ error: 'Courrier ou action invalide.' })
+      }
+      const update = await fetch(url + '/rest/v1/courriers?id=eq.' + id + '&statut=eq.en_attente&select=id,statut,valide', {
+        method: 'PATCH',
+        headers: {
+          apikey: key,
+          Authorization: 'Bearer ' + key,
+          'Content-Type': 'application/json',
+          Prefer: 'return=representation',
+        },
+        body: JSON.stringify({ statut: action, valide: action === 'valide' }),
+      })
+      if (!update.ok) {
+        console.error('Admin moderation update failed', update.status, await update.text())
+        return res.status(502).json({ error: 'La modification du courrier a échoué.' })
+      }
+      const rows = await update.json() as Array<{ id: number; statut: string; valide: boolean }>
+      if (rows.length !== 1) return res.status(409).json({ error: 'Courrier introuvable ou déjà traité. Actualisez la liste.' })
+      return res.status(200).json({ courrier: rows[0] })
     }
     const response = await fetch(
       url + '/rest/v1/courriers?select=id,created_at,pseudo,categorie,message,valide,statut&order=created_at.desc&limit=1000',
