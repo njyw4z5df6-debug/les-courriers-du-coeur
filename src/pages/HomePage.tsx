@@ -50,6 +50,14 @@ export function HomePage() {
 
       <PublicLetters />
 
+      <section aria-label="Questions fréquentes" style={{maxWidth:900,margin:'24px auto',padding:'0 18px'}}>
+        <h2 style={{fontFamily:'Georgia,serif',fontWeight:400,color:'#654b3d',textAlign:'center'}}>Des questions qui nous touchent</h2>
+        <div style={{display:'flex',flexWrap:'wrap',justifyContent:'center',gap:10}}>
+          <a href="/guides/comment-vivre-placement-de-son-enfant" style={{border:'1px solid #e4d0bc',borderRadius:24,padding:'9px 14px',color:'#76543f'}}>Vivre le placement de son enfant</a>
+          <a href="/guides/pourquoi-je-me-sens-triste-tout-le-temps" style={{border:'1px solid #e4d0bc',borderRadius:24,padding:'9px 14px',color:'#76543f'}}>Pourquoi je suis triste ?</a>
+          <a href="/guides/burn-out-peur-de-retourner-au-travail" style={{border:'1px solid #e4d0bc',borderRadius:24,padding:'9px 14px',color:'#76543f'}}>Reprendre après un burn-out</a>
+        </div>
+      </section>
       <section aria-label="Les rendez-vous du Cœur" style={{maxWidth:900,margin:'28px auto 40px',padding:'0 12px',display:'grid',gap:16}}>
         <article style={{padding:'24px 20px',background:'#fffaf6',border:'1px solid #e9d8c2',borderRadius:18,textAlign:'center'}}>
           <p className="cdc-eyebrow">UN RENDEZ-VOUS CHAQUE JOUR</p>
