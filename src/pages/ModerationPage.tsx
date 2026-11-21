@@ -185,17 +185,15 @@ export function ModerationPage() {
     setLoading(true)
     setStatus('')
     try {
-      const response = await fetch(`${supabaseUrl}/rest/v1/courriers?id=eq.${id}`, {
+      const response = await fetch('/api/admin-courriers', {
         method: 'PATCH',
-        headers: {
-          apikey: supabaseKey,
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-          Prefer: 'return=minimal',
-        },
-        body: JSON.stringify({ statut: action, valide: action === 'valide' }),
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+        body: JSON.stringify({ id, action }),
       })
-      if (!response.ok) throw new Error('La modification a été refusée.')
+      if (!response.ok) {
+        const detail = await response.json().catch(() => null) as { error?: string } | null
+        throw new Error(detail?.error || 'La modification a été refusée. Réessaie après actualisation.')
+      }
       setCourriers((items) => items.filter((item) => item.id !== id))
       if (action === 'valide') {
         setPublishedCourriers((items) => {
