@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Feather, ArrowRight } from 'lucide-react'
 import { PlumeInteractions } from './PlumeInteractions'
 import { ExpandableText } from './ExpandableText'
+import { categories } from '../data/categories'
 
 type Plume = { id: number; publication_date: string; categorie: string; texte: string }
 function categoryLink(category: string) {
@@ -17,24 +18,35 @@ export function DailyPlume({ category }: { category?: string } = {}) {
   const [entries, setEntries] = useState<Plume[]>([])
   const [error, setError] = useState(false)
   const [showArchive, setShowArchive] = useState(false)
+  const [selectedCategory, setSelectedCategory] = useState(category || 'Tous')
 
   useEffect(() => {
     fetch('/api/plumes').then(async response => {
       if (!response.ok) throw new Error('unavailable')
       const data = await response.json()
-      setEntries(Array.isArray(data.archive) ? data.archive.filter((entry: Plume) => !category || entry.categorie === category) : [])
+      setEntries(Array.isArray(data.archive) ? data.archive : [])
     }).catch(() => setError(true))
-  }, [category])
+  }, [])
 
+  const availableCategories = categories.filter(item => entries.some(entry => entry.categorie === item.name))
+  const filteredEntries = entries.filter(entry => selectedCategory === 'Tous' || entry.categorie === selectedCategory)
   if (entries.length === 0) return null
-  const plume = entries[0]
+  const plume = filteredEntries[0]
   return (
     <section id="plume-du-jour" style={{ padding: '28px 18px 26px', maxWidth: 820, margin: '0 auto' }}>
       <div style={{ textAlign: 'center', marginBottom: 16 }}>
         <p className="script-label">Un rendez-vous avec les mots</p>
         <h2 style={{ marginTop: 7, fontSize: 'clamp(23px, 3vw, 32px)', color: '#533f39' }}>{category ? 'Les plumes' : 'La plume'} <em>{category ? 'sur ce thème' : 'du jour'}</em></h2>
       </div>
-      <article style={{ background: '#fffaf4', border: '1px solid #ead9cb', borderRadius: 18, padding: 'clamp(18px, 2.5vw, 26px)', boxShadow: '0 12px 40px rgba(86,53,33,.06)' }}>
+      {!category && <nav aria-label="Filtrer les plumes par catégorie" style={{margin:'22px auto 24px',maxWidth:780}}>
+        <p style={{textAlign:'center',fontSize:14,color:'#846f63',marginBottom:12}}>Choisissez un thème pour retrouver directement les Plumes qui vous intéressent.</p>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit, minmax(135px, 1fr))',gap:10}}>
+          <button type="button" onClick={() => {setSelectedCategory('Tous');setShowArchive(false)}} aria-pressed={selectedCategory === 'Tous'} style={{padding:'12px 8px',borderRadius:14,border:'1px solid #dec7a7',background:selectedCategory === 'Tous'?'#f3e3d5':'#fffaf4',color:'#76543f',fontWeight:600,cursor:'pointer'}}>✧<br/>Toutes les Plumes</button>
+          {availableCategories.map(item => <button key={item.name} type="button" onClick={() => {setSelectedCategory(item.name);setShowArchive(true)}} aria-pressed={selectedCategory === item.name} style={{padding:'12px 8px',borderRadius:14,border:selectedCategory === item.name?'2px solid #b77855':'1px solid #dec7a7',background:selectedCategory === item.name?'#f3e3d5':'#fffaf4',color:'#76543f',fontWeight:600,cursor:'pointer'}}><span aria-hidden="true" style={{display:'block',fontSize:26,color:'#b58b3c',marginBottom:6}}>{item.symbol}</span>{item.name}</button>)}
+        </div>
+      </nav>}
+      {!plume && <p style={{textAlign:'center',color:'#76543f'}}>Aucune Plume publiée dans cette catégorie pour le moment.</p>}
+      {plume && <article style={{ background: '#fffaf4', border: '1px solid #ead9cb', borderRadius: 18, padding: 'clamp(18px, 2.5vw, 26px)', boxShadow: '0 12px 40px rgba(86,53,33,.06)' }}>
         <div style={{ display: 'flex', gap: 10, justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
           <a href={categoryLink(plume.categorie)} title={'Voir les courriers : ' + plume.categorie}
             style={{ display: 'inline-block', color: '#8b5146', background: '#f9e9e2', borderRadius: 24, textDecoration: 'none', padding: '7px 14px', fontSize: 12, fontWeight: 600 }}>
@@ -53,13 +65,13 @@ export function DailyPlume({ category }: { category?: string } = {}) {
         <PlumeInteractions plumeId={plume.id}/>
         <p style={{marginTop:18,textAlign:'center',lineHeight:1.7,color:'#654b3d'}}>Ces mots font écho à votre histoire ? Vous pouvez déposer la vôtre, à votre rythme, sous pseudonyme.</p>
         <div style={{textAlign:'center',marginTop:12}}><a className="button button-primary" href="/ecrire">Écrire mon courrier</a></div>
-      </article>
-      {entries.length > 1 && <div style={{ textAlign: 'center', marginTop: 24 }}>
+      </article>}
+      {filteredEntries.length > 1 && <div style={{ textAlign: 'center', marginTop: 24 }}>
         <button type="button" className="button button-secondary" onClick={() => setShowArchive(!showArchive)}>
           {showArchive ? 'Masquer les anciennes plumes' : 'Relire les anciennes plumes'}
         </button>
         {showArchive && <div style={{ display: 'grid', gap: 14, marginTop: 22, textAlign: 'left' }}>
-          {entries.slice(1).map(entry => <article key={entry.id} style={{ border: '1px solid #e6d8cd', borderRadius: 14, padding: 20, background: '#fffaf6' }}>
+          {filteredEntries.slice(1).map(entry => <article key={entry.id} style={{ border: '1px solid #e6d8cd', borderRadius: 14, padding: 20, background: '#fffaf6' }}>
             <a href={categoryLink(entry.categorie)} style={{ color: '#9b6559', fontSize: 13 }}>{entry.categorie} ↗</a>
             <time style={{ display: 'block', marginTop: 9, color: '#79665e', fontSize: 12 }}>{formattedDate(entry.publication_date)}</time>
             <ExpandableText text={entry.texte} style={{ whiteSpace: 'pre-wrap', marginTop: 12, lineHeight: 1.6 }} />
