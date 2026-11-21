@@ -1,4 +1,4 @@
-import { ArrowRight, BookOpen, Feather, Heart, MessageCircle, PenLine, UsersRound } from 'lucide-react'
+import { ArrowRight, BookOpen, Feather, MessageCircle, PenLine, UsersRound } from 'lucide-react'
 import { useEffect } from 'react'
 import { track } from '@vercel/analytics'
 import { categories } from '../data/categories'
@@ -36,38 +36,19 @@ export function HomePage() {
         </div>
       </section>
 
-      <PublicLetters />
-
-      <section aria-labelledby="cdc-welcome-title" style={{maxWidth: 900, margin: '22px auto 38px', padding: '25px 22px', textAlign: 'center', background: '#faf5ee', border: '1px solid #e9d8c2', borderRadius: 18}}>
-        <p className="cdc-eyebrow">UN ESPACE POUR TOUTES LES HISTOIRES</p>
-        <h2 id="cdc-welcome-title" style={{fontFamily: 'Georgia, serif', fontWeight: 400, fontSize: 'clamp(23px, 3.5vw, 35px)', lineHeight: 1.3, margin: '10px 0 16px', color: '#654b3d'}}>Parce qu'on a tous quelque chose sur le cœur…</h2>
-        <p style={{fontSize: 16, lineHeight: 1.85, maxWidth: 710, margin: '0 auto 14px', color: '#654b3d'}}>Besoin de parler, de se confier sans jugement ou de partager un témoignage ? Solitude, anxiété, dépression, deuil, parentalité à distance, séparation, conflits familiaux, addictions, épuisement au travail ou projets de vie : chacun peut trouver ici un espace d’écoute et de partage.</p>
-        <p style={{fontSize: 16, lineHeight: 1.75, maxWidth: 680, margin: '0 auto 22px', color: '#654b3d'}}>Peu importe ce que vous traversez, il y a une place pour votre histoire ici. 💌</p>
-        <a href="/#categories" style={{display: 'inline-flex', alignItems: 'center', gap: 8, color: '#855e45', fontWeight: 600, textDecoration: 'underline', textUnderlineOffset: 5}}>Découvrir toutes les catégories <ArrowRight size={17} /></a>
-      </section>
-
-      <section aria-labelledby="fondatrice-title" style={{maxWidth: 900, margin: '22px auto 38px', padding: 'clamp(24px, 5vw, 40px)', background: '#fffaf6', border: '1px solid #e9d8c2', borderRadius: 18}}>
-        <p className="cdc-eyebrow" style={{textAlign:'center'}}>DERRIÈRE LES COURRIERS DU CŒUR</p>
-        <h2 id="fondatrice-title" style={{fontFamily:'Georgia, serif',fontWeight:400,fontSize:'clamp(24px, 4vw, 34px)',lineHeight:1.35,color:'#654b3d',textAlign:'center',margin:'12px auto 24px',maxWidth:740}}>Une femme, une maman, et la conviction que chaque histoire mérite d’être entendue.</h2>
-        <div style={{fontSize:16,lineHeight:1.85,color:'#654b3d',maxWidth:730,margin:'0 auto'}}>
-          <p>Je suis Anne-Laure, maman de deux enfants et professionnelle d’un métier profondément tourné vers l’humain.</p>
-          <p>Au fil de mon parcours, j’ai rencontré des personnes aux histoires très différentes, parfois marquées par des épreuves, des doutes, des ruptures ou un profond sentiment de solitude. Mon propre chemin de vie m’a aussi appris combien il peut être difficile de trouver une écoute sincère, sans jugement ni idées toutes faites.</p>
-          <p>C’est de cette conviction qu’est né <strong>Les Courriers du Cœur</strong> : créer un espace bienveillant où chacun peut déposer ses mots, trouver des éclairages, recevoir du soutien et découvrir des pistes pour avancer à son rythme.</p>
-          <p>Je ne prétends pas avoir réponse à tout. Mais je crois profondément au pouvoir de l’écoute, du partage et de l’accompagnement humain.</p>
-          <p style={{fontFamily:'Georgia, serif',fontStyle:'italic',fontSize:19,textAlign:'center',margin:'22px auto'}}>« Parce que derrière chaque difficulté, il y a une personne qui mérite d’être entendue. »</p>
-          <p style={{textAlign:'right',fontSize:14,fontWeight:600,marginBottom:0}}>Anne-Laure · Fondatrice des Courriers du Cœur · Professionnelle de l’accompagnement et coach en accompagnement personnel</p>
-        </div>
-      </section>
-
+      <section aria-label="Explorer les thèmes" style={{maxWidth:900,margin:'28px auto 12px',textAlign:'center',padding:'0 16px'}}><p className="cdc-eyebrow">TROUVER LES MOTS QUI VOUS PARLENT</p><h2 style={{fontFamily:'Georgia, serif',fontWeight:400,color:'#654b3d',fontSize:'clamp(25px,4vw,36px)',margin:'8px auto'}}>Explorer les catégories</h2></section>
       <section className="cdc-categories" id="categories">
         {categories.map((category) => (
           <a href={`/?categorie=${encodeURIComponent(category.name)}#tous-les-courriers`} key={category.name}>
             <span>{category.symbol}</span><strong>{category.name}</strong>
           </a>
         ))}
-        <a className="cdc-categories-more" href="/#categories">Voir toutes<br />les catégories <ArrowRight size={15} /></a>
       </section>
 
+
+
+
+      <PublicLetters />
 
       <section aria-labelledby="eclairages-home-title" style={{maxWidth: 900, margin: '28px auto 40px', padding: '30px 24px', background: '#faf5ee', border: '1px solid #e9d8c2', borderRadius: 18, textAlign: 'center'}}>
         <p className="cdc-eyebrow">UN RENDEZ-VOUS CHAQUE DIMANCHE</p>
@@ -76,29 +57,12 @@ export function HomePage() {
         <a href="/eclairages" style={{display: 'inline-flex', alignItems: 'center', gap: 8, color: '#855e45', fontWeight: 600, textDecoration: 'underline', textUnderlineOffset: 4}}>Découvrir les Éclairages <ArrowRight size={17} /></a>
       </section>
 
-      <section aria-labelledby="parcours-accueil-title" style={{maxWidth:900,margin:'24px auto 38px',padding:'24px 20px',textAlign:'center',background:'#faf5ee',border:'1px solid #e9d8c2',borderRadius:18}}>
-        <p className="cdc-eyebrow">À VOTRE RYTHME</p>
-        <h2 id="parcours-accueil-title" style={{fontFamily:'Georgia, serif',fontWeight:400,color:'#654b3d',fontSize:'clamp(24px,4vw,34px)'}}>Par où commencer ?</h2>
-        <p style={{maxWidth:650,margin:'12px auto 22px',color:'#654b3d',lineHeight:1.8}}>Vous pouvez lire nos articles librement. Pour découvrir les courriers des membres, échanger ou témoigner sous pseudonyme, rejoignez la communauté.</p>
-        <div style={{display:'flex',justifyContent:'center',flexWrap:'wrap',gap:12}}>
-          <a className="cdc-button cdc-button-secondary" href="/eclairages" onClick={() => track('accueil_parcours_articles')}><BookOpen size={17}/> Lire les articles</a>
-          <a className="cdc-button cdc-button-secondary" href="/compte" onClick={() => track('accueil_parcours_communaute')}><UsersRound size={17}/> Lire et échanger</a>
-          <a className="cdc-button cdc-button-primary" href="/ecrire" onClick={() => track('accueil_parcours_temoigner')}><PenLine size={17}/> Partager mon histoire</a>
-        </div>
+      <section aria-labelledby="fondatrice-title" style={{maxWidth:900,margin:'28px auto 38px',padding:'28px 24px',background:'#fffaf6',border:'1px solid #e9d8c2',borderRadius:18,textAlign:'center'}}>
+        <p className="cdc-eyebrow">L'HISTOIRE DU SITE</p>
+        <h2 id="fondatrice-title" style={{fontFamily:'Georgia, serif',fontWeight:400,fontSize:'clamp(24px,4vw,34px)',lineHeight:1.35,color:'#654b3d',margin:'12px auto 18px'}}>Derrière Les Courriers du Cœur</h2>
+        <p style={{fontSize:16,lineHeight:1.8,color:'#654b3d',maxWidth:700,margin:'0 auto 14px'}}>Je suis Anne-Laure, maman de deux enfants et professionnelle d’un métier tourné vers l’humain. Mon parcours et les histoires rencontrées m’ont appris combien une écoute sincère, sans jugement, peut compter.</p>
+        <p style={{fontSize:16,lineHeight:1.8,color:'#654b3d',maxWidth:700,margin:'0 auto'}}>J’ai créé <strong>Les Courriers du Cœur</strong> pour que chacun puisse déposer ses mots, lire d’autres témoignages et trouver du soutien à son rythme. Ici, chaque histoire mérite d’être entendue.</p>
       </section>
-
-
-
-      <section className="cdc-how" id="histoire">
-        <div className="cdc-title-row"><h2>Comment ça <em>fonctionne ?</em></h2><span className="cdc-gold-line">♡</span></div>
-        <div className="cdc-how-grid">
-          <article><div><PenLine /></div><h3>J’écris</h3><p>Mon histoire</p></article>
-          <article><div><BookOpen /></div><h3>Je lis</h3><p>Les récits</p></article>
-          <article><div><MessageCircle /></div><h3>Je réagis</h3><p>J’échange</p></article>
-          <article><div><Feather /></div><h3>Je me sens</h3><p>Moins seul(e)</p></article>
-        </div>
-      </section>
-
 
       <section className="cdc-community">
         <div><p>Parce que<br /><em>vos mots comptent</em></p><span>♡</span></div>
