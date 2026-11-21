@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
 import { BookOpen, ChevronDown, ChevronUp, Feather, MessageCircle, Send } from 'lucide-react'
 import { track } from '@vercel/analytics'
-import { getUserSession, saveUserSession } from '../lib/userAuth'
+import { getFreshUserSession, getUserSession, saveUserSession } from '../lib/userAuth'
 import { avatarSymbol } from '../lib/avatar'
 import { ExpandableText } from './ExpandableText'
 
@@ -78,25 +78,38 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
     setLoading(true)
     setLoadError(false)
 
-    Promise.all([
-      fetch(url + '/rest/v1/courriers?select=id,created_at,pseudo,categorie,message,avatar&valide=eq.true&statut=eq.valide&order=created_at.desc', {
-        headers: { apikey: key, Authorization: 'Bearer ' + session.accessToken },
-      }),
-      fetch(url + '/rest/v1/reponses?select=id,courrier_id,parent_reponse_id,created_at,pseudo,message,est_admin,avatar&statut=eq.valide&order=created_at.asc', {
-        headers: { apikey: key, Authorization: 'Bearer ' + session.accessToken },
-      }),
-    ])
-      .then(async ([lettersResponse, repliesResponse]) => {
-        if (!lettersResponse.ok) throw new Error()
-        setLetters(await lettersResponse.json())
-        if (repliesResponse.ok) setReplies(await repliesResponse.json())
-      })
-      .catch(() => {
-        setLoadError(true)
-        setLetters([])
-        setReplies([])
-      })
-      .finally(() => setLoading(false))
+    let cancelled = false
+    const load = async () => {
+      try {
+        const fresh = await getFreshUserSession()
+        if (!fresh) throw new Error('session-expired')
+        const [lettersResponse, repliesResponse] = await Promise.all([
+          fetch(url + '/rest/v1/courriers?select=id,created_at,pseudo,categorie,message,avatar&valide=eq.true&statut=eq.valide&order=created_at.desc', {
+            headers: { apikey: key, Authorization: 'Bearer ' + fresh.accessToken },
+          }),
+          fetch(url + '/rest/v1/reponses?select=id,courrier_id,parent_reponse_id,created_at,pseudo,message,est_admin,avatar&statut=eq.valide&order=created_at.asc', {
+            headers: { apikey: key, Authorization: 'Bearer ' + fresh.accessToken },
+          }),
+        ])
+        if (!lettersResponse.ok) throw new Error('load-failed')
+        const data = await lettersResponse.json()
+        const responses = repliesResponse.ok ? await repliesResponse.json() : []
+        if (!cancelled) {
+          setLetters(data)
+          setReplies(responses)
+        }
+      } catch (error) {
+        if (!cancelled) {
+          setLoadError(true)
+          setLetters([])
+          setReplies([])
+        }
+      } finally {
+        if (!cancelled) setLoading(false)
+      }
+    }
+    void load()
+    return () => { cancelled = true }
   }, [url, key, session?.accessToken])
 
   const categories = useMemo(
