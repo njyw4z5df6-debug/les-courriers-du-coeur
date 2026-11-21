@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
-import { Bell, Heart, LogOut, UserRound } from 'lucide-react'
+import { Bell, BookOpen, Heart, LogOut, UserRound } from 'lucide-react'
 import { track } from '@vercel/analytics'
 import { clearUserSession, getFreshUserSession, getUserSession, saveUserSession } from '../lib/userAuth'
 import { subscribeMemberToPush, unsubscribeMemberFromPush } from '../lib/pushNotifications'
@@ -211,7 +211,8 @@ export function AccountPage() {
             <p style={{fontSize: 12, lineHeight: 1.6, margin: '12px 0 0'}}>Vous pouvez choisir les deux modes. Sur iPhone, les notifications push nécessitent l’ajout du site à l’écran d’accueil et votre autorisation. Les e-mails de réponse sont facultatifs et ne contiennent pas votre témoignage.</p>
           </div>
           <div className="account-actions">
-            <a className="button button-primary" href="/ecrire">Écrire un courrier</a>
+            <a className="button button-primary" href="/#tous-les-courriers"><BookOpen size={17} /> Lire les courriers</a>
+            <a className="button button-secondary" href="/ecrire">Écrire un courrier</a>
             <button className="button button-secondary" type="button" onClick={logout}><LogOut size={16} /> Se déconnecter</button>
           </div>
         </section>
