@@ -40,9 +40,9 @@ export function DailyPlume({ category }: { category?: string } = {}) {
       </div>
       {!category && <nav aria-label="Filtrer les plumes par catégorie" style={{margin:'22px auto 24px',maxWidth:780}}>
         <p style={{textAlign:'center',fontSize:14,color:'#846f63',marginBottom:12}}>Choisissez un thème pour retrouver directement les Plumes qui vous intéressent.</p>
-        <div style={{display:'grid',gridTemplateColumns:'repeat(3, minmax(0, 1fr))',gap:7}}>
-          <button type="button" onClick={() => {setSelectedCategory('Tous');setShowArchive(false)}} aria-pressed={selectedCategory === 'Tous'} style={{padding:'9px 5px',minHeight:65,fontSize:12,lineHeight:1.25,borderRadius:12,border:'1px solid #dec7a7',background:selectedCategory === 'Tous'?'#f3e3d5':'#fffaf4',color:'#76543f',fontWeight:600,cursor:'pointer'}}>✧<br/>Toutes les Plumes</button>
-          {availableCategories.map(item => <button key={item.name} type="button" onClick={() => {setSelectedCategory(item.name);setShowArchive(true)}} aria-pressed={selectedCategory === item.name} style={{padding:'9px 5px',minHeight:65,fontSize:12,lineHeight:1.25,borderRadius:12,border:selectedCategory === item.name?'2px solid #b77855':'1px solid #dec7a7',background:selectedCategory === item.name?'#f3e3d5':'#fffaf4',color:'#76543f',fontWeight:600,cursor:'pointer'}}><span aria-hidden="true" style={{display:'block',fontSize:19,color:'#b58b3c',marginBottom:2}}>{item.symbol}</span>{item.name}</button>)}
+        <div style={{display:'flex',flexWrap:'wrap',justifyContent:'center',gap:7}}>
+          <button type="button" onClick={() => {setSelectedCategory('Tous');setShowArchive(false)}} aria-pressed={selectedCategory === 'Tous'} style={{padding:'7px 12px',borderRadius:999,border:'1px solid #dec7a7',background:selectedCategory === 'Tous'?'#f3e3d5':'#fffaf4',color:'#76543f',fontSize:12,fontWeight:600,cursor:'pointer',lineHeight:1.25}}>Toutes les Plumes</button>
+          {availableCategories.map(item => <button key={item.name} type="button" onClick={() => {setSelectedCategory(item.name);setShowArchive(true)}} aria-pressed={selectedCategory === item.name} style={{padding:'7px 12px',borderRadius:999,border:selectedCategory === item.name?'1px solid #b77855':'1px solid #dec7a7',background:selectedCategory === item.name?'#f3e3d5':'#fffaf4',color:'#76543f',fontSize:12,fontWeight:600,cursor:'pointer',lineHeight:1.25}}>{item.name}</button>)}
         </div>
       </nav>}
       {!plume && <p style={{textAlign:'center',color:'#76543f'}}>Aucune Plume publiée dans cette catégorie pour le moment.</p>}
