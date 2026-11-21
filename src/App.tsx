@@ -7,10 +7,14 @@ import { AccountPage } from './pages/AccountPage'
 import { WritePage } from './pages/WritePage'
 import { ThemePage, themePages } from './pages/ThemePage'
 import { EclairagesPage } from './pages/EclairagesPage'
+import { SearchArticlePage } from './pages/SearchArticlePage'
+import searchArticles from './data/searchArticles.json'
 import { DailyPlume } from './components/DailyPlume'
 
 export default function App() {
   const path = window.location.pathname.replace(/\/+$/, '') || '/'
+
+  if (path.startsWith('/comprendre/')) { const slug = path.slice('/comprendre/'.length); if (searchArticles.some(article => article.slug === slug)) return <><Header /><SearchArticlePage slug={slug} /><Footer /><Analytics /></> }
 
   if (path.startsWith('/themes/')) {
     const slug = path.slice('/themes/'.length)
