@@ -29,6 +29,7 @@ type PublicReply = {
 export function PublicLetters({ initialCategory }: { initialCategory?: string } = {}) {
   const [session, setSession] = useState(getUserSession())
   const [letters, setLetters] = useState<PublicLetter[]>([])
+  const [previews, setPreviews] = useState<PublicLetter[]>([])
   const [replies, setReplies] = useState<PublicReply[]>([])
   const [loading, setLoading] = useState(true)
   const [loadError, setLoadError] = useState(false)
@@ -69,10 +70,22 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
   }, [session, url, key])
 
   useEffect(() => {
+    if (session) return
+    let cancelled = false
+    setLoading(true)
+    setLoadError(false)
+    fetch('/api/public-letter-previews')
+      .then(async response => { if (!response.ok) throw new Error('previews-failed'); return response.json() })
+      .then(data => { if (!cancelled) setPreviews(data.courriers || []) })
+      .catch(() => { if (!cancelled) setLoadError(true) })
+      .finally(() => { if (!cancelled) setLoading(false) })
+    return () => { cancelled = true }
+  }, [session])
+
+  useEffect(() => {
     if (!session || !url || !key) {
       setLetters([])
       setReplies([])
-      setLoading(false)
       return
     }
     setLoading(true)
@@ -112,14 +125,15 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
     return () => { cancelled = true }
   }, [url, key, session?.accessToken])
 
+  const availableLetters = session ? letters : previews
   const categories = useMemo(
-    () => ['Tous', ...Array.from(new Set(letters.map((letter) => letter.categorie).filter(Boolean)))],
-    [letters],
+    () => ['Tous', ...Array.from(new Set(availableLetters.map((letter) => letter.categorie).filter(Boolean)))],
+    [availableLetters],
   )
 
   const visibleLetters = useMemo(
-    () => activeCategory === 'Tous' ? letters : letters.filter((letter) => letter.categorie === activeCategory),
-    [letters, activeCategory],
+    () => activeCategory === 'Tous' ? availableLetters : availableLetters.filter((letter) => letter.categorie === activeCategory),
+    [availableLetters, activeCategory],
   )
 
   const displayedLetters = showAll ? visibleLetters : visibleLetters.slice(0, 1)
@@ -185,16 +199,9 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
           </div>
         </div>
 
-        {!session && (
-          <div className="public-letters-empty" style={{textAlign: 'center', padding: '35px 20px'}}>
-            <BookOpen size={28} />
-            <strong>Les courriers sont réservés aux membres</strong>
-            <span>Pour lire les témoignages et leurs réponses, connectez-vous ou créez votre compte avec une adresse e-mail.</span>
-            <a className="button button-primary" href="/compte" style={{display: 'inline-flex', marginTop: 16}}>Se connecter ou s’inscrire</a>
-          </div>
-        )}
 
-        {session && !loading && letters.length > 0 && (
+
+        {!loading && !loadError && availableLetters.length > 0 && (
           <div className="public-letters-toolbar">
             <div className="public-letters-filters" aria-label="Filtrer les courriers par catégorie">
               {categories.map((category) => (
@@ -207,11 +214,11 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
           </div>
         )}
 
-        {!session ? null : loading ? (
+        {loading ? (
           <p className="public-letters-empty">Chargement des courriers…</p>
         ) : loadError ? (
           <div className="public-letters-empty"><strong>Impossible de charger les courriers.</strong><span>Actualisez la page ou reconnectez-vous.</span></div>
-        ) : letters.length === 0 ? (
+        ) : availableLetters.length === 0 ? (
           <div className="public-letters-empty">
             <BookOpen size={28} />
             <strong>Aucun courrier publié pour le moment.</strong>
@@ -246,15 +253,15 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
                   </div>
 
                   <div className="public-letter-separator" />
-                  <ExpandableText className="public-letter-message" text={letter.message} />
-                  <div className="public-letter-footer">
+                  {session ? <ExpandableText className="public-letter-message" text={letter.message} /> : <><p className="public-letter-message" style={{whiteSpace:'pre-line'}}>{letter.message}{letter.message.length >= 260 ? '…' : ''}</p><p style={{marginTop:12}}><a className="button button-secondary" href="/compte">Se connecter ou s’inscrire pour lire la suite</a></p></>}
+                  {session && <div className="public-letter-footer">
                     <span><MessageCircle size={15} /> {letterReplies.length} réponse{letterReplies.length > 1 ? 's' : ''}</span>
                     <button type="button" className="public-reply-button" onClick={() => openReply(letter.id)}>
                       Répondre à ce courrier
                     </button>
-                  </div>
+                  </div>}
 
-                  {letterReplies.length > 0 && (
+                  {session && letterReplies.length > 0 && (
                     <div className="public-replies">
                       {orderedReplies.map(({reply, depth}) => (
                         <div className={reply.est_admin ? 'public-reply public-reply-admin' : 'public-reply'} key={reply.id} style={{marginLeft: Math.min(depth, 4) * 16, borderLeft: depth ? '2px solid #d6b99f' : undefined, paddingLeft: depth ? 12 : undefined}}>
@@ -299,7 +306,7 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
             })}
           </div>
         )}
-        {session && !loading && !loadError && visibleLetters.length > 1 && (
+        {!loading && !loadError && visibleLetters.length > 1 && (
           <div style={{textAlign:'center',marginTop:24}}>
             <button type="button" className="button button-secondary" onClick={() => setShowAll(!showAll)} aria-expanded={showAll} style={{display:'inline-flex',alignItems:'center',gap:10}}>
               {showAll ? <ChevronUp size={18}/> : <ChevronDown size={18}/>}
