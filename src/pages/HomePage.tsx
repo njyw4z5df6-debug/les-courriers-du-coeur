@@ -36,20 +36,6 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="cdc-categories" id="categories">
-        {categories.map((category) => (
-          <a href={`/?categorie=${encodeURIComponent(category.name)}#tous-les-courriers`} key={category.name}>
-            <span>{category.symbol}</span><strong>{category.name}</strong>
-          </a>
-        ))}
-        <a className="cdc-categories-more" href="/#categories">Voir toutes<br />les catégories <ArrowRight size={15} /></a>
-      </section>
-
-      <section style={{maxWidth:900,margin:'22px auto 12px',padding:'20px',background:'#fffaf6',border:'1px solid #e9d8c2',borderRadius:18,textAlign:'center'}}>
-        <h2 style={{fontFamily:'Georgia, serif',fontWeight:400,color:'#654b3d',fontSize:'clamp(23px,4vw,31px)',margin:'0 0 10px'}}>Les courriers de la communauté</h2>
-        <p style={{color:'#654b3d',margin:'0 0 15px',lineHeight:1.6}}>Retrouvez les témoignages et échangez avec les membres, sous pseudonyme.</p>
-        <a className="cdc-button cdc-button-primary" href="/#tous-les-courriers" onClick={(e) => { e.preventDefault(); document.getElementById('tous-les-courriers')?.scrollIntoView({behavior:'smooth',block:'start'}) }}><BookOpen size={17}/> Accéder aux courriers</a>
-      </section>
       <PublicLetters />
 
       <section aria-labelledby="cdc-welcome-title" style={{maxWidth: 900, margin: '22px auto 38px', padding: '25px 22px', textAlign: 'center', background: '#faf5ee', border: '1px solid #e9d8c2', borderRadius: 18}}>
@@ -72,6 +58,16 @@ export function HomePage() {
           <p style={{textAlign:'right',fontSize:14,fontWeight:600,marginBottom:0}}>Anne-Laure · Fondatrice des Courriers du Cœur · Professionnelle de l’accompagnement et coach en accompagnement personnel</p>
         </div>
       </section>
+
+      <section className="cdc-categories" id="categories">
+        {categories.map((category) => (
+          <a href={`/?categorie=${encodeURIComponent(category.name)}#tous-les-courriers`} key={category.name}>
+            <span>{category.symbol}</span><strong>{category.name}</strong>
+          </a>
+        ))}
+        <a className="cdc-categories-more" href="/#categories">Voir toutes<br />les catégories <ArrowRight size={15} /></a>
+      </section>
+
 
       <section aria-labelledby="eclairages-home-title" style={{maxWidth: 900, margin: '28px auto 40px', padding: '30px 24px', background: '#faf5ee', border: '1px solid #e9d8c2', borderRadius: 18, textAlign: 'center'}}>
         <p className="cdc-eyebrow">UN RENDEZ-VOUS CHAQUE DIMANCHE</p>
