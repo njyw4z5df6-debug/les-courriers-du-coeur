@@ -50,11 +50,19 @@ export function HomePage() {
 
       <PublicLetters />
 
-      <section aria-labelledby="eclairages-home-title" style={{maxWidth: 900, margin: '28px auto 40px', padding: '30px 24px', background: '#faf5ee', border: '1px solid #e9d8c2', borderRadius: 18, textAlign: 'center'}}>
-        <p className="cdc-eyebrow">UN RENDEZ-VOUS CHAQUE DIMANCHE</p>
-        <h2 id="eclairages-home-title" style={{fontFamily: 'Georgia, serif', fontWeight: 400, fontSize: 'clamp(25px, 4vw, 36px)', margin: '10px 0', color: '#654b3d'}}>Les Éclairages du Cœur</h2>
-        <p style={{fontSize: 16, lineHeight: 1.8, color: '#654b3d', maxWidth: 640, margin: '0 auto 18px'}}>Des articles originaux, documentés et accessibles à tous pour mieux comprendre ce que nous traversons, sans jugement.</p>
-        <a href="/eclairages" style={{display: 'inline-flex', alignItems: 'center', gap: 8, color: '#855e45', fontWeight: 600, textDecoration: 'underline', textUnderlineOffset: 4}}>Découvrir les Éclairages <ArrowRight size={17} /></a>
+      <section aria-label="Les rendez-vous du Cœur" style={{maxWidth:900,margin:'28px auto 40px',padding:'0 12px',display:'grid',gap:16}}>
+        <article style={{padding:'24px 20px',background:'#fffaf6',border:'1px solid #e9d8c2',borderRadius:18,textAlign:'center'}}>
+          <p className="cdc-eyebrow">UN RENDEZ-VOUS CHAQUE JOUR</p>
+          <h2 style={{fontFamily:'Georgia, serif',fontWeight:400,fontSize:'clamp(25px,4vw,34px)',margin:'10px 0',color:'#654b3d'}}>La Plume du Jour</h2>
+          <p style={{fontSize:16,lineHeight:1.65,color:'#654b3d',maxWidth:640,margin:'0 auto 12px'}}>Quelques mots pour réfléchir, ressentir et partager, à découvrir selon vos envies.</p>
+          <a href="/plumes" style={{display:'inline-flex',alignItems:'center',gap:8,color:'#855e45',fontWeight:600,textDecoration:'underline',textUnderlineOffset:4}}>Découvrir les dernières Plumes <ArrowRight size={17}/></a>
+        </article>
+        <article aria-labelledby="eclairages-home-title" style={{padding:'24px 20px',background:'#faf5ee',border:'1px solid #e9d8c2',borderRadius:18,textAlign:'center'}}>
+          <p className="cdc-eyebrow">UN RENDEZ-VOUS CHAQUE DIMANCHE</p>
+          <h2 id="eclairages-home-title" style={{fontFamily:'Georgia, serif',fontWeight:400,fontSize:'clamp(25px,4vw,34px)',margin:'10px 0',color:'#654b3d'}}>Les Éclairages du Cœur</h2>
+          <p style={{fontSize:16,lineHeight:1.65,color:'#654b3d',maxWidth:640,margin:'0 auto 12px'}}>Des articles documentés pour mieux comprendre ce que nous traversons, sans jugement.</p>
+          <a href="/eclairages" style={{display:'inline-flex',alignItems:'center',gap:8,color:'#855e45',fontWeight:600,textDecoration:'underline',textUnderlineOffset:4}}>Découvrir les Éclairages <ArrowRight size={17}/></a>
+        </article>
       </section>
 
       <section aria-labelledby="fondatrice-title" style={{maxWidth:900,margin:'28px auto 38px',padding:'28px 24px',background:'#fffaf6',border:'1px solid #e9d8c2',borderRadius:18,textAlign:'center'}}>
