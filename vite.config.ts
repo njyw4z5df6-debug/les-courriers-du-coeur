@@ -54,7 +54,7 @@ function seoPages(mode: string) {
         title: article.title + ' | Les Courriers du Cœur',
         description: article.description.slice(0,160),
         heading: article.title,
-        body: article.description + '\\n\\n' + article.sections.map(([heading,body])=>heading+'\\n'+body).join('\\n\\n'),
+        body: article.description + '\n\n' + article.sections.map(([heading,body])=>heading+'\n'+body).join('\n\n'),
       })
       entries.push({
         path: '/ecrire',
