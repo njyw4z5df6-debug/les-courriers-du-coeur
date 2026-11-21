@@ -9,6 +9,7 @@ import { ThemePage, themePages } from './pages/ThemePage'
 import { EclairagesPage } from './pages/EclairagesPage'
 import { SearchArticlePage } from './pages/SearchArticlePage'
 import searchArticles from './data/searchArticles.json'
+import { SearchGuidePage, searchGuides } from './pages/SearchGuidePage'
 import { DailyPlume } from './components/DailyPlume'
 
 export default function App() {
@@ -20,6 +21,8 @@ export default function App() {
     const slug = path.slice('/themes/'.length)
     if (themePages.some((theme) => theme.slug === slug)) return <><Header /><ThemePage slug={slug} /><Footer /><Analytics /></>
   }
+
+  if (path.startsWith('/guides/')) { const slug = path.slice('/guides/'.length); if (searchGuides.some(g => g.slug === slug)) return <><Header /><SearchGuidePage slug={slug} /><Footer /><Analytics /></> }
 
   if (path === '/plumes') return <><Header /><main style={{padding:'36px 16px 80px',minHeight:'65vh'}}><DailyPlume /></main><Footer /><Analytics /></>
 
