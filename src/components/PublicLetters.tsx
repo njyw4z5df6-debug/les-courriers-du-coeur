@@ -74,7 +74,7 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
     let cancelled = false
     setLoading(true)
     setLoadError(false)
-    fetch('/api/public-letter-previews')
+    fetch('/api/admin-courriers', { headers: { 'x-public-previews': '1' } })
       .then(async response => { if (!response.ok) throw new Error('previews-failed'); return response.json() })
       .then(data => { if (!cancelled) setPreviews(data.courriers || []) })
       .catch(() => { if (!cancelled) setLoadError(true) })
