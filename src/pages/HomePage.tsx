@@ -3,7 +3,6 @@ import { useEffect } from 'react'
 import { track } from '@vercel/analytics'
 import { categories } from '../data/categories'
 import { PublicLetters } from '../components/PublicLetters'
-import { themePages } from './ThemePage'
 
 export function HomePage() {
   useEffect(() => {
@@ -39,7 +38,7 @@ export function HomePage() {
 
       <section className="cdc-categories" id="categories">
         {categories.map((category) => (
-          <a href={themePages.find((page) => page.name === category.name)?.slug ? `/themes/${themePages.find((page) => page.name === category.name)!.slug}` : `/?categorie=${encodeURIComponent(category.name)}#tous-les-courriers`} key={category.name}>
+          <a href={`/?categorie=${encodeURIComponent(category.name)}#tous-les-courriers`} key={category.name}>
             <span>{category.symbol}</span><strong>{category.name}</strong>
           </a>
         ))}
