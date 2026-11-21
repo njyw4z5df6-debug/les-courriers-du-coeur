@@ -68,8 +68,8 @@ export function HomePage() {
       <section id="histoire" aria-labelledby="fondatrice-title" style={{maxWidth:900,margin:'28px auto 38px',padding:'28px 24px',background:'#fffaf6',border:'1px solid #e9d8c2',borderRadius:18,textAlign:'center'}}>
         <p className="cdc-eyebrow">L'HISTOIRE DU SITE</p>
         <h2 id="fondatrice-title" style={{fontFamily:'Georgia, serif',fontWeight:400,fontSize:'clamp(24px,4vw,34px)',lineHeight:1.35,color:'#654b3d',margin:'12px auto 18px'}}>Derrière Les Courriers du Cœur</h2>
-        <p style={{fontSize:16,lineHeight:1.8,color:'#654b3d',maxWidth:700,margin:'0 auto 14px'}}>Je suis Anne-Laure, maman de deux enfants et professionnelle d’un métier tourné vers l’humain. Mon parcours et les histoires rencontrées m’ont appris combien une écoute sincère, sans jugement, peut compter.</p>
-        <p style={{fontSize:16,lineHeight:1.8,color:'#654b3d',maxWidth:700,margin:'0 auto'}}>J’ai créé <strong>Les Courriers du Cœur</strong> pour que chacun puisse déposer ses mots, lire d’autres témoignages et trouver du soutien à son rythme. Ici, chaque histoire mérite d’être entendue.</p>
+        <p style={{fontSize:16,lineHeight:1.8,color:'#654b3d',maxWidth:700,margin:'0 auto 14px'}}>Je suis Anne-Laure, maman de deux enfants, professionnelle des ressources humaines et recruteuse de métier. Par passion pour l’humain et l’envie de mieux le comprendre, j’ai également suivi des formations en psychologie. Mon parcours et les histoires rencontrées m’ont appris combien une écoute sincère peut compter.</p>
+        <p style={{fontSize:16,lineHeight:1.8,color:'#654b3d',maxWidth:700,margin:'0 auto'}}>J’ai créé <strong>Les Courriers du Cœur</strong> comme un espace de partage fondé sur <strong>l’anonymat, la bienveillance et l’absence de jugement</strong>. Chacun peut y déposer ses mots, lire d’autres témoignages et trouver du soutien à son rythme. Ici, chaque histoire mérite d’être entendue.</p>
       </section>
 
       <section className="cdc-community">
