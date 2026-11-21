@@ -56,6 +56,10 @@ function seoPages(mode: string) {
         heading: article.title,
         body: article.description + '\n\n' + article.sections.map(([heading,body])=>heading+'\n'+body).join('\n\n'),
       })
+      const searchGuides = JSON.parse(await readFile(join(process.cwd(), 'src/data/searchArticles.json'), 'utf8')) as { slug: string; title: string; description: string; sections: [string,string][] }[]
+      for (const guide of searchGuides) {
+        entries.push({path:'/guides/'+guide.slug,title:guide.title+' | Les Courriers du Cœur',description:guide.description,heading:guide.title,body:guide.description+'\n\n'+guide.sections.map(([h,p])=>h+'\n'+p).join('\n\n')})
+      }
       entries.push({
         path: '/ecrire',
         title: 'Écrire un témoignage anonyme | Les Courriers du Cœur',
@@ -88,12 +92,13 @@ function seoPages(mode: string) {
       }
       const articleEntries = entries.filter(e => e.path.startsWith('/eclairages/'))
       const themeEntries = entries.filter(e => e.path.startsWith('/themes/'))
+      const guideEntries = entries.filter(e => e.path.startsWith('/guides/'))
       const focusedEntries = entries.filter(e => e.path.startsWith('/comprendre/'))
       for (const entry of entries) {
         const canonical = base + entry.path
         const title = escapeHtml(entry.title)
         const desc = escapeHtml(entry.description)
-        const links = entry.path === '/ecrire' ? themeEntries : entry.path === '/eclairages' ? articleEntries : entry.path.startsWith('/comprendre/') ? focusedEntries.filter(e => e.path !== entry.path) : entry.path.startsWith('/themes/') ? [...focusedEntries,...articleEntries].slice(0, 8) : entry.path.startsWith('/eclairages/') ? articleEntries.filter(e => e.path !== entry.path).slice(0, 5) : []
+        const links = entry.path === '/ecrire' ? themeEntries : entry.path.startsWith('/guides/') ? guideEntries.filter(e=>e.path!==entry.path) : entry.path === '/eclairages' ? articleEntries : entry.path.startsWith('/comprendre/') ? focusedEntries.filter(e => e.path !== entry.path) : entry.path.startsWith('/themes/') ? [...focusedEntries,...articleEntries].slice(0, 8) : entry.path.startsWith('/eclairages/') ? articleEntries.filter(e => e.path !== entry.path).slice(0, 5) : []
         const linkSection = links.length ? '<nav aria-label="Autres articles"><h2>À découvrir également</h2><ul>' + links.map(e => '<li><a href="' + escapeHtml(e.path) + '">' + escapeHtml(e.heading) + '</a></li>').join('') + '</ul></nav>' : ''
         const themeSection = entry.path === '/eclairages' || entry.path.startsWith('/eclairages/') ? '<nav aria-label="Thèmes"><h2>Explorer les thèmes</h2><ul>' + themeEntries.map(e => '<li><a href="' + escapeHtml(e.path) + '">' + escapeHtml(e.heading) + '</a></li>').join('') + '</ul></nav>' : ''
         const visible = '<main style="max-width:900px;margin:50px auto;padding:24px;font-family:Georgia,serif;color:#654b3d"><h1>' + escapeHtml(entry.heading) + '</h1><p style="white-space:pre-wrap;line-height:1.8">' + escapeHtml(entry.body) + '</p>' + linkSection + themeSection + '</main>'
