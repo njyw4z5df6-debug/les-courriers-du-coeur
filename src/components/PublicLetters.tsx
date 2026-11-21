@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
-import { BookOpen, Feather, MessageCircle, Send } from 'lucide-react'
+import { BookOpen, ChevronDown, ChevronUp, Feather, MessageCircle, Send } from 'lucide-react'
 import { track } from '@vercel/analytics'
 import { getUserSession, saveUserSession } from '../lib/userAuth'
 import { avatarSymbol } from '../lib/avatar'
@@ -31,6 +31,8 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
   const [letters, setLetters] = useState<PublicLetter[]>([])
   const [replies, setReplies] = useState<PublicReply[]>([])
   const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState(false)
+  const [showAll, setShowAll] = useState(() => Boolean(initialCategory || new URLSearchParams(window.location.search).get('categorie')))
   const [activeCategory, setActiveCategory] = useState(() => initialCategory || new URLSearchParams(window.location.search).get('categorie') || 'Tous')
   const [replyingTo, setReplyingTo] = useState<number | null>(null)
   const [replyingToComment, setReplyingToComment] = useState<number | null>(null)
@@ -74,6 +76,7 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
       return
     }
     setLoading(true)
+    setLoadError(false)
 
     Promise.all([
       fetch(url + '/rest/v1/courriers?select=id,created_at,pseudo,categorie,message,avatar&valide=eq.true&statut=eq.valide&order=created_at.desc', {
@@ -89,6 +92,7 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
         if (repliesResponse.ok) setReplies(await repliesResponse.json())
       })
       .catch(() => {
+        setLoadError(true)
         setLetters([])
         setReplies([])
       })
@@ -104,6 +108,8 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
     () => activeCategory === 'Tous' ? letters : letters.filter((letter) => letter.categorie === activeCategory),
     [letters, activeCategory],
   )
+
+  const displayedLetters = showAll ? visibleLetters : visibleLetters.slice(0, 1)
 
   function openReply(letterId: number, commentId: number | null = null) {
     if (!session) {
@@ -179,7 +185,7 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
           <div className="public-letters-toolbar">
             <div className="public-letters-filters" aria-label="Filtrer les courriers par catégorie">
               {categories.map((category) => (
-                <button className={activeCategory === category ? 'public-filter is-active' : 'public-filter'} key={category} type="button" onClick={() => setActiveCategory(category)}>
+                <button className={activeCategory === category ? 'public-filter is-active' : 'public-filter'} key={category} type="button" onClick={() => { setActiveCategory(category); setShowAll(true) }}>
                   {category}
                 </button>
               ))}
@@ -190,6 +196,8 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
 
         {!session ? null : loading ? (
           <p className="public-letters-empty">Chargement des courriers…</p>
+        ) : loadError ? (
+          <div className="public-letters-empty"><strong>Impossible de charger les courriers.</strong><span>Actualisez la page ou reconnectez-vous.</span></div>
         ) : letters.length === 0 ? (
           <div className="public-letters-empty">
             <BookOpen size={28} />
@@ -198,7 +206,7 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
           </div>
         ) : (
           <div className="public-letters-grid">
-            {visibleLetters.map((letter) => {
+            {displayedLetters.map((letter) => {
               const letterReplies = replies.filter((reply) => reply.courrier_id === letter.id)
               const orderedReplies: Array<{reply: PublicReply; depth: number}> = []
               const seen = new Set<number>()
@@ -276,6 +284,14 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
                 </article>
               )
             })}
+          </div>
+        )}
+        {session && !loading && !loadError && visibleLetters.length > 1 && (
+          <div style={{textAlign:'center',marginTop:24}}>
+            <button type="button" className="button button-secondary" onClick={() => setShowAll(!showAll)} aria-expanded={showAll} style={{display:'inline-flex',alignItems:'center',gap:10}}>
+              {showAll ? <ChevronUp size={18}/> : <ChevronDown size={18}/>}
+              {showAll ? 'Replier les courriers' : 'Voir tous les courriers par catégorie'}
+            </button>
           </div>
         )}
         {session && <div style={{textAlign:'center',marginTop:28,padding:'22px 16px',borderTop:'1px solid #e9d8c2'}}><p style={{color:'#654b3d',lineHeight:1.7}}>Une histoire à partager, vous aussi ? Vos mots ont leur place ici.</p><a className="button button-primary" href="/ecrire">Déposer mon courrier</a></div>}
