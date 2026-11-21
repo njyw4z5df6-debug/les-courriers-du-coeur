@@ -27,6 +27,10 @@
     {
       "source": "/eclairages/:slug",
       "destination": "/eclairages/:slug/index.html"
+    },
+    {
+      "source": "/comprendre/:slug",
+      "destination": "/comprendre/:slug/index.html"
     }
   ]
 }
