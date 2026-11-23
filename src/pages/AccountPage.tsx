@@ -151,7 +151,7 @@ export function AccountPage() {
       await fetch(`${supabaseUrl}/auth/v1/user`, {
         method: 'PUT',
         headers: { apikey: supabaseKey, Authorization: 'Bearer ' + session.accessToken, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ data: { avatar: nextAvatar, pseudo: session.pseudo } }),
+        body: JSON.stringify({ data: { avatar: nextAvatar } }),
       })
       setStatus('Votre avatar a bien été enregistré.')
     } catch {
