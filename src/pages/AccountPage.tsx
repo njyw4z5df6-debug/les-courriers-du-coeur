@@ -17,6 +17,9 @@ export function AccountPage() {
   const [loading, setLoading] = useState(false)
   const [session, setSession] = useState(getUserSession())
   const [avatar, setAvatar] = useState(getUserSession()?.avatar || 'fleur')
+  const [newPseudo, setNewPseudo] = useState('')
+  const [savingPseudo, setSavingPseudo] = useState(false)
+  const [canChangePseudo, setCanChangePseudo] = useState(false)
   const [noticePrefs, setNoticePrefs] = useState({ plume: false, courriers: false, email: false, push: false, repliesEmail: false })
 
   const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
@@ -27,6 +30,37 @@ export function AccountPage() {
     window.addEventListener('cdc-auth-changed', sync)
     return () => window.removeEventListener('cdc-auth-changed', sync)
   }, [])
+
+  useEffect(() => {
+    if (!session) { setCanChangePseudo(false); return }
+    getFreshUserSession().then(async fresh => {
+      if (!fresh) return
+      const response = await fetch('/api/admin-courriers', { headers: { Authorization: 'Bearer ' + fresh.accessToken, 'x-member-pseudonym': '1' } })
+      setCanChangePseudo(response.ok)
+    }).catch(() => setCanChangePseudo(false))
+  }, [session?.accessToken])
+
+  async function changePseudo(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    if (!session || !canChangePseudo || savingPseudo) return
+    const proposed = newPseudo.trim()
+    if (proposed.length < 2 || proposed.length > 40) { setStatus('Choisissez un pseudonyme de 2 à 40 caractères.'); return }
+    setSavingPseudo(true)
+    setStatus('')
+    try {
+      const fresh = await getFreshUserSession()
+      if (!fresh) throw new Error('Reconnectez-vous avant de modifier votre pseudonyme.')
+      const response = await fetch('/api/admin-courriers', { method: 'POST', headers: { Authorization: 'Bearer ' + fresh.accessToken, 'Content-Type': 'application/json', 'x-member-pseudonym': '1' }, body: JSON.stringify({ pseudo: proposed }) })
+      const result = await response.json().catch(() => ({}))
+      if (!response.ok) throw new Error(result.error || 'Modification impossible.')
+      const updated = { ...fresh, pseudo: proposed }
+      saveUserSession(updated)
+      setSession(updated)
+      setNewPseudo('')
+      setStatus('Votre nouveau pseudonyme sera utilisé pour vos prochaines publications. Les anciennes signatures restent inchangées.')
+    } catch (error) { setStatus(error instanceof Error ? error.message : 'Modification impossible.') }
+    finally { setSavingPseudo(false) }
+  }
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -117,7 +151,7 @@ export function AccountPage() {
       await fetch(`${supabaseUrl}/auth/v1/user`, {
         method: 'PUT',
         headers: { apikey: supabaseKey, Authorization: 'Bearer ' + session.accessToken, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ data: { avatar: nextAvatar, pseudo: session.pseudo } }),
+        body: JSON.stringify({ data: { avatar: nextAvatar } }),
       })
       setStatus('Votre avatar a bien été enregistré.')
     } catch {
@@ -180,7 +214,8 @@ export function AccountPage() {
           <div className="account-icon"><span>{avatars.find(([name]) => name === avatar)?.[1] || '❀'}</span> </div>
           <p className="script-label">Votre espace</p>
           <h1>Bonjour {session.pseudo}</h1>
-          <p>Votre pseudonyme reste lié à ce compte et sera utilisé automatiquement pour vos courriers et vos réponses.</p>
+          <p>Votre pseudonyme actuel sera utilisé pour vos prochaines publications et réponses personnelles. Vos anciennes signatures restent inchangées.</p>
+          {canChangePseudo && <form className="account-form" onSubmit={changePseudo} style={{maxWidth:520, margin:"20px auto"}}><label><span>Changer mon pseudonyme d’abonnée</span><input value={newPseudo} onChange={e => setNewPseudo(e.target.value)} minLength={2} maxLength={40} placeholder="Votre nouveau pseudonyme" required /><small>Réservé à votre profil personnel. Les réponses officielles des Courriers du Cœur ne changent pas.</small></label><button className="button button-secondary" type="submit" disabled={savingPseudo || newPseudo.trim().length < 2}>{savingPseudo ? "Enregistrement…" : "Enregistrer mon pseudonyme"}</button></form>}
           <div className="avatar-picker">
             <div className="avatar-picker-title"><span>Votre avatar</span><small>Choisissez votre petite signature visuelle</small></div>
             <div className="avatar-options">
