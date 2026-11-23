@@ -35,7 +35,7 @@ export function AccountPage() {
     if (!session) { setCanChangePseudo(false); return }
     getFreshUserSession().then(async fresh => {
       if (!fresh) return
-      const response = await fetch('/api/member-pseudonym', { headers: { Authorization: 'Bearer ' + fresh.accessToken } })
+      const response = await fetch('/api/admin-courriers', { headers: { Authorization: 'Bearer ' + fresh.accessToken, 'x-member-pseudonym': '1' } })
       setCanChangePseudo(response.ok)
     }).catch(() => setCanChangePseudo(false))
   }, [session?.accessToken])
@@ -50,7 +50,7 @@ export function AccountPage() {
     try {
       const fresh = await getFreshUserSession()
       if (!fresh) throw new Error('Reconnectez-vous avant de modifier votre pseudonyme.')
-      const response = await fetch('/api/member-pseudonym', { method: 'POST', headers: { Authorization: 'Bearer ' + fresh.accessToken, 'Content-Type': 'application/json' }, body: JSON.stringify({ pseudo: proposed }) })
+      const response = await fetch('/api/admin-courriers', { method: 'POST', headers: { Authorization: 'Bearer ' + fresh.accessToken, 'Content-Type': 'application/json', 'x-member-pseudonym': '1' }, body: JSON.stringify({ pseudo: proposed }) })
       const result = await response.json().catch(() => ({}))
       if (!response.ok) throw new Error(result.error || 'Modification impossible.')
       const updated = { ...fresh, pseudo: proposed }
