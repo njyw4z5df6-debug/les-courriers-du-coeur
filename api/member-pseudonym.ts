@@ -7,7 +7,7 @@ const PERSONAL_MEMBER_ID = '9a845c2b-589b-4a22-ab88-f82f2ea103d3'
 
 export default async function handler(req: Req, res: Res) {
   if (req.method !== 'GET' && req.method !== 'POST') return res.status(405).json({ error: 'Méthode non autorisée.' })
-  const url = process.env.VITE_SUPABASE_URL?.replace(/\\/$/, '')
+  const url = process.env.VITE_SUPABASE_URL?.replace(/\/$/, '')
   const anonKey = process.env.VITE_SUPABASE_ANON_KEY
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
   if (!url || !anonKey || !serviceKey) return res.status(503).json({ error: 'Configuration indisponible.' })
