@@ -34,7 +34,7 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
   const [loading, setLoading] = useState(true)
   const [loadError, setLoadError] = useState(false)
   const [showAll, setShowAll] = useState(() => Boolean(initialCategory || new URLSearchParams(window.location.search).get('categorie')))
-  const [activeCategory, setActiveCategory] = useState(() => initialCategory || new URLSearchParams(window.location.search).get('categorie') || 'Tous')
+  const [activeCategory, setActiveCategory] = useState(() => (initialCategory || new URLSearchParams(window.location.search).get('categorie') || 'Tous').replace(/^Famille$/, 'Famille & Amitié'))
   const [replyingTo, setReplyingTo] = useState<number | null>(null)
   const [replyingToComment, setReplyingToComment] = useState<number | null>(null)
   const [replyPseudo, setReplyPseudo] = useState(getUserSession()?.pseudo || '')
@@ -127,12 +127,12 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
 
   const availableLetters = session ? letters : previews
   const categories = useMemo(
-    () => ['Tous', ...Array.from(new Set(availableLetters.map((letter) => letter.categorie).filter(Boolean)))],
+    () => ['Tous', ...Array.from(new Set(availableLetters.map((letter) => letter.categorie === 'Famille' ? 'Famille & Amitié' : letter.categorie).filter(Boolean)))],
     [availableLetters],
   )
 
   const visibleLetters = useMemo(
-    () => activeCategory === 'Tous' ? availableLetters : availableLetters.filter((letter) => letter.categorie === activeCategory),
+    () => activeCategory === 'Tous' ? availableLetters : availableLetters.filter((letter) => (letter.categorie === 'Famille' ? 'Famille & Amitié' : letter.categorie) === activeCategory),
     [availableLetters, activeCategory],
   )
 
@@ -249,7 +249,7 @@ export function PublicLetters({ initialCategory }: { initialCategory?: string } 
                         <time>{new Date(letter.created_at).toLocaleDateString('fr-FR')}</time>
                       </div>
                     </div>
-                    <span className="public-letter-category">{letter.categorie}</span>
+                    <span className="public-letter-category">{letter.categorie === 'Famille' ? 'Famille & Amitié' : letter.categorie}</span>
                   </div>
 
                   <div className="public-letter-separator" />
