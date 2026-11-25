@@ -28,8 +28,8 @@ export function DailyPlume({ category }: { category?: string } = {}) {
     }).catch(() => setError(true))
   }, [])
 
-  const availableCategories = categories.filter(item => entries.some(entry => entry.categorie === item.name))
-  const filteredEntries = entries.filter(entry => selectedCategory === 'Tous' || entry.categorie === selectedCategory)
+  const availableCategories = categories.filter(item => entries.some(entry => (entry.categorie === 'Famille' ? 'Famille & Amitié' : entry.categorie) === item.name))
+  const filteredEntries = entries.filter(entry => selectedCategory === 'Tous' || (entry.categorie === 'Famille' ? 'Famille & Amitié' : entry.categorie) === selectedCategory)
   if (entries.length === 0) return null
   const plume = filteredEntries[0]
   return (
@@ -50,7 +50,7 @@ export function DailyPlume({ category }: { category?: string } = {}) {
         <div style={{ display: 'flex', gap: 10, justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
           <a href={categoryLink(plume.categorie)} title={'Voir les courriers : ' + plume.categorie}
             style={{ display: 'inline-block', color: '#8b5146', background: '#f9e9e2', borderRadius: 24, textDecoration: 'none', padding: '7px 14px', fontSize: 12, fontWeight: 600 }}>
-            {plume.categorie} ↗
+            {plume.categorie === 'Famille' ? 'Famille & Amitié' : plume.categorie} ↗
           </a>
           <time style={{ color: '#846f63', fontSize: 13 }} dateTime={plume.publication_date}>{formattedDate(plume.publication_date)}</time>
         </div>
@@ -59,7 +59,7 @@ export function DailyPlume({ category }: { category?: string } = {}) {
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 16, color: '#9b6c61', fontStyle: 'italic', fontSize: 14 }}>♡ Les Courriers du Cœur</div>
         <div style={{ marginTop: 16, paddingTop: 14, borderTop: '1px solid #eddfd3' }}>
           <a href={categoryLink(plume.categorie)} style={{ color: '#87594e', fontSize: 13, display: 'inline-flex', alignItems: 'center', gap: 8, textDecoration: 'underline' }}>
-            Découvrir les courriers « {plume.categorie} » <ArrowRight size={16}/>
+            Découvrir les courriers « {plume.categorie === 'Famille' ? 'Famille & Amitié' : plume.categorie} » <ArrowRight size={16}/>
           </a>
         </div>
         <PlumeInteractions plumeId={plume.id}/>
@@ -72,7 +72,7 @@ export function DailyPlume({ category }: { category?: string } = {}) {
         </button>
         {showArchive && <div style={{ display: 'grid', gap: 14, marginTop: 22, textAlign: 'left' }}>
           {filteredEntries.slice(1).map(entry => <article key={entry.id} style={{ border: '1px solid #e6d8cd', borderRadius: 14, padding: 20, background: '#fffaf6' }}>
-            <a href={categoryLink(entry.categorie)} style={{ color: '#9b6559', fontSize: 13 }}>{entry.categorie} ↗</a>
+            <a href={categoryLink(entry.categorie)} style={{ color: '#9b6559', fontSize: 13 }}>{entry.categorie === 'Famille' ? 'Famille & Amitié' : entry.categorie} ↗</a>
             <time style={{ display: 'block', marginTop: 9, color: '#79665e', fontSize: 12 }}>{formattedDate(entry.publication_date)}</time>
             <ExpandableText text={entry.texte} style={{ whiteSpace: 'pre-wrap', marginTop: 12, lineHeight: 1.6 }} />
             <PlumeInteractions plumeId={entry.id}/>
