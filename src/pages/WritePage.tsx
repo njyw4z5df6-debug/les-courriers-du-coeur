@@ -25,7 +25,7 @@ export function WritePage() {
       const response = await fetch(url + '/rest/v1/courriers', {
         method: 'POST',
         headers: { apikey: key, Authorization: 'Bearer ' + session.accessToken, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
-        body: JSON.stringify({ pseudo: session.pseudo, categorie, message: message.trim(), avatar: session.avatar || 'fleur', statut: 'en_attente', valide: false }),
+        body: JSON.stringify({ pseudo: session.pseudo, categorie: categorie === 'Famille & Amitié' ? 'Famille' : categorie, message: message.trim(), avatar: session.avatar || 'fleur', statut: 'en_attente', valide: false }),
       })
       if (!response.ok) throw new Error()
       track('courrier_envoi_reussi')
