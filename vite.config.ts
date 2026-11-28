@@ -4,6 +4,9 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises'
 import { join } from 'node:path'
 
 const base = 'https://www.lescourriersducoeur.fr'
+const canonicalPilotSlug = 'solitude-affective-pourquoi-je-me-sens-seul'
+const canonicalPilotPath = '/guides/' + canonicalPilotSlug
+const retiredPilotPath = '/comprendre/' + canonicalPilotSlug
 const escapeHtml = (value: string) => value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;')
 const seoDescriptions: Record<string, string> = {
   'se-sentir-seul-au-milieu-des-autres': 'Pourquoi se sentir seul même entouré de ses proches ? Comprendre la solitude émotionnelle, ses causes et les façons de retrouver des liens sincères.',
@@ -49,7 +52,7 @@ function seoPages(mode: string) {
         })
       }
       const focusedArticles = JSON.parse(await readFile(join(process.cwd(), 'src/data/searchArticles.json'), 'utf8')) as {slug:string;title:string;description:string;sections:[string,string][]}[]
-      for (const article of focusedArticles) entries.push({
+      for (const article of focusedArticles.filter(article => article.slug !== canonicalPilotSlug)) entries.push({
         path: '/comprendre/' + article.slug,
         title: article.title + ' | Les Courriers du Cœur',
         description: article.description.slice(0,160),
@@ -93,7 +96,12 @@ function seoPages(mode: string) {
       const articleEntries = entries.filter(e => e.path.startsWith('/eclairages/'))
       const themeEntries = entries.filter(e => e.path.startsWith('/themes/'))
       const guideEntries = entries.filter(e => e.path.startsWith('/guides/'))
-      const focusedEntries = entries.filter(e => e.path.startsWith('/comprendre/'))
+      const entriesByPath = new Map(entries.map(entry => [entry.path, entry]))
+      // Keep related links in article order, using the preferred path for the pilot only.
+      const focusedEntries = focusedArticles.flatMap(({ slug }) => {
+        const entry = entriesByPath.get(slug === canonicalPilotSlug ? canonicalPilotPath : '/comprendre/' + slug)
+        return entry ? [entry] : []
+      })
       for (const entry of entries) {
         const canonical = base + entry.path
         const title = escapeHtml(entry.title)
@@ -101,7 +109,10 @@ function seoPages(mode: string) {
         const links = entry.path === '/ecrire' ? themeEntries : entry.path.startsWith('/guides/') ? guideEntries.filter(e=>e.path!==entry.path) : entry.path === '/eclairages' ? articleEntries : entry.path.startsWith('/comprendre/') ? focusedEntries.filter(e => e.path !== entry.path) : entry.path.startsWith('/themes/') ? [...focusedEntries,...articleEntries].slice(0, 8) : entry.path.startsWith('/eclairages/') ? articleEntries.filter(e => e.path !== entry.path).slice(0, 5) : []
         const linkSection = links.length ? '<nav aria-label="Autres articles"><h2>À découvrir également</h2><ul>' + links.map(e => '<li><a href="' + escapeHtml(e.path) + '">' + escapeHtml(e.heading) + '</a></li>').join('') + '</ul></nav>' : ''
         const themeSection = entry.path === '/eclairages' || entry.path.startsWith('/eclairages/') ? '<nav aria-label="Thèmes"><h2>Explorer les thèmes</h2><ul>' + themeEntries.map(e => '<li><a href="' + escapeHtml(e.path) + '">' + escapeHtml(e.heading) + '</a></li>').join('') + '</ul></nav>' : ''
-        const visible = '<main style="max-width:900px;margin:50px auto;padding:24px;font-family:Georgia,serif;color:#654b3d"><h1>' + escapeHtml(entry.heading) + '</h1><p style="white-space:pre-wrap;line-height:1.8">' + escapeHtml(entry.body) + '</p>' + linkSection + themeSection + '</main>'
+        const writeLink = entry.path === '/guides/perdre-un-parent-a-l-age-adulte'
+          ? '<p>Vous pouvez aussi <a href="/ecrire">écrire sous un pseudonyme</a> à votre rythme.</p>'
+          : ''
+        const visible = '<main style="max-width:900px;margin:50px auto;padding:24px;font-family:Georgia,serif;color:#654b3d"><h1>' + escapeHtml(entry.heading) + '</h1><p style="white-space:pre-wrap;line-height:1.8">' + escapeHtml(entry.body) + '</p>' + writeLink + linkSection + themeSection + '</main>'
         const schema = entry.path.startsWith('/eclairages/') ? {
           '@context': 'https://schema.org',
           '@type': 'Article',
@@ -142,13 +153,18 @@ function seoPages(mode: string) {
       for (const path of expectedPaths) {
         if (!sitemapEntries.has(path)) throw new Error('[SEO] URL manquante du sitemap : ' + path)
       }
+      if (!sitemapEntries.has(canonicalPilotPath) || sitemapEntries.has(retiredPilotPath)) {
+        throw new Error('[SEO] Le sitemap doit contenir uniquement le guide canonique de la solitude affective.')
+      }
       if (articleEntries.length === 0) {
         console.warn('[SEO] Aucun article récupéré depuis Supabase : vérifier les variables VITE_SUPABASE_URL et VITE_SUPABASE_ANON_KEY et les règles de lecture publique. Les URLs de secours sont conservées.')
       } else {
         console.log('[SEO] ' + articleEntries.length + ' Éclairages publiés récupérés pour les pages statiques.')
       }
       // Donner aussi une vraie version HTML à l'accueil : le crawler ne doit pas dépendre de JavaScript.
-      const homeIntro = '<main style="max-width:920px;margin:40px auto;padding:24px;font-family:Georgia,serif;color:#654b3d;line-height:1.8"><h1>Les Courriers du Cœur : parler, témoigner et être écouté</h1><p>Un espace de partage bienveillant pour raconter ce que l’on traverse : anxiété, dépression, deuil, solitude, violences, addictions, conflits familiaux, séparation, parentalité à distance ou épuisement au travail. Les témoignages sont publiés sous pseudonyme, après modération. Il n’est pas nécessaire d’avoir une histoire parfaitement organisée pour commencer à mettre des mots sur une difficulté. Les membres peuvent s’exprimer sur ce qu’ils vivent, ce qu’ils ressentent et ce qu’ils souhaitent comprendre.</p><p>Découvrez nos rubriques pour lire des récits et déposer vos mots à votre rythme. Nos Éclairages du Cœur proposent également des articles documentés, sans se substituer à un accompagnement médical ou juridique. Si vous traversez une période de solitude, un conflit ou une épreuve, vous pouvez consulter les textes à votre rythme et choisir ensuite de rejoindre les échanges. Les articles comportent des références pour poursuivre la lecture et explorer les sujets qui vous intéressent.</p><h2>Explorer les témoignages par thème</h2><ul>' + themeEntries.map(e => '<li><a href="' + escapeHtml(e.path) + '">' + escapeHtml(e.heading) + '</a></li>').join('') + '</ul><h2>Lire les Éclairages du Cœur</h2><p><a href="/eclairages">Tous les articles et éclairages</a></p><ul>' + articleEntries.map(e => '<li><a href="' + escapeHtml(e.path) + '">' + escapeHtml(e.heading) + '</a></li>').join('') + '</ul><p><a href="/ecrire">Écrire mon courrier sous pseudonyme</a></p></main>'
+      const homeStart = '<p>Lisez les extraits sans compte. Avec un compte, vous pouvez lire les témoignages en entier ou écrire sous un pseudonyme.</p><p><a href="/#tous-les-courriers">Lire les extraits</a> · <a href="/ecrire">Écrire sous un pseudonyme</a></p>'
+      const homeGuides = '<h2>Par où commencer ?</h2><ul><li><a href="/guides/solitude-affective-pourquoi-je-me-sens-seul">Se sentir seul, même entouré</a></li><li><a href="/guides/perdre-un-parent-a-l-age-adulte">Perdre un parent à l’âge adulte</a></li><li><a href="/guides/epuisement-emotionnel-comment-le-reconnaitre">Reconnaître l’épuisement émotionnel</a></li></ul>'
+      const homeIntro = '<main style="max-width:920px;margin:40px auto;padding:24px;font-family:Georgia,serif;color:#654b3d;line-height:1.8"><h1>Les Courriers du Cœur : parler, témoigner et être écouté</h1>' + homeStart + homeGuides + '<p>Un espace de partage bienveillant pour raconter ce que l’on traverse : anxiété, dépression, deuil, solitude, violences, addictions, conflits familiaux, séparation, parentalité à distance ou épuisement au travail. Les témoignages sont publiés sous pseudonyme, après modération. Il n’est pas nécessaire d’avoir une histoire parfaitement organisée pour commencer à mettre des mots sur une difficulté. Les membres peuvent s’exprimer sur ce qu’ils vivent, ce qu’ils ressentent et ce qu’ils souhaitent comprendre.</p><p>Découvrez nos rubriques pour lire des récits et déposer vos mots à votre rythme. Nos Éclairages du Cœur proposent également des articles documentés, sans se substituer à un accompagnement médical ou juridique. Si vous traversez une période de solitude, un conflit ou une épreuve, vous pouvez consulter les textes à votre rythme et choisir ensuite de rejoindre les échanges. Les articles comportent des références pour poursuivre la lecture et explorer les sujets qui vous intéressent.</p><section id="tous-les-courriers"><h2>Lire les extraits</h2><noscript><p>Pour afficher les extraits, activez JavaScript dans votre navigateur.</p></noscript></section><h2>Explorer les témoignages par thème</h2><ul>' + themeEntries.map(e => '<li><a href="' + escapeHtml(e.path) + '">' + escapeHtml(e.heading) + '</a></li>').join('') + '</ul><h2>Lire les Éclairages du Cœur</h2><p><a href="/eclairages">Tous les articles et éclairages</a></p><ul>' + articleEntries.map(e => '<li><a href="' + escapeHtml(e.path) + '">' + escapeHtml(e.heading) + '</a></li>').join('') + '</ul></main>'
       const homeSchema = {
         '@context': 'https://schema.org',
         '@graph': [
