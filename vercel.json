@@ -1,4 +1,11 @@
 {
+  "redirects": [
+    {
+      "source": "/comprendre/solitude-affective-pourquoi-je-me-sens-seul",
+      "destination": "/guides/solitude-affective-pourquoi-je-me-sens-seul",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/moderation",
