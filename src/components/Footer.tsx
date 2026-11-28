@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { Instagram } from 'lucide-react'
 import { CONTACT_EMAIL, SITE_HOST, SITE_URL } from '../config/site'
 
 export function Footer() {
@@ -14,7 +13,7 @@ export function Footer() {
         <button type="button" onClick={() => setInfo(info === 'confidentialite' ? null : 'confidentialite')}>Confidentialité</button>
         <a href={`mailto:${CONTACT_EMAIL}`}>Nous écrire</a>
         <a href={SITE_URL} rel="home">{SITE_HOST}</a>
-        <a href="https://www.instagram.com/lescourriersducoeur.fr/" target="_blank" rel="noopener noreferrer" style={{display:'inline-flex',alignItems:'center',gap:7}}><Instagram size={17} aria-hidden="true" /> Retrouvez-nous sur Instagram</a>
+        <a href="https://www.instagram.com/lescourriersducoeur.fr/" target="_blank" rel="noopener noreferrer" style={{display:'inline-flex',alignItems:'center',gap:7}}><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none" /></svg> Retrouvez-nous sur Instagram</a>
       </div>
 
       {info === 'bienveillance' && (
