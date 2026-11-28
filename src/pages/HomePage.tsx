@@ -1,4 +1,4 @@
-import { ArrowRight, BookOpen, Feather, MessageCircle, PenLine, UsersRound } from 'lucide-react'
+import { ArrowRight, PenLine, UsersRound } from 'lucide-react'
 import { useEffect } from 'react'
 import { track } from '@vercel/analytics'
 import { categories } from '../data/categories'
@@ -28,11 +28,20 @@ export function HomePage() {
           <p className="cdc-eyebrow">DES MOTS PARTAGÉS<br />AVEC CONFIANCE</p>
           <h1><span>Les Courriers</span><em>du Cœur</em></h1>
           <div className="cdc-heart-line" aria-hidden="true">♡</div>
-          <p className="cdc-hero-text">Un espace bienveillant pour déposer,<br />lire, partager et se sentir moins seul(e).<br />Parce que certaines histoires méritent<br />d’être entendues.</p>
+          <p className="cdc-hero-text">Lisez les extraits sans compte. Avec un compte, vous pouvez lire les témoignages en entier ou écrire sous un pseudonyme.</p>
           <div className="cdc-actions">
-            <a className="cdc-button cdc-button-primary" href="/ecrire" onClick={() => track("courrier_clic_accueil")}><PenLine size={17} /> Écrire mon courrier</a>
-            <a className="cdc-button cdc-button-secondary" href="/#tous-les-courriers" onClick={(e) => { e.preventDefault(); document.getElementById('tous-les-courriers')?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}>Lire les courriers</a>
+            <a className="cdc-button cdc-button-primary" href="/ecrire" onClick={() => track("courrier_clic_accueil")}><PenLine size={17} /> Écrire sous un pseudonyme</a>
+            <a className="cdc-button cdc-button-secondary" href="/#tous-les-courriers" onClick={(e) => { e.preventDefault(); document.getElementById('tous-les-courriers')?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}>Lire les extraits</a>
           </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="guides-home-title" style={{maxWidth:900,margin:'28px auto 22px',padding:'0 18px'}}>
+        <h2 id="guides-home-title" style={{fontFamily:'Georgia,serif',fontWeight:400,color:'#654b3d',textAlign:'center'}}>Par où commencer ?</h2>
+        <div style={{display:'flex',flexWrap:'wrap',justifyContent:'center',gap:10}}>
+          <a href="/guides/solitude-affective-pourquoi-je-me-sens-seul" style={{border:'1px solid #e4d0bc',borderRadius:24,padding:'9px 14px',color:'#76543f'}}>Se sentir seul, même entouré</a>
+          <a href="/guides/perdre-un-parent-a-l-age-adulte" style={{border:'1px solid #e4d0bc',borderRadius:24,padding:'9px 14px',color:'#76543f'}}>Perdre un parent à l’âge adulte</a>
+          <a href="/guides/epuisement-emotionnel-comment-le-reconnaitre" style={{border:'1px solid #e4d0bc',borderRadius:24,padding:'9px 14px',color:'#76543f'}}>Reconnaître l’épuisement émotionnel</a>
         </div>
       </section>
 
@@ -44,9 +53,6 @@ export function HomePage() {
           </a>
         ))}
       </section>
-
-
-
 
       <PublicLetters />
 

@@ -779,3 +779,19 @@
   .cdc-how-grid h3{font-size:12px;line-height:1.2;margin-bottom:3px}
   .cdc-how-grid p{font-size:10px;line-height:1.25}
 }
+
+/* Accueil : le titre et les actions precedents le visuel sur mobile. */
+@media (max-width: 850px) {
+  .cdc-hero { min-height: 0; grid-template-columns: minmax(0, 1fr); }
+  .cdc-hero-copy { grid-row: 1; min-height: 0; padding: 28px 20px 24px; border-left: 0; }
+  .cdc-hero-copy h1 { margin-bottom: 18px; }
+  .cdc-hero-copy .cdc-eyebrow { margin-bottom: 12px; }
+  .cdc-hero-copy .cdc-actions { margin-top: 18px; gap: 10px; }
+  .cdc-hero-photo { grid-row: 2; min-height: 0; height: clamp(150px, 42vw, 260px); }
+  .cdc-hero-photo > img { min-height: 0; height: 100%; object-fit: cover; object-position: center; }
+}
+@media (max-width: 560px) {
+  .cdc-hero-copy h1 span { font-size: clamp(36px, 10.5vw, 48px); }
+  .cdc-hero-copy h1 em { font-size: clamp(50px, 14vw, 65px); }
+  .cdc-hero-copy .cdc-button { min-height: 46px; line-height: 1.2; }
+}
